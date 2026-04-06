@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PERSONA 5 — Fiche Recto/Verso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@100;300;400;700;900&family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root {
+  --void:#000;--bg:#080000;--red:#e60012;--red2:#ff1a2e;--red3:#ff4455;
+  --red-dim:#3a0008;--red-glow:rgba(230,0,18,0.45);
+  --white:#fff;--off-w:#f0e8e0;--panel:#0c0000;--panel2:#110000;
+  --border:#220008;--border2:#330010;
+  
+  --text:#ffffff; 
+  --text2:#f4f4f4;
+  --text3:#ffbaba;
+  --text4:#e0caca;
+  
+  --gold:#ffd700;--gold2:#ffaa00;--blue:#4466ff;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+
+@keyframes slash{from{transform:translateX(-110%) skewX(-15deg);}to{transform:translateX(0) skewX(-15deg);}}
+@keyframes flicker{0%,100%{opacity:1;}91%{opacity:1;}93%{opacity:.3;}95%{opacity:1;}98%{opacity:.7;}100%{opacity:1;}}
+@keyframes pop{from{transform:scale(.2) rotate(-20deg);opacity:0;}60%{transform:scale(1.1);}to{transform:scale(1);opacity:1;}}
+@keyframes rollF{0%,100%{opacity:1;}30%{opacity:0;transform:scaleY(.5);}65%{opacity:.7;}}
+@keyframes pulse{0%,100%{box-shadow:0 0 8px var(--red-glow);}50%{box-shadow:0 0 24px var(--red-glow),0 0 48px rgba(230,0,18,.15);}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-1deg);}50%{transform:translateY(-6px) rotate(1deg);}}
+@keyframes reveal{from{clip-path:polygon(0 100%,100% 100%,100% 100%,0 100%);}to{clip-path:polygon(0 0,100% 0,100% 100%,0 100%);}}
+
+body{
+  background:var(--bg);
+  background-image:
+    repeating-linear-gradient(45deg,rgba(230,0,18,.025) 0,rgba(230,0,18,.025) 1px,transparent 1px,transparent 18px),
+    repeating-linear-gradient(-45deg,rgba(230,0,18,.015) 0,rgba(230,0,18,.015) 1px,transparent 1px,transparent 18px),
+    radial-gradient(ellipse at 50% 0%,rgba(230,0,18,.07) 0%,transparent 55%);
+  min-height:100vh;
+  font-family:'Barlow Condensed',sans-serif;
+  color:var(--text);
+  overflow-x:hidden;
+  cursor:crosshair;
+}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.06) 3px,rgba(0,0,0,.06) 4px);pointer-events:none;z-index:999;}
+
+header{background:var(--void);border-bottom:3px solid var(--red);box-shadow:0 3px 30px var(--red-glow);position:relative;z-index:10;}
+.slash-bar{background:var(--red);transform:skewX(-12deg) translateX(-10px);margin-left:-20px;width:calc(100% + 40px);}
+.slash-inner{transform:skewX(12deg);display:flex;align-items:center;justify-content:space-between;padding:5px 48px;font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(0,0,0,.55);letter-spacing:.3em;}
+.header-body{padding:28px 40px 24px;display:grid;grid-template-columns:auto 1fr auto;align-items:end;gap:20px;}
+.mask{font-size:52px;animation:float 4s ease-in-out infinite;filter:drop-shadow(0 0 12px var(--red-glow));}
+.h-eye{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.5em;color:var(--red3);margin-bottom:6px;animation:flicker 8s ease-in-out infinite;}
+h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,8vw,100px);line-height:.88;color:var(--white);letter-spacing:.04em;text-shadow:4px 4px 0 var(--red),8px 8px 0 rgba(230,0,18,.25);}
+h1 span{color:var(--red);}
+.h-sub{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.4em;color:var(--text3);margin-top:8px;border-left:3px solid var(--red);padding-left:12px;}
+.arc-badge{background:var(--white);color:var(--void);padding:10px 18px;font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:.2em;transform:rotate(2deg);box-shadow:4px 4px 0 var(--red);display:flex;flex-direction:column;align-items:center;gap:2px;animation:float 4s ease-in-out 1s infinite;}
+.arc-badge-big{font-size:26px;line-height:1;}
+
+.tabs{display:flex;gap:0;padding:0 24px;max-width:1160px;margin:20px auto 0;position:relative;z-index:10;}
+.tab{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.3em;padding:10px 28px;cursor:pointer;border:2px solid var(--border2);border-bottom:none;background:var(--panel);color:var(--text3);transition:all .2s;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,0 100%);}
+.tab.active{background:var(--red);color:var(--white);border-color:var(--red);text-shadow:2px 2px 0 rgba(0,0,0,.3);}
+.tab:hover:not(.active){color:var(--text);border-color:var(--border2);}
+
+.app{max-width:1160px;margin:0 auto;padding:0 24px 100px;position:relative;z-index:10;}
+.page{display:none;}
+.page.active{display:grid;}
+#page-recto{grid-template-columns:280px 1fr;gap:20px;align-items:start;padding-top:20px;border-top:2px solid var(--border2);}
+#page-verso{grid-template-columns:280px 1fr;gap:20px;align-items:start;padding-top:20px;border-top:2px solid var(--border2);}
+
+.panel{background:var(--panel);border:2px solid var(--border2);position:relative;overflow:hidden;animation:reveal .4s ease both;}
+.panel::before{content:'';position:absolute;top:0;left:0;width:0;height:0;border-style:solid;border-width:14px 14px 0 0;border-color:var(--red) transparent transparent transparent;}
+.panel::after{content:'';position:absolute;top:0;right:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--red),transparent);}
+.panel-title{background:var(--red);padding:8px 16px 8px 22px;display:flex;align-items:center;gap:10px;clip-path:polygon(0 0,100% 0,calc(100% - 10px) 100%,0 100%);}
+.pt-icon{font-size:13px;}
+.pt-text{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.3em;color:var(--white);}
+.pt-num{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(0,0,0,.45);margin-left:auto;}
+.panel-body{padding:16px;}
+
+.photo-zone{width:100%;aspect-ratio:3/4;border:2px solid var(--border2);background:var(--panel2);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;}
+.photo-zone::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(230,0,18,.03) 0,rgba(230,0,18,.03) 1px,transparent 1px,transparent 12px);pointer-events:none;}
+.photo-zone:hover{border-color:var(--red);box-shadow:0 0 20px var(--red-glow);}
+.photo-zone img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.photo-placeholder{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--text3);font-size:10px;text-align:center;font-family:'Share Tech Mono',monospace;letter-spacing:.15em;pointer-events:none;z-index:1;text-transform:uppercase;}
+.pcorner{position:absolute;width:16px;height:16px;border-color:var(--red);border-style:solid;opacity:.7;}
+.pcorner.tl{top:6px;left:6px;border-width:2px 0 0 2px;}
+.pcorner.tr{top:6px;right:6px;border-width:2px 2px 0 0;}
+.pcorner.bl{bottom:6px;left:6px;border-width:0 0 2px 2px;}
+.pcorner.br{bottom:6px;right:6px;border-width:0 2px 2px 0;}
+
+.field{margin-bottom:12px;}
+.field:last-child{margin-bottom:0;}
+label{display:block;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:.25em;color:var(--red3);text-transform:uppercase;margin-bottom:4px;}
+.lbl-hint{font-family:'Barlow Condensed',sans-serif;font-size:13px;color:var(--text3);font-style:italic;letter-spacing:normal;text-transform:none;display:block;margin-bottom:6px;}
+input[type=text],input[type=number],textarea,select{width:100%;background:rgba(0,0,0,.7);border:none;border-bottom:2px solid var(--border2);color:var(--text);font-family:'Noto Sans JP',sans-serif;font-size:14px;font-weight:300;padding:8px 10px;outline:none;transition:all .2s;-moz-appearance:textfield;}
+input:focus,textarea:focus,select:focus{border-bottom-color:var(--red);background:rgba(230,0,18,.04);box-shadow:0 2px 0 var(--red);}
+input::-webkit-inner-spin-button{display:none;}
+textarea{resize:none;height:62px;line-height:1.6;}
+select{cursor:pointer;color:var(--text2);}
+select option{background:#0c0000;color:var(--text);}
+
+.stat-progression{display:flex;gap:14px;margin-top:4px;}
+.stat-block{flex:1;}
+.stat-val-big{font-family:'Bebas Neue',sans-serif;font-size:42px;line-height:1;}
+.stat-val-big.hp{color:var(--red);text-shadow:3px 3px 0 rgba(230,0,18,.3);}
+.stat-val-big.sp{color:#4466ff;text-shadow:3px 3px 0 rgba(68,102,255,.3);}
+.stat-formula{font-size:11px;color:var(--text3);font-family:'Share Tech Mono',monospace;letter-spacing:.08em;margin-top:2px;}
+
+.yen-row{display:flex;align-items:center;gap:10px;background:rgba(255,215,0,.04);border:1px solid rgba(255,215,0,.15);border-left:3px solid var(--gold2);padding:7px 12px;}
+.yen-sym{font-size:18px;color:var(--gold);font-family:'Bebas Neue',sans-serif;}
+input.yen-inp{background:transparent;border:none;border-bottom:1px solid rgba(255,215,0,.3);font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);width:90px;text-align:center;padding:2px 4px;}
+input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;border-bottom-color:var(--gold);}
+.yen-lbl{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text3);letter-spacing:.2em;}
+
+.attrs-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.attr-card{background:var(--panel2);border:2px solid var(--border2);padding:12px;transition:all .2s;position:relative;overflow:hidden;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));}
+.attr-card.assigned{border-color:var(--red);box-shadow:0 0 12px var(--red-glow);}
+.attr-card.assigned::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at top left,rgba(230,0,18,.08) 0%,transparent 60%); pointer-events: none;}
+.attr-icon{font-size:18px;margin-bottom:3px;}
+.attr-name{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.25em;color:var(--red3);margin-bottom:2px;}
+.attr-hint{font-size:12px;color:var(--text2);margin-bottom:8px;line-height:1.4;font-style:italic;}
+.attr-slot{display:flex;align-items:center;gap:8px;position:relative;z-index:2;}
+.attr-val{font-family:'Bebas Neue',sans-serif;font-size:36px;min-width:54px;text-align:center;line-height:1;transition:all .3s;}
+.attr-val.positive{color:var(--white);text-shadow:2px 2px 0 var(--red);}
+.attr-val.negative{color:#6699ff;text-shadow:2px 2px 0 #001880;}
+.attr-val.zero{color:var(--text4);}
+.attr-val.rolling{animation:rollF .5s ease;}
+.attr-select{flex:1;background:rgba(0,0,0,.7);border:none;border-bottom:1px solid var(--border2);color:var(--text2);font-family:'Bebas Neue',sans-serif;font-size:14px;padding:6px 7px;cursor:pointer;outline:none;}
+.attr-select:focus{border-bottom-color:var(--red);}
+.clear-btn{background:transparent;border:none;color:var(--text3);font-size:16px;cursor:pointer;padding:0 6px;transition:color .2s; font-weight: bold;}
+.clear-btn:hover{color:var(--red);}
+
+.roll-btn{width:100%;padding:13px 20px;background:var(--red);border:none;color:var(--white);font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.2em;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:16px;position:relative;overflow:hidden;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);box-shadow:4px 4px 0 rgba(0,0,0,.4);}
+.roll-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);transform:translateX(-100%);transition:transform .4s;}
+.roll-btn:hover::before{transform:translateX(100%);}
+.roll-btn:hover{background:var(--red2);box-shadow:4px 4px 0 rgba(0,0,0,.4),0 0 20px var(--red-glow);}
+.roll-btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 rgba(0,0,0,.4);}
+.roll-result{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;min-height:40px;align-items:center;}
+.die-badge{font-family:'Bebas Neue',sans-serif;font-size:16px;padding:4px 14px;background:var(--void);border:2px solid var(--red);color:var(--red);letter-spacing:.1em;box-shadow:2px 2px 0 var(--red-dim);animation:pop .35s cubic-bezier(.34,1.56,.64,1);clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);}
+.die-badge.neg{color:#6699ff;border-color:var(--blue);box-shadow:2px 2px 0 #001880;}
+
+.level-track{display:flex;align-items:center;gap:0;margin-bottom:14px;flex-wrap:wrap;}
+.level-pip{width:36px;height:36px;border:2px solid var(--border2);background:var(--panel2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--text2);position:relative;}
+.level-pip:not(:last-child){border-right:none;}
+.level-pip:first-child{clip-path:polygon(0 0,calc(100% - 0px) 0,100% 0,100% 100%,0 100%);}
+.level-pip.active{background:var(--red);color:var(--white);border-color:var(--red);text-shadow:1px 1px 0 rgba(0,0,0,.4);}
+.level-pip.bonus{border-color:var(--gold2);}
+.level-pip.bonus.active{background:var(--gold);color:var(--void);border-color:var(--gold);text-shadow:none;}
+.level-pip .pip-star{font-size:8px;position:absolute;top:2px;right:3px;color:var(--gold2);opacity:.7;}
+.level-display{font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--red);text-shadow:3px 3px 0 rgba(230,0,18,.3);line-height:1;min-width:50px;text-align:center;}
+.level-info{font-size:12px;color:var(--text3);font-style:italic;line-height:1.5;}
+.level-info strong{color:var(--text);font-style:normal;}
+.bonus-point-panel{background:rgba(255,215,0,.06);border:2px solid var(--gold2);padding:14px;margin-top:10px;display:none;}
+.bonus-point-panel.visible{display:block;}
+.bpp-title{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.3em;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.bpp-title::before{content:'★';color:var(--gold);}
+.bpp-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.bpp-opt{background:var(--panel2);border:2px solid var(--border2);padding:9px 12px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;}
+.bpp-opt:hover{border-color:var(--gold2);}
+.bpp-opt.selected{border-color:var(--gold);background:rgba(255,215,0,.08);box-shadow:0 0 10px rgba(255,215,0,.2);}
+.bpp-opt-name{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.15em;color:var(--text);}
+.bpp-opt-icon{font-size:18px;}
+
+.pack-grid{display:flex;flex-direction:column;gap:10px;}
+.pack-item{background:var(--panel2);border:2px solid var(--border2);padding:11px 14px;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;align-items:center;clip-path:polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%);}
+.pack-item.pos-item{border-left:4px solid var(--red);}
+.pack-item.neg-item{border-left:4px solid var(--blue);}
+.pack-badge{font-family:'Bebas Neue',sans-serif;font-size:17px;white-space:nowrap;}
+.pack-badge.pos{color:var(--red2);}
+.pack-badge.neg{color:#6699ff;}
+.pack-label-sm{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--text3);text-transform:uppercase;display:block;margin-bottom:4px;}
+
+.arcana-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.arcana-opt{background:var(--panel2);border:2px solid var(--border2);padding:10px 12px;cursor:pointer;transition:all .2s;position:relative;}
+.arcana-opt:hover{border-color:var(--red2);}
+.arcana-opt.selected{border-color:var(--red);background:rgba(230,0,18,.08);box-shadow:0 0 10px var(--red-glow);}
+.arcana-opt input[type=radio]{display:none;}
+.arcana-name{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.2em;color:var(--red3);display:flex;align-items:center;gap:8px;}
+.arcana-name .a-icon{font-size:16px;}
+.arcana-name .a-num{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--text3);margin-left:auto;}
+.arcana-bonus{font-size:12px;color:var(--text2);margin-top:4px;font-style:italic;line-height:1.4;}
+.arcana-bonus strong{color:var(--text);font-style:normal;}
+
+.archetype-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.archetype-opt{background:var(--panel2);border:2px solid var(--border2);padding:11px 12px;cursor:pointer;transition:all .2s;}
+.archetype-opt:hover{border-color:var(--red2);}
+.archetype-opt.selected{border-color:var(--red);background:rgba(230,0,18,.08);box-shadow:0 0 10px var(--red-glow);}
+.archetype-opt input[type=radio]{display:none;}
+.arch-name{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:.2em;color:var(--white);display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+.arch-name .a-icon{font-size:18px;}
+.arch-cond{font-size:11px;color:var(--red3);font-family:'Share Tech Mono',monospace;letter-spacing:.08em;margin-bottom:3px;text-transform:uppercase;}
+.arch-bonus{font-size:12px;color:var(--text2);font-style:italic;line-height:1.4;}
+.arch-bonus strong{color:var(--gold);font-style:normal;}
+
+.persona-type-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.persona-type-card{background:var(--panel2);border:2px solid var(--border2);padding:12px;text-align:center;cursor:pointer;transition:all .2s;clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px)); min-width: 0;}
+.persona-type-card:hover{border-color:var(--red2);}
+.persona-type-card.selected{border-color:var(--red);box-shadow:0 0 12px var(--red-glow);background:rgba(230,0,18,.07);}
+.persona-type-card input[type=radio]{display:none;}
+.ptc-icon{font-size:24px;margin-bottom:6px;}
+.ptc-name{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.1em;color:var(--red3);margin-bottom:4px;word-break:break-word;}
+.ptc-desc{font-size:11px;color:var(--text3);line-height:1.4;font-style:italic;word-break:break-word;}
+
+.affinity-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.aff-card{background:var(--panel2);border:2px solid var(--border2);padding:12px 14px;position:relative;}
+.aff-card.weakness-card{border-top-color:var(--red);}
+.aff-card.resist-card{border-top-color:#4466ff;}
+.aff-card.immune-card{border-top-color:var(--gold);}
+.aff-card-title{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:.25em;text-transform:uppercase;margin-bottom:3px;display:flex;align-items:center;gap:6px;}
+.aff-card-title.w{color:var(--red3);}
+.aff-card-title.r{color:#4466ff;}
+.aff-card-title.i{color:var(--gold);}
+.aff-card-rule{font-size:11px;font-style:italic;color:var(--text3);margin-bottom:8px;line-height:1.4;}
+
+.spells-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.spell-item{background:var(--panel2);border:2px solid var(--border2);border-left:3px solid var(--gold);padding:10px 12px;clip-path:polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%); min-width: 0; position:relative;}
+.spell-num{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:.1em;margin-bottom:4px;}
+.spell-input{background:transparent;border:none;border-bottom:1px solid var(--border2);color:var(--text);font-family:'Noto Sans JP',sans-serif;font-size:15px;font-weight:300;padding:3px 0;outline:none;width:100%;transition:border-color .2s; word-break: break-word;}
+.spell-input:focus{border-bottom-color:var(--gold);}
+.spell-input::placeholder{color:var(--text4);font-size:13px;}
+.spell-desc{background:transparent;border:none;color:var(--text2);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-style:italic;padding:3px 0;outline:none;width:100%;resize:none;height:36px;line-height:1.4;font-weight:300; word-break: break-word;}
+.spell-desc::placeholder{color:var(--text4);font-size:12px;}
+
+.spell-auto{background:rgba(230,0,18,.06);border:2px solid var(--red-dim);border-left:3px solid var(--red);padding:12px;position:relative; clip-path:polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%);}
+.spell-auto-badge{position:absolute;top:8px;right:8px;font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(230,0,18,.6);letter-spacing:.1em;background:rgba(230,0,18,.1);padding:1px 5px;border:1px solid var(--red-dim);}
+.spell-auto-name{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--white);letter-spacing:.1em;margin-bottom:4px;}
+.spell-auto-desc{font-size:13px;color:var(--text2);font-style:italic;line-height:1.4;}
+.spell-auto .spell-num{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--red);letter-spacing:.1em;margin-bottom:6px;text-transform:uppercase;}
+.spell-pending{opacity:.6;font-style:italic;color:var(--text3);font-size:13px;padding:10px 0;}
+
+.rules-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.rule-card{background:var(--panel2);border:2px solid var(--border2);padding:10px 11px;clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,0 100%);}
+.rule-card-title{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:.25em;color:var(--red);margin-bottom:4px;text-transform:uppercase;}
+.rule-card-body{font-size:12px;color:var(--text2);line-height:1.5;font-family:'Barlow Condensed',sans-serif;font-weight:300;}
+.rule-card-body strong{color:var(--text);font-weight:600;}
+
+.export-row{display:flex;gap:14px;max-width:1160px;margin:0 auto;padding:0 24px 80px;}
+.export-btn{flex:1;padding:16px;border:3px solid var(--red);color:var(--red);background:var(--void);font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.2em;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:12px;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);box-shadow:4px 4px 0 var(--red-dim);animation:pulse 3s ease-in-out infinite;}
+.export-btn:hover{background:var(--red);color:var(--white);box-shadow:4px 4px 0 var(--red-dim),0 0 30px var(--red-glow);}
+.export-btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--red-dim);}
+.export-btn.both{flex:2;background:var(--red);color:var(--white);}
+.export-btn.both:hover{background:var(--red2);}
+
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--red);color:var(--white);font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.3em;padding:10px 28px;transition:transform .4s cubic-bezier(.34,1.56,.64,1);z-index:1100;pointer-events:none;box-shadow:4px 4px 0 rgba(0,0,0,.4);clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);text-transform:uppercase;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+.save-row{display:flex;align-items:center;gap:12px;max-width:1160px;margin:0 auto;padding:0 24px 30px;flex-wrap:wrap;}
+.save-btn{padding:11px 22px;border:2px solid var(--gold2);color:var(--gold);background:rgba(255,170,0,.06);font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.2em;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);box-shadow:3px 3px 0 rgba(255,170,0,.15);}
+.save-btn:hover{background:var(--gold2);color:var(--void);box-shadow:3px 3px 0 rgba(255,170,0,.3),0 0 20px rgba(255,170,0,.2);}
+.save-btn:active{transform:translate(1px,1px);}
+.save-btn.danger{border-color:#ff4455;color:#ff4455;background:rgba(255,68,85,.05);}
+.save-btn.danger:hover{background:#ff4455;color:#fff;}
+.autosave-pill{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.3em;padding:8px 14px;border:1px solid var(--border2);color:var(--text3);display:flex;align-items:center;gap:7px;margin-left:auto;}
+.autosave-dot{width:7px;height:7px;border-radius:50%;background:var(--text4);transition:background .4s;}
+.autosave-dot.saved{background:#44cc66;box-shadow:0 0 6px #44cc66;}
+.autosave-dot.saving{background:var(--gold2);box-shadow:0 0 6px var(--gold2);}
+
+/* EXPORTS */
+#fiche-recto-export, #fiche-verso-export { position:fixed; left:-9999px; top:0; width:800px; }
+.fiche-recto,.fiche-verso{
+  width:800px;min-height:1130px;
+  background:#000;
+  background-image:
+    repeating-linear-gradient(45deg,rgba(230,0,18,.022) 0,rgba(230,0,18,.022) 1px,transparent 1px,transparent 16px),
+    repeating-linear-gradient(-45deg,rgba(230,0,18,.012) 0,rgba(230,0,18,.012) 1px,transparent 1px,transparent 16px),
+    radial-gradient(ellipse at 50% 0%,rgba(230,0,18,.08) 0%,transparent 50%);
+  display:grid;
+  grid-template-columns:190px 1fr;
+  grid-template-rows:auto 1fr auto;
+  font-family:'Bebas Neue','Noto Sans JP',sans-serif;
+  color:#f0e8e0;
+  border:2px solid #220008;
+}
+.fh{grid-column:1/-1;background:#000;border-bottom:3px solid #e60012;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:15px;position:relative;box-shadow:0 3px 20px rgba(230,0,18,.3);}
+.fh::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:linear-gradient(90deg,#e60012,transparent 60%);}
+.fh > div { min-width: 0; }
+.fh-tag{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:.4em;color:#e60012;text-transform:uppercase;margin-bottom:3px;}
+.fh-name{font-family:'Bebas Neue',sans-serif;font-size:38px;color:#fff;letter-spacing:.06em;line-height:1;text-shadow:3px 3px 0 #e60012; word-break: break-word; overflow-wrap: break-word; white-space: normal; max-width: 100%;}
+.fh-sub{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.25em;color:#ffbaba;margin-top:2px;text-transform:uppercase; word-break: break-word; overflow-wrap: break-word;}
+.fh-right{text-align:right;}
+.fh-system{font-family:'Bebas Neue',sans-serif;font-size:17px;color:#e60012;letter-spacing:.15em;text-shadow:2px 2px 0 rgba(230,0,18,.3);}
+.fh-pv-lbl{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:.3em;color:#ffbaba;text-transform:uppercase;margin-top:5px;}
+.fh-pv{font-family:'Bebas Neue',sans-serif;font-size:42px;color:#e60012;line-height:1;text-shadow:3px 3px 0 rgba(230,0,18,.3);}
+
+.fl{border-right:1px solid #220008;padding:12px;display:flex;flex-direction:column;gap:10px;overflow:hidden;min-width:0;background:linear-gradient(180deg,rgba(230,0,18,.03) 0%,transparent 40%);}
+.fl-photo{width:100%;aspect-ratio:3/4;overflow:hidden;border:2px solid #220008;background:#080000;display:flex;align-items:center;justify-content:center;position:relative;}
+.fl-photo::before{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(230,0,18,.1) 0%,transparent 40%);pointer-events:none;z-index:1;}
+.fl-photo::after{content:'';position:absolute;top:0;left:0;width:10px;height:10px;border-top:1px solid #e60012;border-left:1px solid #e60012;}
+.fl-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+.fl-sec{font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:.35em;color:#e60012;text-transform:uppercase;padding-bottom:3px;border-bottom:1px solid #220008;margin-bottom:5px;display:flex;align-items:center;gap:5px;}
+.fl-sec::before{content:'▶';font-size:7px;}
+.fpack-item{margin-bottom:6px;}
+.fpack-badge{font-family:'Bebas Neue',sans-serif;font-size:10px;padding:1px 4px;border:1px solid;display:inline-block;margin-bottom:1px;letter-spacing:.1em;}
+.fpack-badge.pos{color:#e60012;border-color:#600008;}
+.fpack-badge.neg{color:#6699ff;border-color:#001880;}
+.fpack-badge.arc{color:#ffd700;border-color:#7a5500;}
+.fpack-badge.arch{color:#f4f4f4;border-color:#3a1010;}
+.fpack-name{font-size:12px;color:#ffffff;display:block;word-break:break-word;overflow-wrap:break-word;white-space:pre-wrap;font-family:'Barlow Condensed',sans-serif;font-weight:300;}
+.fbio{font-size:11px;color:#f4f4f4;line-height:1.6;word-break:break-word;overflow-wrap:break-word;white-space:pre-wrap;font-family:'Barlow Condensed',sans-serif;font-weight:300;}
+
+.fgold-row{display:flex;align-items:center;gap:7px;background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.15);border-left:2px solid #ffd700;padding:5px 8px;}
+.fgold-num{font-family:'Bebas Neue',sans-serif;font-size:20px;color:#ffd700;}
+.fgold-lbl{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:.2em;color:#e0caca;text-transform:uppercase;}
+
+.fr{padding:12px;display:flex;flex-direction:column;gap:10px; min-width:0;}
+.fr-attrs{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.fa{background:#080000;border:2px solid #220008;padding:10px;position:relative;overflow:hidden;clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));}
+.fa::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:#e60012;}
+.fa-icon{font-size:13px;}
+.fa-name{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:.2em;color:#e60012;text-transform:uppercase;margin:2px 0;}
+.fa-val{font-family:'Bebas Neue',sans-serif;font-size:40px;line-height:1;margin-top:2px;}
+.fa-val.pos{color:#fff;text-shadow:2px 2px 0 #e60012;}
+.fa-val.neg{color:#6699ff;text-shadow:2px 2px 0 #001880;}
+.fa-val.zero{color:#220008;}
+.fa-mod{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:.1em;color:#ffbaba;margin-top:1px;text-transform:uppercase;}
+.fr-rule{background:#050000;border:1px solid #220008;padding:8px 11px;}
+.frr{display:flex;align-items:baseline;gap:8px;padding:4px 0;border-bottom:1px solid rgba(34,0,8,.8);}
+.frr:last-child{border-bottom:none;}
+.frr-lbl{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:.1em;color:#ffbaba;text-transform:uppercase;width:86px;flex-shrink:0;}
+.frr-val{font-size:12px;color:#f4f4f4;font-family:'Barlow Condensed',sans-serif;font-weight:300;}
+.frr-val strong{color:#fff;font-weight:700;font-family:'Bebas Neue',sans-serif;letter-spacing:.05em;}
+.fpv-boxes{display:flex;flex-wrap:wrap;gap:4px;}
+.fpv-box{width:18px;height:18px;border:1px solid #e60012;background:rgba(230,0,18,.06);}
+
+.fiche-verso .fl-photo{aspect-ratio:1/1;}
+.fpers-aff{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.fpers-aff-item{background:#080000;border:2px solid #220008;padding:9px 10px;}
+.fpai-title{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:.2em;color:#e60012;margin-bottom:2px;display:flex;align-items:center;gap:5px;text-transform:uppercase;}
+.fpai-title.r{color:#4466ff;}
+.fpai-title.i{color:#ffd700;}
+.fpai-rule{font-size:11px;color:#ffbaba;font-style:italic;margin-bottom:6px;line-height:1.3;font-family:'Barlow Condensed',sans-serif;}
+.fpai-val{font-size:13px;color:#ffffff;font-family:'Barlow Condensed',sans-serif;font-weight:400;}
+.fspells{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.fspell{background:#080000;border:2px solid #220008;border-left:3px solid var(--gold);padding:9px 10px; min-width:0;}
+.fspell-num{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:.1em;margin-bottom:3px;text-transform:uppercase;}
+.fspell-name{font-family:'Bebas Neue',sans-serif;font-size:16px;color:#fff;letter-spacing:.1em;margin-bottom:2px; word-break: break-word; overflow-wrap: break-word; white-space: normal;}
+.fspell-desc{font-size:12px;color:#f4f4f4;font-style:italic;font-family:'Barlow Condensed',sans-serif;line-height:1.4; word-break: break-word; overflow-wrap: break-word; white-space: pre-wrap;}
+
+.ffooter{grid-column:1/-1;border-top:2px solid #e60012;padding:7px 24px;display:flex;align-items:center;justify-content:space-between;background:#000;}
+.ffooter-text{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:.3em;color:#220008;text-transform:uppercase;}
+.ffooter-stars{display:flex;gap:5px;}
+.ffooter-star{font-family:'Bebas Neue',sans-serif;font-size:14px;color:#e60012;}
+
+@media(max-width:768px){
+  #page-recto,#page-verso{grid-template-columns:1fr;}
+  .attrs-grid,.arcana-grid,.archetype-grid,.affinity-grid,.spells-grid,.persona-type-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="slash-bar">
+    <div class="slash-inner">
+      <span>PHANTOM THIEVES — CODEX</span>
+      <span>怪盗団 · PERSONA 5</span>
+      <span>ACTION DIRECTE RPG</span>
+    </div>
+  </div>
+  <div class="header-body">
+    <div class="mask">🎭</div>
+    <div>
+      <div class="h-eye">Phantom Thieves — Fiche Recto / Verso</div>
+      <h1>PERSONA<span>5</span></h1>
+      <div class="h-sub">Créateur de Personnage · Système Action Directe</div>
+    </div>
+    <div class="arc-badge">
+      <div>Arcana</div>
+      <div class="arc-badge-big">🂡</div>
+      <div>Le Fou</div>
+    </div>
+  </div>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('recto')">🧑 RECTO — Le Voleur</div>
+  <div class="tab" onclick="switchTab('verso')">🎭 VERSO — Le Persona</div>
+</div>
+
+<div class="app">
+
+<div id="page-recto" class="page active">
+  <div class="left-col" style="display:flex;flex-direction:column;gap:16px;">
+
+    <div class="panel">
+      <div class="panel-title"><span class="pt-icon">📸</span><span class="pt-text">Portrait</span><span class="pt-num">01</span></div>
+      <div class="panel-body" style="padding:10px">
+        <div class="photo-zone" id="photo-zone" onclick="document.getElementById('photo-input').click()">
+          <div class="pcorner tl"></div><div class="pcorner tr"></div>
+          <div class="pcorner bl"></div><div class="pcorner br"></div>
+          <div class="photo-placeholder" id="photo-placeholder">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><polygon points="18,3 33,33 3,33" fill="none" stroke="#e60012" stroke-width="1.5"/><circle cx="18" cy="15" r="5" fill="none" stroke="#3a0008" stroke-width="1.5"/><path d="M6 33 Q18 22 30 33" fill="none" stroke="#3a0008" stroke-width="1.5"/></svg>
+            <span>AJOUTER PORTRAIT</span>
+          </div>
+        </div>
+        <input type="file" id="photo-input" accept="image/*">
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title"><span class="pt-icon">🃏</span><span class="pt-text">Identité</span><span class="pt-num">02</span></div>
+      <div class="panel-body">
+        <div class="field">
+          <label>Nom / Code Voleur</label>
+          <span class="lbl-hint">Ton nom réel ou ton alias de Phantom Thief</span>
+          <input type="text" id="char-name" placeholder="Ex : Joker, Skull, Noir…"/>
+        </div>
+        <div class="field">
+          <label>Lycée / Classe</label>
+          <input type="text" id="char-class" placeholder="Ex : Shujin Académy, Terminale A…"/>
+        </div>
+        <div class="field">
+          <label>Palais cible</label>
+          <span class="lbl-hint">Le Palais du cœur que tu infiltres en ce moment</span>
+          <input type="text" id="char-universe" placeholder="Ex : Palais de Kamoshida…"/>
+        </div>
+        <div class="field">
+          <label>Backstory</label>
+          <span class="lbl-hint">Ton passé et ce qui t'a amené à rejoindre les Phantom Thieves</span>
+          <textarea id="char-bio" placeholder="Passé, motivations, trauma…"></textarea>
+        </div>
+        
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px;">
+          <div class="stat-block">
+            <label>PV (Stamina)</label>
+            <span class="lbl-hint">10 + Attr + (Niveau×(1+Attr))</span>
+            <div class="stat-val-big hp" id="pv-display">—</div>
+            <div class="stat-formula" id="pv-formula"></div>
+          </div>
+          <div class="stat-block">
+            <label>PC (Concentration)</label>
+            <span class="lbl-hint">10 + Attr + (Niveau×(1+Attr))</span>
+            <div class="stat-val-big sp" id="sp-display">—</div>
+            <div class="stat-formula" id="sp-formula"></div>
+          </div>
+        </div>
+
+        <div class="field" style="margin-top:12px">
+          <label>💴 Yens</label>
+          <div class="yen-row">
+            <span class="yen-sym">¥</span>
+            <input type="number" class="yen-inp" id="char-gold" min="0" value="0"/>
+            <span class="yen-lbl">YENS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:16px;">
+
+    <div class="panel">
+      <div class="panel-title"><span class="pt-icon">⭐</span><span class="pt-text">Niveau — Progression du Voleur</span><span class="pt-num">03</span></div>
+      <div class="panel-body">
+        <p style="font-size:13px;color:var(--text2);margin-bottom:12px;font-style:italic;line-height:1.6;">
+          Ton niveau augmente tes PV et tes PC. Aux niveaux <strong style="color:var(--gold);">3, 5, 7 et 9</strong>, tu gagnes un bonus permanent de <strong style="color:var(--gold);">+1 point</strong> à répartir. Le <strong style="color:var(--gold);">Baton Pass</strong> se débloque au Niv. 3 et de nouveaux <strong style="color:var(--gold);">Slots de Sorts</strong> s'ouvrent au fil du temps.
+        </p>
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:10px;">
+          <div class="level-display" id="level-display">1</div>
+          <div>
+            <div class="level-track" id="level-track"></div>
+            <div class="level-info" id="level-info">Niveau 1 — Aucun bonus de niveau encore</div>
+          </div>
+        </div>
+        <div class="bonus-point-panel" id="bonus-panel-3">
+          <div class="bpp-title">Niveau 3 — Bonus +1 : choisis un attribut</div>
+          <div class="bpp-grid" id="bpp-grid-3"></div>
+        </div>
+        <div class="bonus-point-panel" id="bonus-panel-5">
+          <div class="bpp-title">Niveau 5 — Bonus +1 : choisis un attribut</div>
+          <div class="bpp-grid" id="bpp-grid-5"></div>
+        </div>
+        <div class="bonus-point-panel" id="bonus-panel-7">
+          <div class="bpp-title">Niveau 7 — Bonus +1 : choisis un attribut</div>
+          <div class="bpp-grid" id="bpp-grid-7"></div>
+        </div>
+        <div class="bonus-point-panel" id="bonus-panel-9">
+          <div class="bpp-title">Niveau 9 — Bonus +1 : choisis un attribut</div>
+          <div class="bpp-grid" id="bpp-grid-9"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title"><span class="pt-icon">🎲</span><span class="pt-text">Awakening — Tirage des Stats</span><span class="pt-num">04</span></div>
+      <div class="panel-body">
+        <p style="font-size:13px;color:var(--text2);margin-bottom:12px;line-height:1.7;font-style:italic;">Lance <strong style="color:var(--text);font-style:normal;">4D8</strong>, soustrais <strong style="color:var(--text);font-style:normal;">4</strong> à chaque résultat → 4 valeurs de <strong style="color:#6699ff;font-style:normal;">−3</strong> à <strong style="color:var(--white);font-style:normal;">+4</strong>. Assigne-les sans doublon.</p>
+        <button class="roll-btn" onclick="rollDice()"><span>▶</span><span>AWAKENING — LANCER 4D8</span><span>◀</span></button>
+        <div style="margin-top:12px">
+          <div style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.4em;color:var(--text3);margin-bottom:8px;text-transform:uppercase;">▶ VALEURS DISPONIBLES</div>
+          <div class="roll-result" id="roll-result"><span style="color:var(--text4);font-size:12px;font-family:'Share Tech Mono',monospace;">AUCUN TIRAGE ENCORE</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title"><span class="pt-icon">⚡</span><span class="pt-text">Attributs</span><span class="pt-num">05</span></div>
+      <div class="panel-body">
+        <div class="attrs-grid">
+          <div class="attr-card" id="card-physique">
+            <div class="attr-icon">🥷</div>
+            <div class="attr-name">Physique</div>
+            <div class="attr-hint">Combat au corps-à-corps, encaisser les dégâts</div>
+            <div class="attr-slot">
+              <div class="attr-val zero" id="val-physique">—</div>
+              <select class="attr-select" id="sel-physique" onchange="assignAttr('physique',this.value)"><option value="">—</option></select>
+              <button class="clear-btn" onclick="assignAttr('physique', '')" title="Retirer">✖</button>
+            </div>
+          </div>
+          <div class="attr-card" id="card-adresse">
+            <div class="attr-icon">🎯</div>
+            <div class="attr-name">Adresse</div>
+            <div class="attr-hint">Tir, discrétion, esquive</div>
+            <div class="attr-slot">
+              <div class="attr-val zero" id="val-adresse">—</div>
+              <select class="attr-select" id="sel-adresse" onchange="assignAttr('adresse',this.value)"><option value="">—</option></select>
+              <button class="clear-btn" onclick="assignAttr('adresse', '')" title="Retirer">✖</button>
+            </div>
+          </div>
+          <div class="attr-card" id="card-meninge">
+            <div class="attr-icon">🔮</div>
+            <div class="attr-name">Méninge</div>
+            <div class="attr-hint">Magie Persona, Soin, analyses tactiques</div>
+            <div class="attr-slot">
+              <div class="attr-val zero" id="val-meninge">—</div>
+              <select class="attr-select" id="sel-meninge" onchange="assignAttr('meninge',this.value)"><option value="">—</option></select>
+              <button class="clear-btn" onclick="assignAttr('meninge', '')" title="Retirer">✖</button>
+            </div>
+          </div>
+          <div class="attr-card" id="card-social">
+            <div class="attr-icon">🎭</div>
+            <div class="attr-name">Social</div>
+            <div class="attr-hint">Confidants, négociation, bluff</div>
+            <div class="attr-slot">
+              <div class="attr-val zero" id="val-social">—</div>
+              <select class="attr-select" id="sel-social" onchange="assignAttr('social',this.value)"><option value="">—</option></select>
+              <button class="clear-btn" onclick="assignAttr('social', '')" title="Retirer">✖</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title"><span class="pt-icon">🔪</span><span class="pt-text">Équipement Metaverse</span><span class="pt-num">05B</span></div>
+      <div class="panel-body">
+        <div class="field">
+          <label>Arme de Mêlée</label>
+          <div style="display:flex;gap:10px;">
+            <input type="text" id="equip-melee-name" placeholder="Nom de l'arme (ex: Katana, Poing américain)..." style="flex:2;">
+            <select id="equip-melee-dmg" style="flex:1;">
+              <option value="1">Poing (1 dégât)</option>
+              <option value="2">Arme légère (2 dégâts)</option>
+              <option value="4" selected>Arme lourde (4 dégâts)</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Arme à Distance</label>
+          <div style="display:flex;gap:10px;">
+            <input type="text" id="equip-ranged-name" placeholder="Arme à feu (ex: Pistolet, Arc)..." style="flex:2;">
+            <select id="equip-ranged-dmg" style="flex:1;">
+              <option value="2">Pistolet (2 dégâts)</option>
+              <option value="4" selected>Fusil/Pompe (4 dégâts)</option>
+              <option value="6">Lance-grenades (6 dégâts)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title"><span class="pt-icon">🗡️</span><span class="pt-text">Pack Profil</span><span class="pt-num">06</span></div>
+      <div class="panel-body">
+        <div class="pack-grid">
+          <div class="pack-item pos-item">
+            <div class="pack-badge pos">+3</div>
+            <div>
+              <span class="pack-label-sm">▶ Compétence Spéciale</span>
+              <input type="text" id="competence" placeholder="Ex : Cordon bleu, Hacker pro... "/>
+            </div>
+          </div>
+          <div class="pack-item pos-item">
+            <div class="pack-badge pos">+2</div>
+            <div>
+              <span class="pack-label-sm">▶ Club du Lycée</span>
+              <input type="text" id="metier" placeholder="Ex : Kendo, Photographie…"/>
+            </div>
+          </div>
+          <div class="pack-item neg-item">
+            <div class="pack-badge neg">−4</div>
+            <div>
+              <span class="pack-label-sm">▶ Traumatisme</span>
+              <input type="text" id="phobie" placeholder="Ex : Claustrophobie, Trahison…"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title"><span class="pt-icon">🂡</span><span class="pt-text">Arcane — Choisis ton Tarot</span><span class="pt-num">07</span></div>
+      <div class="panel-body">
+        <p style="font-size:13px;color:var(--text2);margin-bottom:12px;font-style:italic;line-height:1.6;">Définit ton bonus passif et donne un sort de soutien unique (coût en PC variable).</p>
+        <div class="arcana-grid" id="arcana-grid"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title"><span class="pt-icon">⚔️</span><span class="pt-text">Archétype — Style de Combat</span><span class="pt-num">08</span></div>
+      <div class="panel-body">
+        <div class="archetype-grid" id="archetype-grid"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="page-verso" class="page">
+  <div class="left-col" style="display:flex;flex-direction:column;gap:16px;">
+
+    <div class="panel">
+      <div class="panel-title"><span class="pt-icon">🎭</span><span class="pt-text">Illustration Persona</span><span class="pt-num">P1</span></div>
+      <div class="panel-body" style="padding:10px">
+        <div class="photo-zone" id="persona-photo-zone" onclick="document.getElementById('persona-photo-input').click()">
+          <div class="pcorner tl"></div><div class="pcorner tr"></div>
+          <div class="pcorner bl"></div><div class="pcorner br"></div>
+          <div class="photo-placeholder" id="persona-photo-placeholder">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="14" fill="none" stroke="#e60012" stroke-width="1.5" stroke-dasharray="4 4"/><polygon points="18,8 22,16 31,16 24,21 27,30 18,25 9,30 12,21 5,16 14,16" fill="none" stroke="#3a0008" stroke-width="1.5"/></svg>
+            <span>ILLUSTRATION<br>DU PERSONA</span>
+          </div>
+        </div>
+        <input type="file" id="persona-photo-input" accept="image/*">
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title"><span class="pt-icon">✨</span><span class="pt-text">Identité du Persona</span><span class="pt-num">P2</span></div>
+      <div class="panel-body">
+        <div class="field">
+          <label>Nom du Persona</label>
+          <input type="text" id="persona-name" placeholder="Ex : ARSÈNE, CARMEN, HECATE…"/>
+        </div>
+        <div class="field">
+          <label>Origine mythologique</label>
+          <input type="text" id="persona-origin" placeholder="Ex : Voleur français, Déesse grecque…"/>
+        </div>
+        <div class="field">
+          <label>Description</label>
+          <textarea id="persona-desc" placeholder="Ton Persona reflète ta véritable nature…"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title"><span class="pt-icon">⚗️</span><span class="pt-text">Type Élémentaire</span><span class="pt-num">P3</span></div>
+      <div class="panel-body">
+        <p style="font-size:13px;color:var(--text2);margin-bottom:12px;font-style:italic;line-height:1.6;">Définit la couleur de tes sorts et génère automatiquement tes affinités.</p>
+        <div class="persona-type-grid" id="persona-type-grid"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:16px;">
+
+    <div class="panel">
+      <div class="panel-title"><span class="pt-icon">🛡️</span><span class="pt-text">Affinités — Faiblesse / Résistance / Immunité</span><span class="pt-num">P4</span></div>
+      <div class="panel-body">
+        <div class="affinity-grid">
+          <div class="aff-card weakness-card">
+            <div class="aff-card-title w">💀 Faiblesse</div>
+            <div class="aff-card-rule">Reçois <strong style="color:var(--red);">×2 dégâts</strong> de cet élément ET tu tombes au sol (Skip ton prochain tour)</div>
+            <div class="field" style="margin:0">
+              <label>Élément faible</label>
+              <input type="text" id="weak1" placeholder="Rempli auto..."/>
+            </div>
+          </div>
+          <div class="aff-card resist-card">
+            <div class="aff-card-title r">🛡️ Résistance</div>
+            <div class="aff-card-rule">Reçois <strong style="color:#4466ff;">÷2 dégâts</strong> de cet élément (arrondi vers le bas, minimum 1)</div>
+            <div class="field" style="margin:0">
+              <label>Élément résisté</label>
+              <input type="text" id="res1" placeholder="Rempli auto..."/>
+            </div>
+          </div>
+          <div class="aff-card immune-card">
+            <div class="aff-card-title i">⭐ Immunité</div>
+            <div class="aff-card-rule">Ignore totalement les dégâts et effets de cet élément (<strong style="color:var(--gold);">0 dégât</strong>)</div>
+            <div class="field" style="margin:0">
+              <label>Élément immunisé</label>
+              <input type="text" id="immune1" placeholder="Optionnel..."/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="panel">
+      <div class="panel-title"><span class="pt-icon">🌟</span><span class="pt-text">Grimoire — Les 7 Slots Libres</span><span class="pt-num">P5</span></div>
+      <div class="panel-body">
+        <p style="font-size:13px;color:var(--text2);margin-bottom:12px;font-style:italic;line-height:1.6;">
+          Les 3 premiers sorts sont générés par le système et liés à ta classe. Aucun emplacement libre n'est disponible au niveau 1. Tu débloqueras ton <strong>premier Slot Libre au Niveau 4</strong>, puis 1 slot supplémentaire par niveau jusqu'à en avoir 7 au Niveau 10.
+        </p>
+        
+        <div class="spells-grid" style="margin-bottom:12px;">
+          <div class="spell-auto">
+            <div class="spell-num" id="sort1-auto-title">▶ SORT AUTO — ATTAQUE DE BASE</div>
+            <div class="spell-auto-badge">AUTO</div>
+            <div class="spell-auto-name" id="sort1-auto-name">—</div>
+            <div class="spell-auto-desc" id="sort1-auto-desc">—</div>
+          </div>
+          <div class="spell-auto">
+            <div class="spell-num">▶ SORT AUTO — ÉLÉMENTAIRE</div>
+            <div class="spell-auto-badge">AUTO</div>
+            <div id="sort2-auto-wrap">
+              <div class="spell-pending" id="sort2-pending">⟵ Choisis ton élément (à gauche) pour débloquer ce sort</div>
+              <div id="sort2-auto-content" style="display:none;">
+                <div class="spell-auto-name" id="sort2-auto-name">—</div>
+                <div class="spell-auto-desc" id="sort2-auto-desc">—</div>
+              </div>
+            </div>
+          </div>
+          <div class="spell-auto">
+            <div class="spell-num">▶ SORT AUTO — SOUTIEN D'ARCANE</div>
+            <div class="spell-auto-badge">AUTO</div>
+            <div id="sort3-auto-wrap">
+              <div class="spell-pending" id="sort3-pending">⟵ Choisis ton Arcane (page Recto) pour débloquer ce sort</div>
+              <div id="sort3-auto-content" style="display:none;">
+                <div class="spell-auto-name" id="sort3-auto-name">—</div>
+                <div class="spell-auto-desc" id="sort3-auto-desc">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="custom-spells-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          </div>
+
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title"><span class="pt-icon">📖</span><span class="pt-text">Règles de Combat Magique</span><span class="pt-num">P6</span></div>
+      <div class="panel-body">
+        <div class="rules-grid">
+          <div class="rule-card"><div class="rule-card-title">🎭 Lancer un Sort</div><div class="rule-card-body">Les sorts du Persona touchent <strong>automatiquement</strong> (sans jet de dé). Le tir léger (Sniper) nécessite un jet d'Adresse.</div></div>
+          <div class="rule-card"><div class="rule-card-title">💥 Faiblesse et Down</div><div class="rule-card-body">Frapper une faiblesse ennemie = <strong>Down</strong> garanti. L'ennemi passe son prochain tour et tu gagnes un 1-More.</div></div>
+          <div class="rule-card"><div class="rule-card-title">💀 Faiblesse Subie</div><div class="rule-card-body">Si tu es touché par ton propre élément faible, tu tombes et reçois <strong>×2 dégâts</strong>.</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div></div>
+
+<div class="export-row">
+  <button class="export-btn" onclick="exportRecto()"><span>▶</span><span>EXPORTER RECTO</span></button>
+  <button class="export-btn both" onclick="exportBoth()"><span>▶</span><span>EXPORTER RECTO + VERSO</span><span>◀</span></button>
+  <button class="export-btn" onclick="exportVerso()"><span>▶</span><span>EXPORTER VERSO</span></button>
+</div>
+
+<div class="save-row">
+  <button class="save-btn" onclick="exportJSON()"><span>⬇</span><span>EXPORTER JSON</span></button>
+  <button class="save-btn" onclick="document.getElementById('import-input').click()"><span>⬆</span><span>IMPORTER JSON</span></button>
+  <button class="save-btn danger" onclick="confirmReset()"><span>✖</span><span>RÉINITIALISER</span></button>
+  <input type="file" id="import-input" accept=".json" style="display:none" onchange="importJSON(event)">
+  <div class="autosave-pill">
+    <div class="autosave-dot" id="autosave-dot"></div>
+    <span id="autosave-label">AUTOSAVE</span>
+  </div>
+</div>
+
+<div id="fiche-recto-export">
+<div class="fiche-recto" id="fiche-recto-wrap">
+  <div class="fh">
+    <div>
+      <div class="fh-tag">▶ PHANTOM THIEVES — RECTO</div>
+      <div class="fh-name" id="fr-name">JOKER</div>
+      <div class="fh-sub" id="fr-sub">—</div>
+    </div>
+    <div style="font-size:44px;filter:drop-shadow(0 0 12px #e60012);">🎭</div>
+    <div class="fh-right">
+      <div class="fh-system">ACTION<br>DIRECTE</div>
+      <div style="display:flex; gap:16px; margin-top:6px; text-align:center;">
+        <div>
+          <div class="fh-pv-lbl">PV</div>
+          <div class="fh-pv" id="fr-pv">—</div>
+        </div>
+        <div>
+          <div class="fh-pv-lbl">PC</div>
+          <div class="fh-pv" id="fr-sp" style="color:#4466ff; text-shadow:3px 3px 0 rgba(68,102,255,.3);">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="fl">
+    <div class="fl-photo" id="fr-photo"><div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#220008;letter-spacing:.3em;text-transform:uppercase;">PORTRAIT</div></div>
+    <div>
+      <div class="fl-sec">Niveau &amp; Progression</div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:32px;color:#e60012;text-shadow:2px 2px 0 rgba(230,0,18,.3);line-height:1;" id="fr-level">NIV. 1</div>
+      </div>
+      <div style="font-size:11px;color:#ffbaba;font-family:'Share Tech Mono',monospace;letter-spacing:.08em;" id="fr-level-bonus">Aucun bonus</div>
+    </div>
+    <div>
+      <div class="fl-sec">Pack Profil</div>
+      <div class="fpack-item"><span class="fpack-badge pos">+3 COMPÉTENCE</span><span class="fpack-name" id="fr-comp">—</span></div>
+      <div class="fpack-item"><span class="fpack-badge pos">+2 CLUB</span><span class="fpack-name" id="fr-club">—</span></div>
+      <div class="fpack-item"><span class="fpack-badge neg">−4 TRAUMA</span><span class="fpack-name" id="fr-trauma">—</span></div>
+    </div>
+    <div>
+      <div class="fl-sec">Arcane &amp; Archétype</div>
+      <div class="fpack-item"><span class="fpack-badge arc" id="fr-arc-badge">ARCANE</span><span class="fpack-name" id="fr-arc-bonus">—</span></div>
+      <div class="fpack-item"><span class="fpack-badge arch" id="fr-arch-badge">ARCHÉTYPE</span><span class="fpack-name" id="fr-arch-bonus">—</span></div>
+    </div>
+    <div>
+      <div class="fl-sec">Équipement Metaverse</div>
+      <div class="fpack-item"><span class="fpack-badge arch" style="color:#e0caca;border-color:#3a1010;">MÊLÉE</span><span class="fpack-name" id="fr-equip-melee">—</span></div>
+      <div class="fpack-item"><span class="fpack-badge arch" style="color:#e0caca;border-color:#3a1010;">DISTANCE</span><span class="fpack-name" id="fr-equip-ranged">—</span></div>
+    </div>
+    
+    <div>
+      <div class="fl-sec">Palais</div>
+      <div style="font-size:12px;color:#ffffff;font-family:'Barlow Condensed',sans-serif;font-weight:300;" id="fr-universe">—</div>
+    </div>
+    <div>
+      <div class="fl-sec">Yens</div>
+      <div class="fgold-row"><span style="font-family:'Bebas Neue',sans-serif;font-size:16px;color:#ffd700;">¥</span><div><div class="fgold-num" id="fr-gold">0</div><div class="fgold-lbl">YENS</div></div></div>
+    </div>
+
+    <div id="fr-bio-block">
+      <div class="fl-sec">Backstory</div>
+      <div class="fbio" id="fr-bio"></div>
+    </div>
+  </div>
+  <div class="fr">
+    <div>
+      <div class="fl-sec">Attributs de base</div>
+      <div class="fr-attrs">
+        <div class="fa"><div class="fa-icon">🥷</div><div class="fa-name">Physique</div><div class="fa-val" id="fr-physique">—</div><div class="fa-mod">Combat · Encaisser</div></div>
+        <div class="fa"><div class="fa-icon">🎯</div><div class="fa-name">Adresse</div><div class="fa-val" id="fr-adresse">—</div><div class="fa-mod">Tir · Discrétion</div></div>
+        <div class="fa"><div class="fa-icon">🔮</div><div class="fa-name">Méninge</div><div class="fa-val" id="fr-meninge">—</div><div class="fa-mod">Magie · Stratégie</div></div>
+        <div class="fa"><div class="fa-icon">🎭</div><div class="fa-name">Social</div><div class="fa-val" id="fr-social">—</div><div class="fa-mod">Charisme · Bluff</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="fl-sec">Santé & Réserves</div>
+      <div class="fpv-boxes" id="fr-pv-boxes"></div>
+    </div>
+    <div>
+      <div class="fl-sec">Règles d'action</div>
+      <div class="fr-rule">
+        <div class="frr"><div class="frr-lbl">Jet d'action</div><div class="frr-val">1D20 + Attribut (+ Compétence ou Club) ≥ <strong>10</strong> = Succès</div></div>
+        <div class="frr"><div class="frr-lbl">1 naturel</div><div class="frr-val"><strong>GAME OVER</strong> — Conséquence catastrophique</div></div>
+        <div class="frr"><div class="frr-lbl">10–19</div><div class="frr-val"><strong>SUCCÈS</strong> — L'action réussit normalement</div></div>
+        <div class="frr"><div class="frr-lbl">Score de 20+</div><div class="frr-val"><strong>CRITIQUE / DOWN</strong> — L'ennemi tombe, Baton Pass possible</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="ffooter">
+    <div class="ffooter-text">Action Directe · P5 — RECTO</div>
+    <div class="ffooter-stars"><span class="ffooter-star">★</span><span class="ffooter-star">★</span><span class="ffooter-star">★</span></div>
+    <div class="ffooter-text">怪盗団 · Règle du 10</div>
+  </div>
+</div>
+</div>
+
+<div id="fiche-verso-export">
+<div class="fiche-verso" id="fiche-verso-wrap">
+  <div class="fh">
+    <div>
+      <div class="fh-tag">▶ PHANTOM THIEVES — VERSO · PERSONA</div>
+      <div class="fh-name" id="fv-pname">ARSÈNE</div>
+      <div class="fh-sub" id="fv-origin">—</div>
+    </div>
+    <div style="font-size:44px;filter:drop-shadow(0 0 12px #e60012);">✨</div>
+    <div class="fh-right">
+      <div class="fh-system">PERSONA<br>CARD</div>
+      <div class="fh-pv-lbl">Voleur</div>
+      <div class="fh-pv" id="fv-char-name" style="font-size:22px; word-break: break-word;">—</div>
+    </div>
+  </div>
+  <div class="fl">
+    <div class="fl-photo" id="fv-photo" style="aspect-ratio:1/1;"><div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#220008;letter-spacing:.3em;text-transform:uppercase;">PERSONA</div></div>
+    <div>
+      <div class="fl-sec">Affinités</div>
+      <div class="fpack-item">
+        <span class="fpack-badge" style="color:#e60012;border-color:#600008;">💀 FAIBLESSE ×2</span>
+        <span class="fpack-name" id="fv-weak">—</span>
+        <span style="font-size:10px;color:var(--text3);font-style:italic;font-family:'Barlow Condensed',sans-serif;">+tombe au sol</span>
+      </div>
+      <div class="fpack-item">
+        <span class="fpack-badge" style="color:#4466ff;border-color:#001880;">🛡️ RÉSISTANCE ÷2</span>
+        <span class="fpack-name" id="fv-res">—</span>
+      </div>
+      <div class="fpack-item">
+        <span class="fpack-badge" style="color:#ffd700;border-color:#7a5500;">⭐ IMMUNITÉ 0</span>
+        <span class="fpack-name" id="fv-immune">—</span>
+      </div>
+    </div>
+    <div>
+      <div class="fl-sec">Type &amp; Description</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;color:#e60012;letter-spacing:.2em;margin-bottom:6px;" id="fv-type">—</div>
+      <div style="font-size:12px;color:#f4f4f4;line-height:1.6;font-style:italic;font-family:'Barlow Condensed',sans-serif;word-break:break-word;overflow-wrap:break-word;white-space:pre-wrap;" id="fv-desc">—</div>
+    </div>
+  </div>
+  <div class="fr">
+    <div>
+      <div class="fl-sec">Sorts du Persona</div>
+      <div class="fspells">
+        <div class="fspell"><div class="fspell-num" id="fv-s1t">▶ SORT AUTO 1</div><div class="fspell-name" id="fv-s1n">—</div><div class="fspell-desc" id="fv-s1d">—</div></div>
+        <div class="fspell"><div class="fspell-num">▶ SORT AUTO 2</div><div class="fspell-name" id="fv-s2n">—</div><div class="fspell-desc" id="fv-s2d">—</div></div>
+        <div class="fspell"><div class="fspell-num">▶ SORT AUTO 3</div><div class="fspell-name" id="fv-s3n">—</div><div class="fspell-desc" id="fv-s3d">—</div></div>
+      </div>
+      <div class="fspells" id="fv-custom-spells" style="margin-top:8px;"></div>
+    </div>
+    <div style="margin-top:10px;">
+      <div class="fl-sec">Magie Persona & Règles</div>
+      <div class="fr-rule">
+        <div class="frr"><div class="frr-lbl">Touche Auto</div><div class="frr-val">Les sorts de Persona (Phys/Magie) ne nécessitent <strong>aucun jet</strong>. Les tirs nécessitent l'Adresse.</div></div>
+        <div class="frr"><div class="frr-lbl">Faiblesse</div><div class="frr-val">Frapper la faiblesse adverse = <strong>Down garanti</strong> (skip 1 tour).</div></div>
+        <div class="frr"><div class="frr-lbl">Défense Flat</div><div class="frr-val">Réduit les dégâts subis du modificateur de <strong>Physique</strong>.</div></div>
+        <div class="frr"><div class="frr-lbl">Baton Pass</div><div class="frr-val">Passe ton 1-More à un allié pour lui donner une action gratuite.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="ffooter">
+    <div class="ffooter-text">Action Directe · P5 — VERSO</div>
+    <div class="ffooter-stars"><span class="ffooter-star">★</span><span class="ffooter-star">★</span><span class="ffooter-star">★</span></div>
+    <div class="ffooter-text">ペルソナ · Carte Persona</div>
+  </div>
+</div>
+</div>
+
+<div class="toast" id="toast">▶ EXPORTÉ ◀</div>
+
+<script>
+// ── DATA ──
+const ARCANES = [
+  {id:'fool',     icon:'🃏', name:'Le Fou (0)',         bonus:'une fois par combat(avant le combat) peut copier l\'arcane d\'un des alliés', 
+   spell:{name:'Métamorphose', cost: 2, desc:'Peut se changer en un objet qu\'il a emporté dans le metavers '}},
+  {id:'magician', icon:'🧙', name:'Le Magicien (I)',    bonus:'+2 en Méninge sur les dégats magiques de ton Persona', 
+   spell:{name:'Concentration', cost: 4, desc:'La prochaine attaque magique du lanceur infligera un coup critique.'}},
+  {id:'priestess',icon:'🌙', name:'La Prêtresse (II)',  bonus:'+2 Social pour mentir ou déduire un mensonge. Une fois par combat, Peut faire un jet de Social pour trouver une faiblesse/résistance d\'un ennemi (Action gratuite)', 
+   spell:{name:'Phase', cost: 3, desc:'Tu touches un objet. Pendant quelques instants, tu forces cet objet à adopter l\'état physique de son équivalent dans le monde réel.'}},
+  {id:'empress',  icon:'👑', name:"L'Impératrice (III)",bonus:'+2 Social pour les discussion de confidents. Une fois par jour, ajoute +2 au jet d\'un allié après son jet', 
+   spell:{name:'L\'ais-je décidé ?', cost: 2, desc:'Stocke les dégats d\'une attaque dans une marque tatoué sur la cible qu\'elle peut faire exploser'}},
+  {id:'emperor',  icon:'⚔️', name:"L'Empereur (IV)",    bonus:'+2 Social pour les discussion de confidents. Une fois par Combat, peut lancer un jet de Social pour faire paniquer l\'ennemi quand il l\'attaque', 
+   spell:{name:'Affaires démoniaques', cost: 5, desc:'Peut passer un contrat avec un Démon pour l\'invoquer quand bon lui semble'}},
+  {id:'hierophant',icon:'📜',name:'Le Hiérophante (V)', bonus:'Lis des livres en 1 jour de moins, 1 fois par combat(avant le combat), peut changer l\'élément de son sort principal', 
+   spell:{name:'Rappel au Règlement', cost: 3, desc:'Peut décréter qu\'une pièce suive une règle de l\'endroit réel qu\'elle copie'}},
+  {id:'lovers',   icon:'❤️', name:'Les Amoureux (VI)',  bonus:'Peut passer ses soirées avec son confident au téléphone et gagner un niveau entier. Peut se lier à un allié. Si tu attaques la même cible ou que tu le soignes, tu gagnes +2 à ton jet d\'action pour ce tour.', 
+   spell:{name:'Appel à un Ami', cost: 3, desc:'Appel un confident du monde réel pour lui demander un service.'}},
+  {id:'chariot',  icon:'🏎️', name:'Le Chariot (VII)',   bonus:'Peut charger un ennemi pour le mettre "Down"(Consomme l\'action, nécessite un jet d\'addresse, ne marche pas contre les boss)', 
+   spell:{name:'Momentum', cost: 4, desc:'Tu peux absorber ou décupler l\'énergie cinétique (l\'élan) d\'un objet ou d\'une personne que tu touches. Soit tu l\'arrêtes net, soit tu le propulses à la vitesse d\'une balle de fusil.'}},
+  {id:'justice',  icon:'⚖️', name:'La Justice (VIII)',  bonus:'Une fois par jour, tu peux annoncer au MJ que ce combat représente tes idéaux. En échange d\'un discours Tu gagnes +1 à toutes tes caractéristiques pour toute la durée de ce combat.', 
+   spell:{name:'Replay', cost: 3, desc:'Les 24 dernières heures de la pièce que copie le palais apparaissent devant toi su forme d\'hologrammes, tu peux faire pause, accélerer, rembobiner.'}},
+  {id:'hermit',   icon:'🔦', name:"L'Ermite (IX)",      bonus:'+2 à toutes les caractéristiques quand tu agis seul. Peur passer ses soirées à fabriquer des outils d\'infiltration', 
+   spell:{name:'Quarantaine', cost: 2, desc:'Tu coupes une pièce du reste du palais, rien ne peut y entrer et rien ne peut en sortir.'}},
+  {id:'fortune',  icon:'🎡', name:'La Roue (X)',        bonus:'1 fois par combat, tu peux relancer 1 dé (le tien, celui d\'un allié, ou forcer un ennemi à relancer).', 
+   spell:{name:'Iversion des poles', cost: 4, desc:'Tu désignes un évènement qui vient de se produire, la prochaine fois qu\'il arrive, il entrainera des conséquences opposées'}},
+  {id:'strength', icon:'🦁', name:'La Force (XI)',      bonus:'+1 en Force, résiste à la mort 1x/jour à 1 PV', 
+   spell:{name:'Focus', cost: 3, desc:'La prochaine attaque physique du lanceur est un coup critique'}},
+  {id:'hanged',   icon:'🙃', name:'Le Pendu (XII)',     bonus:'+4 Social quand en position de faiblesse, dégats +1 tous les 2PV perdus ', 
+   spell:{name:'Renversement', cost: 2, desc:'Inverse la fonction d\'un objet ou d\'un piège.'}},
+  {id:'death',    icon:'💀', name:'La Mort (XIII)',     bonus:'Une fois par jour, annule "Down" pour alliés comme ennemis, Une fois par jour, permet de s\'enfuir d\'un combat', 
+   spell:{name:'Recarm', cost: 5, desc:'Peut réscuciter un etre vivant ou un objet'}},
+];
+
+const ELEMENT_SPELLS = {
+  fire:    {name:'Agi',      effect:'Brûlure : −1 PV/tour.'},
+  ice:     {name:'Bufu',     effect:'Ralentit l\'ennemi.'},
+  wind:    {name:'Garu',     effect:'Ignore les abris physiques.'},
+  thunder: {name:'Zio',      effect:'Paralyse : skip 1 action sur Critique.'},
+  psycho:  {name:'Psi',      effect:'Confusion mentale possible.'},
+  nuke:    {name:'Frei',     effect:'Dégâts massifs en petite zone.'},
+  bless:   {name:'Kouha',    effect:'Insta-Kill si l\'ennemi est très faible.'},
+  curse:   {name:'Eiha',     effect:'Drain de PV mineur.'},
+  phys:    {name:'Cleave',   effect:'Chance de critique élevée'},
+};
+
+const ARCHETYPES = [
+  {id:'warrior',  icon:'⚔️', name:'Guerrier',  cond:'Quand tu attaques ou que tu charges', bonus:'+2 Force'},
+  {id:'tank',     icon:'🛡️', name:'Tank',      cond:'Quand tu encaisses une attaque',      bonus:'+2 Force'},
+  {id:'rogue',    icon:'🗡️', name:'Rogue',     cond:'Tant que tu n\'es pas détecté',       bonus:'+2 Adresse'},
+  {id:'sniper',   icon:'🎯', name:'Sniper',    cond:'Quand tu tires à distance',           bonus:'+2 Adresse'},
+  {id:'mage',     icon:'🔮', name:'Mage',      cond:'Quand tu infliges un "Down"',         bonus:'+2+Niveau PC'},
+  {id:'support',  icon:'💊', name:'Support',   cond:'Quand tu soignes un allié',           bonus:'+2 Méninge'},
+  {id:'leader',   icon:'📣', name:'Leader',    cond:'Au début de ton tour',                bonus:'+2+Niveau PC à un allié'},
+  {id:'phantom',  icon:'🎭', name:'Phantom',   cond:'Dépense Niveau*PC pour gagner ce tour : ', bonus:'+2 stat au choix'},
+];
+
+const ELEMENTS = [
+  {id:'fire',    icon:'🔥', name:'Feu',        desc:'Sorts de flammes, brûlures, explosion', weak:'Glace', resist:'Feu', immune:'—'},
+  {id:'ice',     icon:'❄️', name:'Glace',      desc:'Sorts de froid, gel, ralentissement', weak:'Feu', resist:'Glace', immune:'—'},
+  {id:'wind',    icon:'🌪️', name:'Vent',       desc:'Sorts d\'air, vitesse, déviation', weak:'Foudre', resist:'Vent', immune:'—'},
+  {id:'thunder', icon:'⚡', name:'Foudre',     desc:'Sorts d\'électricité, paralysie', weak:'Vent', resist:'Foudre', immune:'—'},
+  {id:'psycho',  icon:'🔮', name:'Psy',        desc:'Sorts psychiques, confusion, télékinésie', weak:'Nuke', resist:'Psy', immune:'—'},
+  {id:'nuke',    icon:'☢️', name:'Nuke',       desc:'Sorts nucléaires, radiation, dégâts massifs', weak:'Psy', resist:'Nuke', immune:'—'},
+  {id:'bless',   icon:'✨', name:'Lumière',    desc:'Sorts divins, soin, insta-kill', weak:'Malédiction', resist:'Lumière', immune:'—'},
+  {id:'curse',   icon:'💀', name:'Malédiction',desc:'Sorts sombres, drain de vie, insta-kill', weak:'Lumière', resist:'Malédiction', immune:'—'},
+];
+
+const ATTRS = ['physique','adresse','meninge','social'];
+const ATTR_LABELS = {physique:'🥷 Physique', adresse:'🎯 Adresse', meninge:'🔮 Méninge', social:'🎭 Social'};
+
+let selectedArcana = null, selectedArchetype = null, selectedElement = null;
+let rolls = [], assigned = {physique:null,adresse:null,meninge:null,social:null};
+let photoDataURL = null, personaPhotoDataURL = null;
+let currentLevel = 1;
+let bonusPoints = {3: null, 5: null, 7: null, 9: null};
+
+// ── BUILD UI ──
+function buildArcanaGrid(){
+  const g = document.getElementById('arcana-grid');
+  ARCANES.forEach(a => {
+    const d = document.createElement('div');
+    d.className = 'arcana-opt';
+    d.innerHTML = `<input type="radio" name="arcana" value="${a.id}">
+      <div class="arcana-name"><span class="a-icon">${a.icon}</span>${a.name}</div>
+      <div class="arcana-bonus">${a.bonus}</div>`;
+    d.onclick = () => {
+      document.querySelectorAll('.arcana-opt').forEach(x=>x.classList.remove('selected'));
+      d.classList.add('selected');
+      selectedArcana = a;
+      updateAutoSpells();
+    };
+    g.appendChild(d);
+  });
+}
+
+function buildArchetypeGrid(){
+  const g = document.getElementById('archetype-grid');
+  ARCHETYPES.forEach(a => {
+    const d = document.createElement('div');
+    d.className = 'archetype-opt';
+    d.innerHTML = `<input type="radio" name="archetype" value="${a.id}">
+      <div class="arch-name"><span class="a-icon">${a.icon}</span>${a.name}</div>
+      <div class="arch-cond">CONDITION : ${a.cond}</div>
+      <div class="arch-bonus">→ <strong>+2 ${a.bonus.split('+2 ')[1]}</strong></div>`;
+    d.onclick = () => {
+      document.querySelectorAll('.archetype-opt').forEach(x=>x.classList.remove('selected'));
+      d.classList.add('selected');
+      selectedArchetype = a;
+      updateAutoSpells();
+    };
+    g.appendChild(d);
+  });
+}
+
+function buildElementGrid(){
+  const g = document.getElementById('persona-type-grid');
+  ELEMENTS.forEach(e => {
+    const d = document.createElement('div');
+    d.className = 'persona-type-card';
+    d.innerHTML = `<input type="radio" name="element" value="${e.id}">
+      <div class="ptc-icon">${e.icon}</div>
+      <div class="ptc-name">${e.name}</div>
+      <div class="ptc-desc">${e.desc}</div>`;
+    d.onclick = () => {
+      document.querySelectorAll('.persona-type-card').forEach(x=>x.classList.remove('selected'));
+      d.classList.add('selected');
+      selectedElement = e;
+      
+      document.getElementById('weak1').value = e.weak;
+      document.getElementById('res1').value = e.resist;
+      document.getElementById('immune1').value = e.immune;
+
+      updateAutoSpells();
+    };
+    g.appendChild(d);
+  });
+}
+
+function buildCustomSpells(){
+  const container = document.getElementById('custom-spells-container');
+  if(!container) return;
+  container.innerHTML = '';
+  // Création stricte de 7 slots libres
+  for(let i=1; i<=7; i++) {
+    const div = document.createElement('div');
+    div.className = 'spell-item custom-spell';
+    div.id = 'custom-spell-' + i;
+    div.innerHTML = `
+      <div class="spell-num" id="custom-spell-title-${i}">▶ SLOT LIBRE ${i}</div>
+      <div class="spell-pending" id="custom-spell-lock-${i}" style="padding:10px 0;">🔒 Verrouillé</div>
+      <div id="custom-spell-content-${i}" style="display:none;">
+        <input class="spell-input" id="c_spell_name_${i}" type="text" placeholder="Nom du sort…"/>
+        <textarea class="spell-desc" id="c_spell_desc_${i}" placeholder="Effet, PC, Description…"></textarea>
+      </div>
+    `;
+    container.appendChild(div);
+  }
+}
+
+// ── LEVEL SYSTEM ──
+function buildLevelTrack(){
+  const track = document.getElementById('level-track');
+  track.innerHTML = '';
+  for(let i=1; i<=10; i++){
+    const pip = document.createElement('div');
+    const isBonus = [3,5,7,9].includes(i);
+    pip.className = 'level-pip' + (i <= currentLevel ? ' active' : '') + (isBonus ? ' bonus' : '');
+    pip.textContent = i;
+    if(isBonus){ const star=document.createElement('span'); star.className='pip-star'; star.textContent='★'; pip.appendChild(star); }
+    pip.onclick = () => setLevel(i);
+    track.appendChild(pip);
+  }
+}
+
+function buildBonusPickers(){
+  [3,5,7,9].forEach(lvl => {
+    const g = document.getElementById('bpp-grid-'+lvl);
+    if(!g) return;
+    g.innerHTML = '';
+    ATTRS.forEach(attr => {
+      const d = document.createElement('div');
+      d.className = 'bpp-opt' + (bonusPoints[lvl]===attr ? ' selected' : '');
+      d.innerHTML = `<span class="bpp-opt-icon">${ATTR_LABELS[attr].split(' ')[0]}</span>
+        <span class="bpp-opt-name">${ATTR_LABELS[attr].split(' ')[1]}</span>`;
+      d.onclick = () => {
+        bonusPoints[lvl] = (bonusPoints[lvl]===attr ? null : attr);
+        buildBonusPickers();
+        updateAllDisplays();
+      };
+      g.appendChild(d);
+    });
+  });
+}
+
+function setLevel(n){
+  currentLevel = n;
+  buildLevelTrack();
+  [3,5,7,9].forEach(lvl => {
+    const panel = document.getElementById('bonus-panel-'+lvl);
+    if(panel) panel.classList.toggle('visible', currentLevel >= lvl);
+    if(currentLevel < lvl) bonusPoints[lvl] = null;
+  });
+  buildBonusPickers();
+  updateAllDisplays();
+}
+
+function updateLevelInfo(){
+  document.getElementById('level-display').textContent = currentLevel;
+  
+  const physEffLocal = getEffectiveAttr('physique') ?? 0;
+  const menEffLocal  = getEffectiveAttr('meninge')  ?? 0;
+  
+  const pvGain = (currentLevel - 1) * (1 + Math.max(0, physEffLocal));
+  const spGain = (currentLevel - 1) * (1 + Math.max(0, menEffLocal));
+  
+  let txt = `Niveau ${currentLevel}`;
+  if(currentLevel > 1) txt += ` · +${pvGain} PV · +${spGain} PC accumulés`;
+  if(currentLevel >= 3) txt += ` · Baton Pass Actif`;
+  document.getElementById('level-info').textContent = txt;
+}
+
+// ── TABS & PHOTOS ──
+function switchTab(t){
+  document.querySelectorAll('.tab').forEach((el,i)=>{el.classList.toggle('active',i===(t==='recto'?0:1));});
+  document.querySelectorAll('.page').forEach((el,i)=>{el.classList.toggle('active',i===(t==='recto'?0:1));});
+}
+document.getElementById('photo-input').addEventListener('change',function(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{photoDataURL=ev.target.result;document.getElementById('photo-placeholder').style.display='none';const z=document.getElementById('photo-zone');let i=z.querySelector('img');if(!i){i=document.createElement('img');z.appendChild(i);}i.src=photoDataURL;};
+  r.readAsDataURL(f);
+});
+document.getElementById('persona-photo-input').addEventListener('change',function(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{personaPhotoDataURL=ev.target.result;document.getElementById('persona-photo-placeholder').style.display='none';const z=document.getElementById('persona-photo-zone');let i=z.querySelector('img');if(!i){i=document.createElement('img');z.appendChild(i);}i.src=personaPhotoDataURL;};
+  r.readAsDataURL(f);
+});
+
+// ── ROLL & ATTRIBUTES ──
+function rollDice(){
+  rolls=[];for(let i=0;i<4;i++)rolls.push(Math.floor(Math.random()*8)+1-4);
+  rolls.sort((a,b)=>b-a);assigned={physique:null,adresse:null,meninge:null,social:null};
+  updateAllDisplays();
+  const res=document.getElementById('roll-result');res.innerHTML='';
+  rolls.forEach((v,i)=>{const b=document.createElement('div');b.className='die-badge'+(v<0?' neg':'');b.style.animationDelay=(i*.12)+'s';b.textContent=(v>=0?'+':'')+v;res.appendChild(b);});
+  updateSelects();
+}
+
+function updateSelects(){
+  ATTRS.forEach(attr=>{
+    const sel=document.getElementById('sel-'+attr),current=assigned[attr];
+    if(!rolls.length){sel.innerHTML="<option value=''>— Lance d'abord —</option>";return;}
+    sel.innerHTML='';
+    const e=document.createElement('option');e.value='';e.textContent=current!==null?'— Changer —':'— Sélectionner —';sel.appendChild(e);
+    
+    const taken=Object.entries(assigned).filter(([k,v])=>k!==attr&&v!==null).map(([,v])=>v);
+    const avail=[...rolls];
+    taken.forEach(t=>{const i=avail.indexOf(t);if(i!==-1)avail.splice(i,1);});
+    
+    const seen=new Set();
+    rolls.forEach(v=>{
+      if(!seen.has(v)){
+        seen.add(v);
+        if(avail.includes(v) || current === v) {
+          const o=document.createElement('option');
+          o.value=v; o.textContent=(v>=0?'+':'')+v;
+          if(current!==null&&current===v) o.selected=true;
+          sel.appendChild(o);
+        }
+      }
+    });
+  });
+}
+
+function assignAttr(attr,val){
+  assigned[attr]= (val==='' || isNaN(parseInt(val))) ? null : parseInt(val);
+  updateAllDisplays();
+  updateSelects();
+}
+
+function getEffectiveAttr(attr){
+  const base = assigned[attr] ?? null;
+  if(base === null) return null;
+  let bonus = 0;
+  [3,5,7,9].forEach(lvl => {
+    if(currentLevel >= lvl && bonusPoints[lvl] === attr) bonus += 1;
+  });
+  return base + bonus;
+}
+
+function updateAutoSpells(){
+  const lvl = currentLevel;
+  const phys = getEffectiveAttr('physique') || 0;
+  const adr = getEffectiveAttr('adresse') || 0;
+  const men = getEffectiveAttr('meninge') || 0;
+
+  // SORT 1: Base
+  const isSupport = selectedArchetype && selectedArchetype.id === 'support';
+  const isRanged  = selectedArchetype && (selectedArchetype.id === 'sniper' || selectedArchetype.id === 'rogue');
+  const s1num = document.getElementById('sort1-auto-title');
+  const s1name = document.getElementById('sort1-auto-name');
+  const s1desc = document.getElementById('sort1-auto-desc');
+
+  if (isSupport) {
+    let heal = 3 + men + (lvl - 1);
+    let cost = 2 + (lvl - 1);
+    if(s1num) s1num.textContent = "▶ SORT AUTO — SOIN DE BASE";
+    if(s1name) s1name.textContent = `Dia (Niv. ${lvl}) [${cost} PC]`;
+    if(s1desc) s1desc.textContent = `Restaure ${heal} PV à 1 allié (ou toi-même). Sans jet de dé. Bonus Méninge : +${men}.`;
+  } else if (isRanged) {
+    let dmg = 5 + adr + (lvl - 1);
+    if(s1num) s1num.textContent = "▶ SORT AUTO — TIR LÉGER";
+    if(s1name) s1name.textContent = `Tir Léger (Niv. ${lvl})`;
+    if(s1desc) s1desc.textContent = `Dégâts fixes : ${dmg}. Jet d'Adresse ≥ 10 requis. Haute chances de Coup Critique`;
+  } else {
+    let dmg = 3 + phys + (lvl - 1);
+    let cost = 2 + (lvl - 1);
+    if(s1num) s1num.textContent = "▶ SORT AUTO — ATTAQUE PHYSIQUE";
+    if(s1name) s1name.textContent = `Frappe Physique (Niv. ${lvl}) [${cost} PV]`;
+    if(s1desc) s1desc.textContent = `Dégâts : ${dmg}. Jet de Force ≥ 10 requis. Cible : 1 Ennemi.`;
+  }
+
+  // SORT 2: Élémentaire
+  if(selectedElement && ELEMENT_SPELLS[selectedElement.id]){
+    const sp = ELEMENT_SPELLS[selectedElement.id];
+    let dmg = 3 + men + (lvl - 1);
+    let baseCost = ['nuke','bless','curse'].includes(selectedElement.id) ? 3 : 2;
+    let cost = Math.min(8, baseCost + (lvl - 1));
+    document.getElementById('sort2-pending').style.display = 'none';
+    document.getElementById('sort2-auto-content').style.display = 'block';
+    document.getElementById('sort2-auto-name').textContent = `${selectedElement.icon} ${sp.name} (Niv. ${lvl}) [${cost} PC]`;
+    document.getElementById('sort2-auto-desc').textContent = `Dégâts : ${dmg} (${selectedElement.name}). Touche automatiquement. ${sp.effect}`;
+  } else {
+    document.getElementById('sort2-pending').style.display = 'block';
+    document.getElementById('sort2-auto-content').style.display = 'none';
+  }
+
+  // SORT 3: Arcane
+  if(selectedArcana && selectedArcana.spell){
+    const sp = selectedArcana.spell;
+    let costTxt = "";
+    if(sp.cost > 0) {
+      let cost = Math.min(8, sp.cost + (lvl - 1));
+      costTxt = ` [${cost} PC]`;
+    } else if(selectedArcana.id === 'strength') {
+      costTxt = " [Passif]";
+    } else if(selectedArcana.id === 'hanged') {
+      costTxt = " [Sacrifice PV]";
+    }
+    document.getElementById('sort3-pending').style.display = 'none';
+    document.getElementById('sort3-auto-content').style.display = 'block';
+    document.getElementById('sort3-auto-name').textContent = `${selectedArcana.icon} ${sp.name} (Niv. ${lvl})${costTxt}`;
+    document.getElementById('sort3-auto-desc').textContent = sp.desc;
+  } else {
+    document.getElementById('sort3-pending').style.display = 'block';
+    document.getElementById('sort3-auto-content').style.display = 'none';
+  }
+
+  // CUSTOM SPELLS (7 SLOTS) - Aucun libre au niveau 1, 2 ou 3. Le premier se débloque au Niveau 4.
+  const unlockedSlots = Math.max(0, currentLevel - 3);
+  for(let i=1; i<=7; i++){
+    const lock = document.getElementById('custom-spell-lock-'+i);
+    const content = document.getElementById('custom-spell-content-'+i);
+    const title = document.getElementById('custom-spell-title-'+i);
+    if(!lock) continue;
+    
+    if(i <= unlockedSlots) {
+      lock.style.display = 'none';
+      content.style.display = 'block';
+      title.textContent = '▶ SLOT LIBRE ' + i + ' (DÉBLOQUÉ)';
+      title.style.color = 'var(--gold)';
+    } else {
+      lock.style.display = 'block';
+      content.style.display = 'none';
+      const reqLvl = i + 3; // Slot 1 = Niv 4, Slot 2 = Niv 5...
+      lock.textContent = '🔒 Se débloque au Niveau ' + reqLvl;
+      title.textContent = '▶ SLOT LIBRE ' + i;
+      title.style.color = 'var(--text4)';
+    }
+  }
+}
+
+function updateAllDisplays(){
+  ATTRS.forEach(attr=>{
+    const eff = getEffectiveAttr(attr);
+    const el = document.getElementById('val-'+attr);
+    const card = document.getElementById('card-'+attr);
+    if(eff === null){
+      el.textContent='—'; el.className='attr-val zero'; card.classList.remove('assigned');
+    } else {
+      el.textContent=(eff>=0?'+':'')+eff;
+      el.className='attr-val '+(eff>0?'positive':eff<0?'negative':'zero');
+      el.classList.add('rolling'); setTimeout(()=>el.classList.remove('rolling'),600);
+      card.classList.add('assigned');
+    }
+  });
+
+  const physEff = getEffectiveAttr('physique');
+  const menEff  = getEffectiveAttr('meninge');
+  
+  const calcPhys = (physEff !== null && physEff > 0) ? physEff : 0;
+  const calcMen  = (menEff !== null && menEff > 0) ? menEff : 0;
+  
+  const pvEl = document.getElementById('pv-display');
+  const spEl = document.getElementById('sp-display');
+  const pvFEl = document.getElementById('pv-formula');
+  const spFEl = document.getElementById('sp-formula');
+
+  // PV et PC avec la nouvelle formule correcte (1 + modificateur) * niveaux accumulés
+  if(physEff !== null){
+    const pv = 10 + physEff + ((currentLevel - 1) * (1 + calcPhys));
+    pvEl.textContent = pv;
+    pvFEl.textContent = `10 + ${physEff} + (${currentLevel-1} × ${1+calcPhys})`;
+  } else { pvEl.textContent='—'; pvFEl.textContent=''; }
+
+  if(menEff !== null){
+    const sp = 10 + menEff + ((currentLevel - 1) * (1 + calcMen));
+    spEl.textContent = sp;
+    spFEl.textContent = `10 + ${menEff} + (${currentLevel-1} × ${1+calcMen})`;
+  } else { spEl.textContent='—'; spFEl.textContent=''; }
+
+  updateLevelInfo();
+  updateAutoSpells();
+}
+
+// ── INITIALISATION ──
+buildArcanaGrid();
+buildArchetypeGrid();
+buildElementGrid();
+buildLevelTrack();
+buildBonusPickers();
+buildCustomSpells();
+
+// ── EXPORT ──
+function buildPVBoxes(id,pv){
+  const c=document.getElementById(id);c.innerHTML='';
+  for(let i=0;i<pv;i++){const b=document.createElement('div');b.className='fpv-box';c.appendChild(b);}
+}
+function setPhoto(id,dataURL,fallback){
+  const c=document.getElementById(id);c.innerHTML='';
+  if(dataURL){const i=document.createElement('img');i.src=dataURL;i.style.cssText='width:100%;height:100%;object-fit:cover;display:block;';c.appendChild(i);}
+  else{c.innerHTML=`<div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#220008;letter-spacing:.3em;text-transform:uppercase;">${fallback}</div>`;}
+}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
+
+function populateRecto(){
+  document.getElementById('fr-name').textContent=(document.getElementById('char-name').value||'JOKER').toUpperCase();
+  document.getElementById('fr-sub').textContent=(document.getElementById('char-class').value||'—');
+  const frUniv = document.getElementById('fr-universe');
+  if(frUniv) frUniv.textContent=(document.getElementById('char-universe').value||'—');
+  document.getElementById('fr-comp').textContent=(document.getElementById('competence').value||'—');
+  document.getElementById('fr-club').textContent=(document.getElementById('metier').value||'—');
+  document.getElementById('fr-trauma').textContent=(document.getElementById('phobie').value||'—');
+  const frGold = document.getElementById('fr-gold');
+  if(frGold) frGold.textContent=(document.getElementById('char-gold').value||'0');
+  
+  const bio=document.getElementById('char-bio').value||'';
+  const bioBlock = document.getElementById('fr-bio-block');
+  if(bioBlock){
+    if(bio){document.getElementById('fr-bio').textContent=bio; bioBlock.style.display='block';}
+    else{bioBlock.style.display='none';}
+  }
+  
+  if(selectedArcana){
+    document.getElementById('fr-arc-badge').textContent=selectedArcana.icon+' '+selectedArcana.name;
+    document.getElementById('fr-arc-bonus').textContent=selectedArcana.bonus;
+  }
+  if(selectedArchetype){
+    document.getElementById('fr-arch-badge').textContent=selectedArchetype.icon+' '+selectedArchetype.name;
+    document.getElementById('fr-arch-bonus').textContent='Cond: '+selectedArchetype.cond+' → '+selectedArchetype.bonus;
+  }
+
+  const meleeName = document.getElementById('equip-melee-name').value || 'Arme de Mêlée';
+  const meleeDmg = document.getElementById('equip-melee-dmg').value;
+  const rangedName = document.getElementById('equip-ranged-name').value || 'Arme à feu';
+  const rangedDmg = document.getElementById('equip-ranged-dmg').value;
+  document.getElementById('fr-equip-melee').textContent = `${meleeName} (${meleeDmg} DGT)`;
+  document.getElementById('fr-equip-ranged').textContent = `${rangedName} (${rangedDmg} DGT)`;
+
+  ATTRS.forEach(attr=>{
+    const v=getEffectiveAttr(attr), el=document.getElementById('fr-'+attr);
+    if(el) {
+      if(v===null){el.textContent='—';el.className='fa-val zero';}
+      else{el.textContent=(v>=0?'+':'')+v;el.className='fa-val '+(v>0?'pos':v<0?'neg':'zero');}
+    }
+  });
+
+  const physEff = getEffectiveAttr('physique');
+  const calcPhys = (physEff !== null && physEff > 0) ? physEff : 0;
+  const pv = physEff !== null ? 10 + physEff + ((currentLevel - 1) * (1+calcPhys)) : 10;
+  
+  const menEff = getEffectiveAttr('meninge');
+  const calcMen = (menEff !== null && menEff > 0) ? menEff : 0;
+  const sp = menEff !== null ? 10 + menEff + ((currentLevel - 1) * (1+calcMen)) : 10;
+
+  document.getElementById('fr-pv').textContent=pv;
+  document.getElementById('fr-sp').textContent=sp;
+  buildPVBoxes('fr-pv-boxes',pv);
+  
+  document.getElementById('fr-level').textContent='NIV. '+currentLevel;
+  let bonusTxt = '';
+  [3,5,7,9].forEach(lvl => {
+     if(currentLevel >= lvl && bonusPoints[lvl]) bonusTxt += `Niv.${lvl} +1 ${ATTR_LABELS[bonusPoints[lvl]].split(' ')[1]}  `;
+  });
+  document.getElementById('fr-level-bonus').textContent = bonusTxt || 'Aucun bonus';
+  setPhoto('fr-photo',photoDataURL,'PORTRAIT');
+}
+
+function populateVerso(){
+  document.getElementById('fv-pname').textContent=(document.getElementById('persona-name').value||'PERSONA').toUpperCase();
+  document.getElementById('fv-origin').textContent=(document.getElementById('persona-origin').value||'—');
+  document.getElementById('fv-char-name').textContent=document.getElementById('char-name').value||'—';
+  document.getElementById('fv-weak').textContent=(document.getElementById('weak1').value||'—');
+  document.getElementById('fv-res').textContent=(document.getElementById('res1').value||'—');
+  document.getElementById('fv-immune').textContent=(document.getElementById('immune1').value||'—');
+  document.getElementById('fv-desc').textContent=document.getElementById('persona-desc').value||'—';
+  document.getElementById('fv-type').textContent=selectedElement?selectedElement.icon+' '+selectedElement.name.toUpperCase():'—';
+
+  const s1t = document.getElementById('sort1-auto-title');
+  document.getElementById('fv-s1t').textContent = s1t ? s1t.textContent : '▶ SORT AUTO 1';
+  document.getElementById('fv-s1n').textContent = document.getElementById('sort1-auto-name').textContent;
+  document.getElementById('fv-s1d').textContent = document.getElementById('sort1-auto-desc').textContent;
+  
+  document.getElementById('fv-s2n').textContent = selectedElement ? document.getElementById('sort2-auto-name').textContent : '— Élément non choisi —';
+  document.getElementById('fv-s2d').textContent = selectedElement ? document.getElementById('sort2-auto-desc').textContent : '—';
+  
+  document.getElementById('fv-s3n').textContent = selectedArcana ? document.getElementById('sort3-auto-name').textContent : '— Arcane non choisi —';
+  document.getElementById('fv-s3d').textContent = selectedArcana ? document.getElementById('sort3-auto-desc').textContent : '—';
+
+  // Custom Spells (7 slots limit)
+  const customContainer = document.getElementById('fv-custom-spells');
+  customContainer.innerHTML = '';
+  const unlockedSlots = Math.max(0, currentLevel - 3);
+  
+  for(let i=1; i<=unlockedSlots; i++){
+    const nameEl = document.getElementById('c_spell_name_'+i);
+    const descEl = document.getElementById('c_spell_desc_'+i);
+    if(!nameEl || !descEl) continue;
+    
+    const name = nameEl.value;
+    const desc = descEl.value;
+    
+    if(name.trim() !== '' || desc.trim() !== '') {
+      const div = document.createElement('div');
+      div.className = 'fspell';
+      div.innerHTML = `<div class="fspell-num">▶ SLOT LIBRE ${i}</div><div class="fspell-name">${name || '—'}</div><div class="fspell-desc">${desc || '—'}</div>`;
+      customContainer.appendChild(div);
+    }
+  }
+
+  setPhoto('fv-photo',personaPhotoDataURL,'PERSONA');
+}
+
+async function renderFiche(wrapId, exportId, filename){
+  const fiche=document.getElementById(exportId);
+  fiche.style.left='0';fiche.style.zIndex='-1';
+  await new Promise(r=>setTimeout(r,300));
+  try{
+    const canvas=await html2canvas(document.getElementById(wrapId),{scale:2,useCORS:true,allowTaint:true,backgroundColor:'#000000',logging:false});
+    const link=document.createElement('a');link.download=filename;link.href=canvas.toDataURL('image/png');link.click();
+  }catch(e){console.error(e);}
+  fiche.style.left='-9999px';fiche.style.zIndex='';
+}
+
+async function exportRecto(){
+  populateRecto();
+  await renderFiche('fiche-recto-wrap','fiche-recto-export',(document.getElementById('char-name').value||'hero')+'_RECTO.png');
+  showToast('▶ RECTO EXPORTÉ ◀');
+}
+async function exportVerso(){
+  populateVerso();
+  await renderFiche('fiche-verso-wrap','fiche-verso-export',(document.getElementById('char-name').value||'hero')+'_VERSO.png');
+  showToast('▶ VERSO EXPORTÉ ◀');
+}
+async function exportBoth(){
+  populateRecto();
+  populateVerso();
+  await renderFiche('fiche-recto-wrap','fiche-recto-export',(document.getElementById('char-name').value||'hero')+'_RECTO.png');
+  await new Promise(r=>setTimeout(r,400));
+  await renderFiche('fiche-verso-wrap','fiche-verso-export',(document.getElementById('char-name').value||'hero')+'_VERSO.png');
+  showToast('▶ RECTO + VERSO EXPORTÉS ◀');
+}
+
+// ── SAUVEGARDE / CHARGEMENT ──
+const SAVE_KEY = 'persona5_fiche_v3';
+const FORM_FIELDS = [
+  'char-name','char-class','char-universe','char-bio','char-gold',
+  'competence','metier','phobie',
+  'equip-melee-name','equip-melee-dmg','equip-ranged-name','equip-ranged-dmg',
+  'persona-name','persona-origin','persona-desc',
+  'weak1','res1','immune1'
+];
+for(let i=1; i<=7; i++){
+  FORM_FIELDS.push('c_spell_name_'+i, 'c_spell_desc_'+i);
+}
+
+function collectState(){
+  const formData = {};
+  FORM_FIELDS.forEach(id => {
+    const el = document.getElementById(id);
+    if(el) formData[id] = el.value;
+  });
+  return {
+    version: 3,
+    formData,
+    rolls,
+    assigned,
+    arcanaId:    selectedArcana    ? selectedArcana.id    : null,
+    archetypeId: selectedArchetype ? selectedArchetype.id : null,
+    elementId:   selectedElement   ? selectedElement.id   : null,
+    currentLevel,
+    bonusPoints,
+    photoDataURL,
+    personaPhotoDataURL,
+  };
+}
+
+function applyState(data){
+  if(!data) return;
+
+  if(data.formData){
+    FORM_FIELDS.forEach(id => {
+      const el = document.getElementById(id);
+      if(el && data.formData[id] !== undefined) el.value = data.formData[id];
+    });
+  }
+
+  rolls        = data.rolls        || [];
+  assigned     = data.assigned     || {physique:null,adresse:null,meninge:null,social:null};
+  currentLevel = data.currentLevel || 1;
+  bonusPoints  = data.bonusPoints  || {3:null, 5:null, 7:null, 9:null};
+
+  selectedArcana    = ARCANES.find(a => a.id === data.arcanaId)       || null;
+  selectedArchetype = ARCHETYPES.find(a => a.id === data.archetypeId) || null;
+  selectedElement   = ELEMENTS.find(e => e.id === data.elementId)     || null;
+
+  photoDataURL        = data.photoDataURL        || null;
+  personaPhotoDataURL = data.personaPhotoDataURL || null;
+
+  if(photoDataURL){
+    document.getElementById('photo-placeholder').style.display = 'none';
+    const z = document.getElementById('photo-zone');
+    let img = z.querySelector('img');
+    if(!img){ img = document.createElement('img'); z.appendChild(img); }
+    img.src = photoDataURL;
+  }
+  if(personaPhotoDataURL){
+    document.getElementById('persona-photo-placeholder').style.display = 'none';
+    const z = document.getElementById('persona-photo-zone');
+    let img = z.querySelector('img');
+    if(!img){ img = document.createElement('img'); z.appendChild(img); }
+    img.src = personaPhotoDataURL;
+  }
+
+  document.querySelectorAll('.arcana-opt').forEach(el => {
+    el.classList.toggle('selected', el.querySelector('input')?.value === data.arcanaId);
+  });
+  document.querySelectorAll('.archetype-opt').forEach(el => {
+    el.classList.toggle('selected', el.querySelector('input')?.value === data.archetypeId);
+  });
+  document.querySelectorAll('.persona-type-card').forEach(el => {
+    el.classList.toggle('selected', el.querySelector('input')?.value === data.elementId);
+  });
+
+  if(selectedElement){
+    document.getElementById('sort2-pending').style.display = 'none';
+    document.getElementById('sort2-auto-content').style.display = 'block';
+  }
+  if(selectedArcana){
+    document.getElementById('sort3-pending').style.display = 'none';
+    document.getElementById('sort3-auto-content').style.display = 'block';
+  }
+
+  buildLevelTrack();
+  [3,5,7,9].forEach(lvl => {
+    const p = document.getElementById('bonus-panel-'+lvl);
+    if(p) p.classList.toggle('visible', currentLevel >= lvl);
+  });
+  buildBonusPickers();
+
+  if(rolls.length){
+    const res = document.getElementById('roll-result');
+    res.innerHTML = '';
+    rolls.forEach((v,i) => {
+      const b = document.createElement('div');
+      b.className = 'die-badge' + (v < 0 ? ' neg' : '');
+      b.style.animationDelay = (i * .12) + 's';
+      b.textContent = (v >= 0 ? '+' : '') + v;
+      res.appendChild(b);
+    });
+    updateSelects();
+  }
+
+  updateAllDisplays();
+}
+
+let _saveTimer = null;
+function scheduleSave(){
+  const dot = document.getElementById('autosave-dot');
+  dot.className = 'autosave-dot saving';
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(() => {
+    const state = collectState();
+    try {
+      localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+    } catch(e) {
+      try {
+        const lite = {...state, photoDataURL: null, personaPhotoDataURL: null};
+        localStorage.setItem(SAVE_KEY, JSON.stringify(lite));
+      } catch(_){}
+    }
+    dot.className = 'autosave-dot saved';
+    document.getElementById('autosave-label').textContent =
+      'SAUVEGARDÉ ' + new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  }, 800);
+}
+
+function loadAutoSave(){
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if(!raw) return false;
+    const data = JSON.parse(raw);
+    applyState(data);
+    const dot = document.getElementById('autosave-dot');
+    dot.className = 'autosave-dot saved';
+    document.getElementById('autosave-label').textContent = 'SESSION RESTAURÉE';
+    return true;
+  } catch(e){ return false; }
+}
+
+function exportJSON(){
+  const state = collectState();
+  const charName = document.getElementById('char-name').value || 'personnage';
+  const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+  const link = document.createElement('a');
+  link.download = charName + '_persona5.json';
+  link.href = URL.createObjectURL(blob);
+  link.click();
+  URL.revokeObjectURL(link.href);
+  showToast('▶ JSON EXPORTÉ ◀');
+}
+
+function importJSON(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      applyState(data);
+      scheduleSave();
+      showToast('▶ FICHE IMPORTÉE ◀');
+    } catch(err){
+      alert('Fichier JSON invalide : ' + err.message);
+    }
+    event.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
+function confirmReset(){
+  if(!confirm('Réinitialiser toute la fiche ? Cette action est irréversible.')) return;
+  localStorage.removeItem(SAVE_KEY);
+  location.reload();
+}
+
+document.addEventListener('input',  scheduleSave);
+document.addEventListener('change', scheduleSave);
+
+loadAutoSave();
+</script>
+</body>
+</html>
