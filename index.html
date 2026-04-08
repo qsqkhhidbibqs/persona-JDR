@@ -228,6 +228,8 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
 .spell-auto .spell-num{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--red);letter-spacing:.1em;margin-bottom:6px;text-transform:uppercase;}
 .spell-pending{opacity:.6;font-style:italic;color:var(--text3);font-size:13px;padding:10px 0;}
 
+.kw-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 6px; }
+
 .rules-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 .rule-card{background:var(--panel2);border:2px solid var(--border2);padding:10px 11px;clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,0 100%);}
 .rule-card-title{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:.25em;color:var(--red);margin-bottom:4px;text-transform:uppercase;}
@@ -454,7 +456,7 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
       <div class="panel-title"><span class="pt-icon">⭐</span><span class="pt-text">Niveau de Notoriété du Groupe</span><span class="pt-num">03</span></div>
       <div class="panel-body">
         <p style="font-size:13px;color:var(--text2);margin-bottom:12px;font-style:italic;line-height:1.6;">
-          Ton niveau augmente tes PV et tes PC. Aux niveaux <strong style="color:var(--gold);">3, 5, 7 et 9</strong>, tu gagnes un bonus permanent de <strong style="color:var(--gold);">+1 point</strong> à répartir. Le <strong style="color:var(--gold);">Baton Pass</strong> se débloque au Niv. 3 et de nouveaux <strong style="color:var(--gold);">Slots de Sorts</strong> s'ouvrent au fil du temps.
+          Ton niveau augmente tes PV et tes PC. Aux niveaux <strong style="color:var(--gold);">3, 5, 7 et 9</strong>, tu gagnes un bonus permanent de <strong style="color:var(--gold);">+1 point</strong> à répartir. Au Niveau 10, ton Persona atteint son <strong style="color:var(--red);">Éveil Ultime</strong> !
         </p>
         <div style="display:flex;align-items:center;gap:16px;margin-bottom:10px;">
           <div class="level-display" id="level-display">1</div>
@@ -478,6 +480,12 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
         <div class="bonus-point-panel" id="bonus-panel-9">
           <div class="bpp-title">Niveau 9 — Bonus +1 : choisis un attribut</div>
           <div class="bpp-grid" id="bpp-grid-9"></div>
+        </div>
+        <div class="bonus-point-panel" id="bonus-panel-10" style="border-color:var(--red); background:rgba(230,0,18,0.06);">
+          <div class="bpp-title" style="color:var(--red);"><span style="color:var(--red);">★</span> Niveau 10 — ÉVEIL ULTIME</div>
+          <div style="font-size:13px; color:var(--text2); font-style:italic; line-height:1.4;">
+            Ton Persona évolue vers sa forme mythologique finale ! Tes résistances s'améliorent et tu débloques ton attaque signature dévastatrice sur la page Verso.
+          </div>
         </div>
       </div>
     </div>
@@ -698,10 +706,10 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
     </div>
     
     <div class="panel">
-      <div class="panel-title"><span class="pt-icon">🌟</span><span class="pt-text">Grimoire — Les 7 Slots Libres</span><span class="pt-num">P5</span></div>
+      <div class="panel-title"><span class="pt-icon">🌟</span><span class="pt-text">Grimoire — Les Slots Personnalisés (Niv 4 à 10)</span><span class="pt-num">P5</span></div>
       <div class="panel-body">
         <p style="font-size:13px;color:var(--text2);margin-bottom:12px;font-style:italic;line-height:1.6;">
-          Les 3 premiers sorts sont générés par le système et liés à ta classe. Aucun emplacement libre n'est disponible au niveau 1. Tu débloqueras ton <strong>premier Slot Libre au Niveau 4</strong>, puis 1 slot supplémentaire par niveau jusqu'à en avoir 7 au Niveau 10.
+          Remplis tes emplacements de sorts selon ta progression. Le dernier slot se débloque au <strong>Niveau 10</strong> et abrite ton <strong>Attaque Signature / Éveil Ultime</strong> !
         </p>
         
         <div class="spells-grid" style="margin-bottom:12px;">
@@ -711,16 +719,27 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
             <div class="spell-auto-name" id="sort1-auto-name">—</div>
             <div class="spell-auto-desc" id="sort1-auto-desc">—</div>
           </div>
-          <div class="spell-auto">
-            <div class="spell-num">▶ SORT AUTO — ÉLÉMENTAIRE</div>
-            <div class="spell-auto-badge">AUTO</div>
-            <div id="sort2-auto-wrap">
-              <div class="spell-pending" id="sort2-pending">⟵ Choisis ton élément (à gauche) pour débloquer ce sort</div>
-              <div id="sort2-auto-content" style="display:none;">
-                <div class="spell-auto-name" id="sort2-auto-name">—</div>
-                <div class="spell-auto-desc" id="sort2-auto-desc">—</div>
+          <div class="spell-item">
+            <div class="spell-num">▶ FACULTÉ DE LA PERSONA <span style="font-size:9px;color:var(--text3);font-family:'Share Tech Mono',monospace;letter-spacing:.1em;">(LIBRE)</span></div>
+            <div class="spell-auto-badge" style="background:rgba(68,102,255,.15);color:#8899ff;border-color:rgba(68,102,255,.3);">LIBRE</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;">
+              <div>
+                <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red3);letter-spacing:.15em;margin-bottom:3px;">NOM DE LA FACULTÉ</div>
+                <input class="spell-input" id="s2-nom" type="text" placeholder="Ex : Aura, Pouvoir passif..."/>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+                <div>
+                  <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red3);letter-spacing:.15em;margin-bottom:3px;">COÛT PC</div>
+                  <input class="spell-input" id="s2-cout" type="text" placeholder="Ex : 2"/>
+                </div>
+                <div>
+                  <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red3);letter-spacing:.15em;margin-bottom:3px;">DÉGÂTS</div>
+                  <input class="spell-input" id="s2-degats" type="text" placeholder="Ex : 5"/>
+                </div>
               </div>
             </div>
+            <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red3);letter-spacing:.15em;margin-bottom:3px;">EFFET / DESCRIPTION</div>
+            <textarea class="spell-desc" id="s2-effet" placeholder="Description de ton pouvoir libre..."></textarea>
           </div>
           <div class="spell-auto">
             <div class="spell-num">▶ SORT AUTO — SOUTIEN D'ARCANE</div>
@@ -736,7 +755,7 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
         </div>
 
         <div id="custom-spells-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-          </div>
+        </div>
 
       </div>
     </div>
@@ -1013,6 +1032,90 @@ let currentLevel = 1;
 let bonusPoints = {3: null, 5: null, 7: null, 9: null};
 
 // ── BUILD UI ──
+function buildCustomSpells(){
+  const container = document.getElementById('custom-spells-container');
+  if(!container) return;
+  container.innerHTML = '';
+  
+  // Progression: Niv 4, Niv 5, Niv 6, Niv 7, Niv 8, Niv 9, Niv 10 (7 slots au total)
+  const reqLvls = [4, 5, 6, 7, 8, 9, 10];
+  const types = ["mots3", "libre", "resistance", "libre", "mots3", "libre", "ultime"];
+
+  for(let i=1; i<=7; i++) {
+    const reqLvl = reqLvls[i-1];
+    const type = types[i-1];
+
+    const div = document.createElement('div');
+    div.className = 'spell-item custom-spell';
+    div.id = 'custom-spell-' + i;
+    
+    if(type === 'resistance') div.style.borderLeftColor = '#4466ff';
+    if(type === 'ultime') {
+       div.style.borderLeftColor = 'var(--red)';
+       div.style.borderColor = 'var(--red-dim)';
+       div.style.background = 'rgba(230,0,18,.05)';
+       div.style.gridColumn = '1 / -1'; // Prend toute la largeur !
+    }
+
+    let innerContent = '';
+    let titlePrefix = 'SLOT LIBRE';
+
+    if(type === 'libre') {
+      innerContent = `
+        <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:.15em;margin-bottom:3px;">SORT LIBRE / PASSIF</div>
+        <input class="spell-input" id="c_spell_name_${i}" type="text" placeholder="Nom du sort…"/>
+        <textarea class="spell-desc" id="c_spell_desc_${i}" placeholder="Description complète..."></textarea>
+      `;
+    } else if(type === 'resistance') {
+      titlePrefix = 'NOUVELLE RÉSISTANCE';
+      innerContent = `
+        <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#4466ff;letter-spacing:.15em;margin-bottom:3px;">RÉSISTANCE OU IMMUNITÉ</div>
+        <input class="spell-input" id="c_spell_name_${i}" type="text" placeholder="Ex: Cœur de Glace..."/>
+        <textarea class="spell-desc" id="c_spell_desc_${i}" placeholder="Ex: Gagne une Résistance ÷2 à la Glace..."></textarea>
+      `;
+    } else if(type === 'mots3') {
+      titlePrefix = 'SORT MOTS-CLÉS';
+      innerContent = `
+        <input class="spell-input" id="c_spell_name_${i}" type="text" placeholder="Nom du sort…" style="margin-bottom:8px;"/>
+        <div class="kw-grid-3">
+          <div><div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:.1em;margin-bottom:2px;">ÉLÉMENT</div>
+          <input class="spell-input" id="c_spell_kw1_${i}" type="text" placeholder="Ex: Feu..."/></div>
+          <div><div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:.1em;margin-bottom:2px;">FORME</div>
+          <input class="spell-input" id="c_spell_kw2_${i}" type="text" placeholder="Ex: Lame..."/></div>
+          <div><div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:.1em;margin-bottom:2px;">DÉCLENCHEUR</div>
+          <input class="spell-input" id="c_spell_kw3_${i}" type="text" placeholder="Ex: À la fuite..."/></div>
+        </div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red3);letter-spacing:.15em;margin-top:6px;margin-bottom:3px;">EFFET / COÛT PC</div>
+        <textarea class="spell-desc" id="c_spell_desc_${i}" placeholder="Explication de l'effet combiné..."></textarea>
+      `;
+    } else if(type === 'ultime') {
+      titlePrefix = 'Projection d\'égo';
+      innerContent = `
+        <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red);letter-spacing:.15em;margin-bottom:5px;">ATTAQUE SIGNATURE / FORME FINALE</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px;">
+          <div>
+            <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red3);letter-spacing:.15em;margin-bottom:3px;">NOM DE LA CAPACITÉ</div>
+            <input class="spell-input" id="c_spell_name_${i}" type="text" placeholder="Ex: Sinful Shell..."/>
+          </div>
+          <div>
+            <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red3);letter-spacing:.15em;margin-bottom:3px;">COÛT / CONDITION</div>
+            <input class="spell-input" id="c_spell_kw1_${i}" type="text" placeholder="Ex: 50 PC, ou 50% PV max..."/>
+          </div>
+        </div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red3);letter-spacing:.15em;margin-top:6px;margin-bottom:3px;">EFFET DÉVASTATEUR</div>
+        <textarea class="spell-desc" id="c_spell_desc_${i}" placeholder="Description de ton attaque ultime..." style="height:48px;"></textarea>
+      `;
+    }
+
+    div.innerHTML = `
+      <div class="spell-num" id="custom-spell-title-${i}" ${type==='ultime'?'style="color:var(--red);"' : ''}>▶ ${titlePrefix} (NIV. ${reqLvl})</div>
+      <div class="spell-pending" id="custom-spell-lock-${i}" style="padding:10px 0;">🔒 Verrouillé</div>
+      <div id="custom-spell-content-${i}" style="display:none;">${innerContent}</div>
+    `;
+    container.appendChild(div);
+  }
+}
+
 function buildArcanaGrid(){
   const g = document.getElementById('arcana-grid');
   ARCANES.forEach(a => {
@@ -1074,27 +1177,6 @@ function buildElementGrid(){
   });
 }
 
-function buildCustomSpells(){
-  const container = document.getElementById('custom-spells-container');
-  if(!container) return;
-  container.innerHTML = '';
-  // Création stricte de 7 slots libres
-  for(let i=1; i<=7; i++) {
-    const div = document.createElement('div');
-    div.className = 'spell-item custom-spell';
-    div.id = 'custom-spell-' + i;
-    div.innerHTML = `
-      <div class="spell-num" id="custom-spell-title-${i}">▶ SLOT LIBRE ${i}</div>
-      <div class="spell-pending" id="custom-spell-lock-${i}" style="padding:10px 0;">🔒 Verrouillé</div>
-      <div id="custom-spell-content-${i}" style="display:none;">
-        <input class="spell-input" id="c_spell_name_${i}" type="text" placeholder="Nom du sort…"/>
-        <textarea class="spell-desc" id="c_spell_desc_${i}" placeholder="Effet, PC, Description…"></textarea>
-      </div>
-    `;
-    container.appendChild(div);
-  }
-}
-
 // ── LEVEL SYSTEM ──
 function buildLevelTrack(){
   const track = document.getElementById('level-track');
@@ -1138,6 +1220,8 @@ function setLevel(n){
     if(panel) panel.classList.toggle('visible', currentLevel >= lvl);
     if(currentLevel < lvl) bonusPoints[lvl] = null;
   });
+  const panel10 = document.getElementById('bonus-panel-10');
+  if(panel10) panel10.classList.toggle('visible', currentLevel >= 10);
   buildBonusPickers();
   updateAllDisplays();
 }
@@ -1154,6 +1238,7 @@ function updateLevelInfo(){
   let txt = `Niveau ${currentLevel}`;
   if(currentLevel > 1) txt += ` · +${pvGain} PV · +${spGain} PC accumulés`;
   if(currentLevel >= 3) txt += ` · Baton Pass Actif`;
+  if(currentLevel >= 10) txt += ` · Éveil Ultime atteint !`;
   document.getElementById('level-info').textContent = txt;
 }
 
@@ -1259,21 +1344,6 @@ function updateAutoSpells(){
     if(s1desc) s1desc.textContent = `Dégâts : ${dmg}. Jet de Force ≥ 10 requis. Cible : 1 Ennemi.`;
   }
 
-  // SORT 2: Élémentaire
-  if(selectedElement && ELEMENT_SPELLS[selectedElement.id]){
-    const sp = ELEMENT_SPELLS[selectedElement.id];
-    let dmg = 3 + men + (lvl - 1);
-    let baseCost = ['nuke','bless','curse'].includes(selectedElement.id) ? 3 : 2;
-    let cost = Math.min(8, baseCost + (lvl - 1));
-    document.getElementById('sort2-pending').style.display = 'none';
-    document.getElementById('sort2-auto-content').style.display = 'block';
-    document.getElementById('sort2-auto-name').textContent = `${selectedElement.icon} ${sp.name} (Niv. ${lvl}) [${cost} PC]`;
-    document.getElementById('sort2-auto-desc').textContent = `Dégâts : ${dmg} (${selectedElement.name}). Touche automatiquement. ${sp.effect}`;
-  } else {
-    document.getElementById('sort2-pending').style.display = 'block';
-    document.getElementById('sort2-auto-content').style.display = 'none';
-  }
-
   // SORT 3: Arcane
   if(selectedArcana && selectedArcana.spell){
     const sp = selectedArcana.spell;
@@ -1295,25 +1365,32 @@ function updateAutoSpells(){
     document.getElementById('sort3-auto-content').style.display = 'none';
   }
 
-  // CUSTOM SPELLS (7 SLOTS) - Aucun libre au niveau 1, 2 ou 3. Le premier se débloque au Niveau 4.
-  const unlockedSlots = Math.max(0, currentLevel - 3);
+  // CUSTOM SPELLS (7 SLOTS)
+  const reqLvls = [4, 5, 6, 7, 8, 9, 10];
+  const types = ["mots3", "libre", "resistance", "libre", "mots3", "libre", "ultime"];
+
   for(let i=1; i<=7; i++){
     const lock = document.getElementById('custom-spell-lock-'+i);
     const content = document.getElementById('custom-spell-content-'+i);
     const title = document.getElementById('custom-spell-title-'+i);
     if(!lock) continue;
     
-    if(i <= unlockedSlots) {
+    const reqLvl = reqLvls[i-1];
+    let titlePrefix = 'SLOT LIBRE';
+    if(types[i-1] === 'resistance') titlePrefix = 'NOUVELLE RÉSISTANCE';
+    if(types[i-1] === 'mots3') titlePrefix = 'SORT MOTS-CLÉS';
+    if(types[i-1] === 'ultime') titlePrefix = 'PROJECTION D\'EGO';
+
+    if(currentLevel >= reqLvl) {
       lock.style.display = 'none';
       content.style.display = 'block';
-      title.textContent = '▶ SLOT LIBRE ' + i + ' (DÉBLOQUÉ)';
-      title.style.color = 'var(--gold)';
+      title.textContent = `▶ ${titlePrefix} (DÉBLOQUÉ)`;
+      title.style.color = types[i-1] === 'resistance' ? '#4466ff' : (types[i-1] === 'ultime' ? 'var(--red)' : 'var(--gold)');
     } else {
       lock.style.display = 'block';
       content.style.display = 'none';
-      const reqLvl = i + 3; // Slot 1 = Niv 4, Slot 2 = Niv 5...
       lock.textContent = '🔒 Se débloque au Niveau ' + reqLvl;
-      title.textContent = '▶ SLOT LIBRE ' + i;
+      title.textContent = `▶ ${titlePrefix} (NIV. ${reqLvl})`;
       title.style.color = 'var(--text4)';
     }
   }
@@ -1441,6 +1518,7 @@ function populateRecto(){
   [3,5,7,9].forEach(lvl => {
      if(currentLevel >= lvl && bonusPoints[lvl]) bonusTxt += `Niv.${lvl} +1 ${ATTR_LABELS[bonusPoints[lvl]].split(' ')[1]}  `;
   });
+  if(currentLevel >= 10) bonusTxt += ` ÉVEIL ULTIME `;
   document.getElementById('fr-level-bonus').textContent = bonusTxt || 'Aucun bonus';
   setPhoto('fr-photo',photoDataURL,'PORTRAIT');
 }
@@ -1460,8 +1538,13 @@ function populateVerso(){
   document.getElementById('fv-s1n').textContent = document.getElementById('sort1-auto-name').textContent;
   document.getElementById('fv-s1d').textContent = document.getElementById('sort1-auto-desc').textContent;
   
-  document.getElementById('fv-s2n').textContent = selectedElement ? document.getElementById('sort2-auto-name').textContent : '— Élément non choisi —';
-  document.getElementById('fv-s2d').textContent = selectedElement ? document.getElementById('sort2-auto-desc').textContent : '—';
+  const s2nom    = (document.getElementById('s2-nom')?.value    || '').trim();
+  const s2cout   = (document.getElementById('s2-cout')?.value   || '').trim();
+  const s2degats = (document.getElementById('s2-degats')?.value || '').trim();
+  const s2effet  = (document.getElementById('s2-effet')?.value  || '').trim();
+  const s2label  = [s2cout ? `[${s2cout} PC]` : '', s2degats ? `${s2degats} DGT` : ''].filter(Boolean).join(' · ');
+  document.getElementById('fv-s2n').textContent = s2nom || '— Faculté non définie —';
+  document.getElementById('fv-s2d').textContent = [s2label, s2effet].filter(Boolean).join(' — ') || '—';
   
   document.getElementById('fv-s3n').textContent = selectedArcana ? document.getElementById('sort3-auto-name').textContent : '— Arcane non choisi —';
   document.getElementById('fv-s3d').textContent = selectedArcana ? document.getElementById('sort3-auto-desc').textContent : '—';
@@ -1469,20 +1552,50 @@ function populateVerso(){
   // Custom Spells (7 slots limit)
   const customContainer = document.getElementById('fv-custom-spells');
   customContainer.innerHTML = '';
-  const unlockedSlots = Math.max(0, currentLevel - 3);
+  const reqLvls = [4, 5, 6, 7, 8, 9, 10];
+  const types = ["mots3", "libre", "resistance", "libre", "mots3", "libre", "ultime"];
   
-  for(let i=1; i<=unlockedSlots; i++){
+  for(let i=1; i<=7; i++){
+    if(currentLevel < reqLvls[i-1]) continue;
+
     const nameEl = document.getElementById('c_spell_name_'+i);
     const descEl = document.getElementById('c_spell_desc_'+i);
     if(!nameEl || !descEl) continue;
     
     const name = nameEl.value;
     const desc = descEl.value;
+    const type = types[i-1];
     
-    if(name.trim() !== '' || desc.trim() !== '') {
+    let kwString = "";
+    let fspellNumText = `▶ SLOT ${i} (NIV. ${reqLvls[i-1]})`;
+
+    if(type === 'mots3') {
+      const kw1 = document.getElementById('c_spell_kw1_'+i)?.value || 'Élément';
+      const kw2 = document.getElementById('c_spell_kw2_'+i)?.value || 'Forme';
+      const kw3 = document.getElementById('c_spell_kw3_'+i)?.value || 'Déclencheur';
+      if(name || desc || kw1!=='Élément') {
+        kwString = `<div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:#f4f4f4;margin-bottom:4px;letter-spacing:0.05em;border-bottom:1px solid #330010;padding-bottom:2px;"><span style="color:#ffd700;">[${kw1}]</span> + [${kw2}] + [${kw3}]</div>`;
+      }
+    } else if(type === 'resistance') {
+      fspellNumText = `▶ RÉSISTANCE (NIV. ${reqLvls[i-1]})`;
+    } else if(type === 'ultime') {
+      fspellNumText = `▶ CAPACITÉ ULTIME (NIV. 10)`;
+      const cost = document.getElementById('c_spell_kw1_'+i)?.value || '';
+      if(cost) {
+        kwString = `<div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:#ff1a2e;margin-bottom:4px;letter-spacing:0.05em;border-bottom:1px solid #330010;padding-bottom:2px;">CONDITION / COÛT : [${cost}]</div>`;
+      }
+    }
+
+    if(name.trim() !== '' || desc.trim() !== '' || kwString !== '') {
       const div = document.createElement('div');
       div.className = 'fspell';
-      div.innerHTML = `<div class="fspell-num">▶ SLOT LIBRE ${i}</div><div class="fspell-name">${name || '—'}</div><div class="fspell-desc">${desc || '—'}</div>`;
+      if(type === 'resistance') div.style.borderLeftColor = '#4466ff';
+      if(type === 'ultime') {
+         div.style.borderLeftColor = 'var(--red)';
+         div.style.background = 'rgba(230,0,18,.05)';
+         div.style.gridColumn = '1 / -1'; // S'étale sur toute la largeur
+      }
+      div.innerHTML = `<div class="fspell-num" ${type==='ultime'?'style="color:var(--red);"' : ''}>${fspellNumText}</div><div class="fspell-name">${name || '—'}</div>${kwString}<div class="fspell-desc">${desc || '—'}</div>`;
       customContainer.appendChild(div);
     }
   }
@@ -1527,10 +1640,12 @@ const FORM_FIELDS = [
   'competence','metier','phobie',
   'equip-melee-name','equip-melee-dmg','equip-ranged-name','equip-ranged-dmg',
   'persona-name','persona-origin','persona-desc',
-  'weak1','res1','immune1'
+  'weak1','res1','immune1',
+  's2-nom','s2-cout','s2-degats','s2-effet'
 ];
+// On va maintenant jusqu'à 7 pour sauver l'attaque ultime !
 for(let i=1; i<=7; i++){
-  FORM_FIELDS.push('c_spell_name_'+i, 'c_spell_desc_'+i);
+  FORM_FIELDS.push('c_spell_name_'+i, 'c_spell_desc_'+i, 'c_spell_kw1_'+i, 'c_spell_kw2_'+i, 'c_spell_kw3_'+i);
 }
 
 function collectState(){
@@ -1601,10 +1716,6 @@ function applyState(data){
     el.classList.toggle('selected', el.querySelector('input')?.value === data.elementId);
   });
 
-  if(selectedElement){
-    document.getElementById('sort2-pending').style.display = 'none';
-    document.getElementById('sort2-auto-content').style.display = 'block';
-  }
   if(selectedArcana){
     document.getElementById('sort3-pending').style.display = 'none';
     document.getElementById('sort3-auto-content').style.display = 'block';
@@ -1615,6 +1726,8 @@ function applyState(data){
     const p = document.getElementById('bonus-panel-'+lvl);
     if(p) p.classList.toggle('visible', currentLevel >= lvl);
   });
+  const p10 = document.getElementById('bonus-panel-10');
+  if(p10) p10.classList.toggle('visible', currentLevel >= 10);
   buildBonusPickers();
 
   if(rolls.length){
