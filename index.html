@@ -108,9 +108,9 @@ select option{background:#0c0000;color:var(--text);}
 
 .yen-row{display:flex;align-items:center;gap:10px;background:rgba(255,215,0,.04);border:1px solid rgba(255,215,0,.15);border-left:3px solid var(--gold2);padding:7px 12px;}
 .yen-sym{font-size:18px;color:var(--gold);font-family:'Bebas Neue',sans-serif;}
-input.yen-inp{background:transparent;border:none;border-bottom:1px solid rgba(255,215,0,.3);font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);width:90px;text-align:center;padding:2px 4px;}
+input.yen-inp{background:transparent;border:none;border-bottom:1px solid rgba(255,215,0,.3);font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);width:100%;text-align:center;padding:2px 4px;}
 input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;border-bottom-color:var(--gold);}
-.yen-lbl{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text3);letter-spacing:.2em;}
+.yen-lbl{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text3);letter-spacing:.2em; white-space:nowrap;}
 
 .attrs-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .attr-card{background:var(--panel2);border:2px solid var(--border2);padding:12px;transition:all .2s;position:relative;overflow:hidden;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));}
@@ -229,6 +229,7 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
 .spell-pending{opacity:.6;font-style:italic;color:var(--text3);font-size:13px;padding:10px 0;}
 
 .kw-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 6px; }
+.kw-grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px; margin-bottom: 6px; }
 
 .rules-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 .rule-card{background:var(--panel2);border:2px solid var(--border2);padding:10px 11px;clip-path:polygon(0 0,calc(100% - 7px) 0,100% 7px,100% 100%,0 100%);}
@@ -274,7 +275,7 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
   border:2px solid #220008;
 }
 .fh{grid-column:1/-1;background:#000;border-bottom:3px solid #e60012;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:15px;position:relative;box-shadow:0 3px 20px rgba(230,0,18,.3);}
-.fh::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:linear-gradient(90deg,#e60012,transparent 60%);}
+.fh::after{content:'absolute;bottom:-1px;left:0;right:0;height:1px;background:linear-gradient(90deg,#e60012,transparent 60%);}
 .fh > div { min-width: 0; }
 .fh-tag{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:.4em;color:#e60012;text-transform:uppercase;margin-bottom:3px;}
 .fh-name{font-family:'Bebas Neue',sans-serif;font-size:38px;color:#fff;letter-spacing:.06em;line-height:1;text-shadow:3px 3px 0 #e60012; word-break: break-word; overflow-wrap: break-word; white-space: normal; max-width: 100%;}
@@ -346,6 +347,7 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
 @media(max-width:768px){
   #page-recto,#page-verso{grid-template-columns:1fr;}
   .attrs-grid,.arcana-grid,.archetype-grid,.affinity-grid,.spells-grid,.persona-type-grid{grid-template-columns:1fr 1fr;}
+  .kw-grid-3, .kw-grid-4 {grid-template-columns: 1fr 1fr;}
 }
 </style>
 </head>
@@ -421,6 +423,11 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
           <span class="lbl-hint">Quel est ton plus grand rêve/ce que tu veux devenir</span>
           <textarea id="char-bio" placeholder="Passé, motivations..."></textarea>
         </div>
+        <div class="field">
+          <label>Palmarès / Faits d'armes</label>
+          <span class="lbl-hint">Tes plus grands exploits de voleur</span>
+          <textarea id="char-palmares" placeholder="Ex: A volé le cœur de Kamoshida, a vaincu..."></textarea>
+        </div>
         
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px;">
           <div class="stat-block">
@@ -431,18 +438,28 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
           </div>
           <div class="stat-block">
             <label>PC (Concentration)</label>
-            <span class="lbl-hint">10 + Attr + (Niveau×(1+Attr))</span>
+            <span class="lbl-hint">Formule polynomiale - Morts*5</span>
             <div class="stat-val-big sp" id="sp-display">—</div>
             <div class="stat-formula" id="sp-formula"></div>
           </div>
         </div>
 
-        <div class="field" style="margin-top:12px">
-          <label>💴 Yens</label>
-          <div class="yen-row">
-            <span class="yen-sym">¥</span>
-            <input type="number" class="yen-inp" id="char-gold" min="0" value="0"/>
-            <span class="yen-lbl">YENS</span>
+        <div class="field" style="margin-top:12px; display:flex; gap:12px; flex-wrap:wrap;">
+          <div style="flex:1; min-width:140px;">
+            <label>💴 Yens</label>
+            <div class="yen-row">
+              <span class="yen-sym">¥</span>
+              <input type="number" class="yen-inp" id="char-gold" min="0" value="0"/>
+              <span class="yen-lbl">YENS</span>
+            </div>
+          </div>
+          <div style="flex:1; min-width:140px;">
+            <label>💀 Morts</label>
+            <div class="yen-row" style="background:rgba(230,0,18,.04); border-color:rgba(230,0,18,.15); border-left-color:var(--red);">
+              <span class="yen-sym" style="color:var(--red);">☠</span>
+              <input type="number" class="yen-inp" id="char-deaths" min="0" value="0" style="color:var(--red); border-bottom-color:rgba(230,0,18,.3);" onchange="updateAllDisplays()"/>
+              <span class="yen-lbl" style="color:var(--red3);">-5 PC/MORT</span>
+            </div>
           </div>
         </div>
       </div>
@@ -565,7 +582,7 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
           </div>
         </div>
         <div class="field">
-          <label>Arme à Distance</label>
+          <label>Arme à Distance & Munitions</label>
           <div style="display:flex;gap:10px;">
             <input type="text" id="equip-ranged-name" placeholder="Arme à feu (ex: Pistolet, Arc)..." style="flex:2;">
             <select id="equip-ranged-dmg" style="flex:1;">
@@ -573,6 +590,7 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
               <option value="4" selected>Fusil/Pompe (4 dégâts)</option>
               <option value="6">Lance-grenades (6 dégâts)</option>
             </select>
+            <input type="number" id="equip-ranged-ammo" placeholder="Mun." style="flex:0.5; min-width:60px; text-align:center;" min="0" title="Munitions">
           </div>
         </div>
       </div>
@@ -725,17 +743,18 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px;">
               <div>
                 <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red3);letter-spacing:.15em;margin-bottom:3px;">NOM DE LA FACULTÉ</div>
-                <input class="spell-input" id="s2-nom" type="text" placeholder="Ex : Aura, Pouvoir passif..."/>
+                <input class="spell-input" id="s2-nom" type="text" placeholder="Quel pouvoir définit ta persona"/>
               </div>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-                <div>
-                  <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red3);letter-spacing:.15em;margin-bottom:3px;">COÛT PC</div>
-                  <input class="spell-input" id="s2-cout" type="text" placeholder="Ex : 2"/>
-                </div>
-                <div>
-                  <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red3);letter-spacing:.15em;margin-bottom:3px;">DÉGÂTS</div>
-                  <input class="spell-input" id="s2-degats" type="text" placeholder="Ex : 5"/>
-                </div>
+<div>
+  <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red3);letter-spacing:.15em;margin-bottom:3px;">COÛT PC</div>
+  <span id="s2-cout" style="font-weight:bold; font-size:14px; color:white;">—</span>
+</div>
+
+<div>
+  <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red3);letter-spacing:.15em;margin-bottom:3px;">DÉGÂTS</div>
+  <span id="s2-degats" style="font-weight:bold; font-size:14px; color:white;">—</span>
+</div>
               </div>
             </div>
             <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red3);letter-spacing:.15em;margin-bottom:3px;">EFFET / DESCRIPTION</div>
@@ -853,6 +872,10 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
       <div class="fl-sec">Backstory</div>
       <div class="fbio" id="fr-bio"></div>
     </div>
+    <div id="fr-palmares-block" style="margin-top:10px;">
+      <div class="fl-sec">Palmarès</div>
+      <div class="fbio" id="fr-palmares"></div>
+    </div>
   </div>
   <div class="fr">
     <div>
@@ -958,34 +981,34 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
 <script>
 // ── DATA ──
 const ARCANES = [
-  {id:'fool',     icon:'🃏', name:'Le Fou (0)',         bonus:'Une fois par évènement (avant l\'évènement) peut copier l\'arcane d\'un des alliés', 
+  {id:'fool',       icon:'🃏', name:'Le Fou (0)',          bonus:"Ceux qui embrassent l'inconnu et portent un potentiel infini.<br><br>Une fois par jour, au reveil, le joueur peut copier l'arcane d'un allié", 
    spell:{name:'Métamorphose', cost: 2, desc:'Peut se changer en un objet qu\'il a emporté dans le metavers '}},
-  {id:'magician', icon:'🧙', name:'Le Magicien (I)',    bonus:'+2 pour faire des tours de passe passe ou les détecter. +2 en Méninge sur les dégats magiques de ton Persona', 
-   spell:{name:'Concentration', cost: 4, desc:'La prochaine attaque magique du lanceur infligera un coup critique.'}},
-  {id:'priestess',icon:'🌙', name:'La Prêtresse (II)',  bonus:'+2 Social pour mentir ou déduire un mensonge. Une fois par combat, Peut faire un jet de Social pour trouver une faiblesse/résistance d\'un ennemi (Action gratuite)', 
+  {id:'magician',   icon:'🧙', name:'Le Magicien (I)',     bonus:"Ceux qui forgent leur propre destin par l'action et la volonté.<br><br>+2 pour faire des tours de passe passe, se cacher ou détecter une magouille.", 
+   spell:{name:'L\'Illusionniste', cost: 4, desc:'Crée un clone holographique, un bruit factice ou un faux objet dans le Metaverse pour distraire les Ombres ou les tromper.'}},
+  {id:'priestess',  icon:'🌙', name:'La Prêtresse (II)',   bonus:"Les âmes sages guidées par l'intuition et le savoir caché.<br><br>+2 Social pour mentir, baratiner ou déduire un mensonge.", 
    spell:{name:'Phase', cost: 3, desc:'Tu touches un objet. Pendant quelques instants, tu forces cet objet à adopter l\'état physique de son équivalent dans le monde réel.'}},
-  {id:'empress',  icon:'👑', name:"L'Impératrice (III)",bonus:'+2 Social pour les discussion de confidents. Une fois par jour, ajoute +2 au jet d\'un allié après son jet', 
-   spell:{name:'L\'ais-je décidé ?', cost: 2, desc:'Stocke les dégats d\'une attaque dans une marque tatoué sur la cible qu\'elle peut faire exploser'}},
-  {id:'emperor',  icon:'⚔️', name:"L'Empereur (IV)",    bonus:'+2 Social pour les discussion de confidents. Une fois par Combat, peut lancer un jet de Social pour faire paniquer l\'ennemi quand il l\'attaque', 
+  {id:'empress',    icon:'👑', name:"L'Impératrice (III)", bonus:"Des figures protectrices rayonnant d'empathie et d'abondance.<br><br>+2 Social pour les discussion de confidents.", 
+   spell:{name:'L\'ais-je décidé ?', cost: 2, desc:'Peut cibler une ombre, celle-ci ne percevra pas le joueuer comme hostile'}},
+  {id:'emperor',    icon:'⚔️', name:"L'Empereur (IV)",     bonus:"Des leaders nés cherchant à imposer l'ordre et leur authority.<br><br>+2 Social pour les recrutement de club.", 
    spell:{name:'Affaires démoniaques', cost: 5, desc:'Peut passer un contrat avec un Démon pour l\'invoquer quand bon lui semble'}},
-  {id:'hierophant',icon:'📜',name:'Le Hiérophante (V)', bonus:'+2 lors des exams. Lis des livres en 1 jour de moins, 1 fois par combat(avant le combat), peut changer l\'élément de son sort principal', 
+  {id:'hierophant', icon:'📜', name:'Le Hiérophante (V)',  bonus:"Les gardiens des traditions et de l'ordre établi.<br><br>+10 points lors des exams. Lis des livres en 1 jour de moins", 
    spell:{name:'Rappel au Règlement', cost: 3, desc:'Peut décréter qu\'une pièce suive une règle de l\'endroit réel qu\'elle copie'}},
-  {id:'lovers',   icon:'❤️', name:'Les Amoureux (VI)',  bonus:'Peut passer ses soirées avec son confident au téléphone et gagner un niveau entier le lendemain. Peut se lier à un allié. Si tu attaques la même cible ou que tu le soignes, tu gagnes +2 à ton jet d\'action pour ce tour.', 
-   spell:{name:'Appel à un Ami', cost: 3, desc:'Appel un confident du monde réel pour lui demander un service.'}},
-  {id:'chariot',  icon:'🏎️', name:'Le Chariot (VII)',   bonus:'+2 en addresse quand tu cours. Peut charger un ennemi pour le mettre "Down"(Consomme l\'action, nécessite un jet d\'addresse, ne marche pas contre les boss)', 
-   spell:{name:'Momentum', cost: 4, desc:'Tu peux absorber ou décupler l\'énergie cinétique (l\'élan) d\'un objet ou d\'une personne que tu touches. Soit tu l\'arrêtes net, soit tu le propulses à la vitesse d\'une balle de fusil.'}},
-  {id:'justice',  icon:'⚖️', name:'La Justice (VIII)',  bonus:'Une fois par jour, tu peux annoncer au MJ que ce combat représente tes idéaux. En échange d\'un discours Tu gagnes +1 à toutes tes caractéristiques pour toute la durée de ce combat.', 
+  {id:'lovers',     icon:'❤️', name:'Les Amoureux (VI)',   bonus:"Ceux définis par leurs liens profonds et les choix du cœur.<br><br>Peut passer ses soirées avec son confident au téléphone et gagner un jalon de plus.", 
+   spell:{name:'Appel à un Ami', cost: 3, desc:'Appel un confident du monde réel pour lui demander un service comme modifier une pièce ou distraire une personne.'}},
+  {id:'chariot',    icon:'🏎️', name:'Le Chariot (VII)',    bonus:"Des fonceurs portés par une détermination inébranlable.<br><br>Ne nécessite pas de jet de dès pour s'enfuir ou poursuivre quelqu'un", 
+   spell:{name:'Momentum', cost: 4, desc:'En le touchant, tu peux stopper le mouvement d\'un objet de taille moyenne (humaine)'}},
+  {id:'justice',    icon:'⚖️', name:'La Justice (VIII)',   bonus:"Les idéalistes en quête constante de vérité absolue et d'équité.<br><br>Peut enquêter la nuit avant de dormir, le lendemain, aura la réponse à 1D3 questions.", 
    spell:{name:'Replay', cost: 3, desc:'Les 24 dernières heures de la pièce que copie le palais apparaissent devant toi sous forme d\'hologrammes, tu peux faire pause, accélerer, rembobiner.'}},
-  {id:'hermit',   icon:'🔦', name:"L'Ermite (IX)",      bonus:'+2 à toutes les caractéristiques quand tu agis seul. Peut passer ses soirées à fabriquer des outils d\'infiltration plus efficacement', 
+  {id:'hermit',     icon:'🔦', name:"L'Ermite (IX)",       bonus:"Des esprits solitaires trouvant la force dans l'introspection.<br><br>+2 à toutes les caractéristiques quand tu agis seul dans le lycée.", 
    spell:{name:'Quarantaine', cost: 2, desc:'Tu coupes une pièce du reste du palais, rien ne peut y entrer et rien ne peut en sortir.'}},
-  {id:'fortune',  icon:'🎡', name:'La Roue (X)',        bonus:'1 fois par combat ou par jour dans le lycée, tu peux relancer 1 dé (le tien, celui d\'un allié, ou forcer un ennemi à relancer).', 
+  {id:'fortune',    icon:'🎡', name:'La Roue (X)',         bonus:"Ceux qui acceptent et manipulent les caprices du destin.<br><br>1 fois par jour dans le lycée, tu peux relancer 1 dé (le tien, celui d'un allié, ou forcer un ennemi à relancer).", 
    spell:{name:'Iversion des poles', cost: 4, desc:'Tu désignes un évènement qui vient de se produire, la prochaine fois qu\'il arrive, il entrainera des conséquences opposées'}},
-  {id:'strength', icon:'🦁', name:'La Force (XI)',      bonus:'+1 en Force, résiste à la mort 1x/jour à 1 PV', 
+  {id:'strength',   icon:'🦁', name:'La Force (XI)',       bonus:"Des personnes faisant preuve d'une résilience et d'un courage purs.<br><br>Peut utiliser son modificateur de physique et non de social pour intimider dans le lycée, les gens s'en souviendront.", 
    spell:{name:'Focus', cost: 3, desc:'La prochaine attaque physique du lanceur est un coup critique'}},
-  {id:'hanged',   icon:'🙃', name:'Le Pendu (XII)',     bonus:'+4 Social quand en position de faiblesse, dégats +1 tous les 2PV perdus ', 
+  {id:'hanged',     icon:'🙃', name:'Le Pendu (XII)',      bonus:"Ceux qui acceptent le sacrifice pour changer de perspective.<br><br>+4 Social dans le lycée quand en position de faiblesse", 
    spell:{name:'Renversement', cost: 2, desc:'Inverse la fonction d\'un objet ou d\'un piège.'}},
-  {id:'death',    icon:'💀', name:'La Mort (XIII)',     bonus:'Une fois par jour, annule "Down" pour alliés comme ennemis, Une fois par jour, permet de s\'enfuir d\'un combat', 
-   spell:{name:'Recarm', cost: 5, desc:'Peut réscuciter un etre vivant ou un objet'}},
+  {id:'death',      icon:'💀', name:'La Mort (XIII)',      bonus:"Les initiateurs de fins inévitables et de grands renouveaux.<br><br>Commence chaque nouvelle journée avec un jeton aléatoire.", 
+   spell:{name:'Recarm', cost: 5, desc:'Peut ressuciter un etre vivant ou un objet'}},
 ];
 
 const ELEMENT_SPELLS = {
@@ -1001,12 +1024,12 @@ const ELEMENT_SPELLS = {
 };
 
 const ARCHETYPES = [
-  {id:'warrior',  icon:'⚔️', name:'Guerrier',  cond:'Quand tu attaques ou que tu charges', bonus:'+2 Force'},
-  {id:'tank',     icon:'🛡️', name:'Tank',      cond:'Quand tu encaisses une attaque',      bonus:'+2 Force'},
+  {id:'warrior',  icon:'⚔️', name:'Guerrier',  cond:'Quand tu attaques au CàC ou que tu charges', bonus:'+2 + NIV Dégats'},
+  {id:'tank',     icon:'🛡️', name:'Tank',      cond:'Quand tu encaisses une attaque',      bonus:'+2 + NIV Réduction de dégats'},
   {id:'rogue',    icon:'🗡️', name:'Rogue',     cond:'Tant que tu n\'es pas détecté',       bonus:'+2 Adresse'},
-  {id:'sniper',   icon:'🎯', name:'Sniper',    cond:'Quand tu tires à distance',           bonus:'+2 Adresse'},
-  {id:'mage',     icon:'🔮', name:'Mage',      cond:'Quand tu infliges un "Down"',         bonus:'+2 +Niveau PC'},
-  {id:'support',  icon:'💊', name:'Support',   cond:'Quand tu soignes un allié',           bonus:'+2 Méninge'},
+  {id:'sniper',   icon:'🎯', name:'Sniper',    cond:'Quand tu tires à distance',           bonus:'+2 + NIV Dégats'},
+  {id:'mage',     icon:'🔮', name:'Mage',      cond:'Quand tu infliges un "Down"',         bonus:'+2 + NIV PC'},
+  {id:'support',  icon:'💊', name:'Support',   cond:'Quand tu soignes un allié',           bonus:'+2 + NIV Valeur de Soins'},
   {id:'leader',   icon:'📣', name:'Leader',    cond:'Au début de ton tour',                bonus:'+2 +Niveau PC à un allié'},
   {id:'phantom',  icon:'🎭', name:'Phantom',   cond:'Dépense Niveau*PC pour gagner ce tour : ', bonus:'+2 stat au choix'},
 ];
@@ -1062,48 +1085,50 @@ function buildCustomSpells(){
 
     if(type === 'libre') {
       innerContent = `
-        <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:.15em;margin-bottom:3px;">SORT LIBRE / PASSIF</div>
-        <input class="spell-input" id="c_spell_name_${i}" type="text" placeholder="Nom du sort…"/>
-        <textarea class="spell-desc" id="c_spell_desc_${i}" placeholder="Description complète..."></textarea>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:.15em;margin-bottom:3px;">VOTRE SORT UNIQUE GAGNE UNE NOUVELLE FORME//FACULTE</div>
+        <input class="spell-input" id="c_spell_name_${i}" type="text" placeholder="Nom de la variante....."/>
+        <textarea class="spell-desc" id="c_spell_desc_${i}" placeholder="Description complète (Nouveau cas d'utilisation/nouvel effet)"></textarea>
       `;
     } else if(type === 'resistance') {
       titlePrefix = 'NOUVELLE RÉSISTANCE';
       innerContent = `
         <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#4466ff;letter-spacing:.15em;margin-bottom:3px;">RÉSISTANCE OU IMMUNITÉ</div>
         <input class="spell-input" id="c_spell_name_${i}" type="text" placeholder="Ex: Cœur de Glace..."/>
-        <textarea class="spell-desc" id="c_spell_desc_${i}" placeholder="Ex: Gagne une Résistance ÷2 à la Glace..."></textarea>
+        <textarea class="spell-desc" id="c_spell_desc_${i}" placeholder=""></textarea>
       `;
     } else if(type === 'mots3') {
       titlePrefix = 'SORT MOTS-CLÉS';
       innerContent = `
         <input class="spell-input" id="c_spell_name_${i}" type="text" placeholder="Nom du sort…" style="margin-bottom:8px;"/>
-        <div class="kw-grid-3">
+        <div class="kw-grid-4">
           <div><div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:.1em;margin-bottom:2px;">ÉLÉMENT</div>
           <input class="spell-input" id="c_spell_kw1_${i}" type="text" placeholder="Ex: Feu..."/></div>
           <div><div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:.1em;margin-bottom:2px;">FORME</div>
           <input class="spell-input" id="c_spell_kw2_${i}" type="text" placeholder="Ex: Lame..."/></div>
+          <div><div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:.1em;margin-bottom:2px;">MODIFICATEUR</div>
+          <input class="spell-input" id="c_spell_kw4_${i}" type="text" placeholder="Ex: Puissant..."/></div>
           <div><div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:.1em;margin-bottom:2px;">DÉCLENCHEUR</div>
           <input class="spell-input" id="c_spell_kw3_${i}" type="text" placeholder="Ex: À la fuite..."/></div>
         </div>
-        <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red3);letter-spacing:.15em;margin-top:6px;margin-bottom:3px;">EFFET / COÛT PC</div>
-        <textarea class="spell-desc" id="c_spell_desc_${i}" placeholder="Explication de l'effet combiné..."></textarea>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red3);letter-spacing:.15em;margin-top:6px;margin-bottom:3px;">EFFET / COÛT PC / DEGATS</div>
+        <textarea class="spell-desc" id="c_spell_desc_${i}" placeholder="Explication de l'effet combiné/coût = PC/5  /Dégats = Niv*5+MENINGES"></textarea>
       `;
     } else if(type === 'ultime') {
       titlePrefix = 'Projection d\'égo';
       innerContent = `
-        <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red);letter-spacing:.15em;margin-bottom:5px;">ATTAQUE SIGNATURE / FORME FINALE</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red);letter-spacing:.15em;margin-bottom:5px;">PROJECTION D'EGO</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px;">
           <div>
-            <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red3);letter-spacing:.15em;margin-bottom:3px;">NOM DE LA CAPACITÉ</div>
-            <input class="spell-input" id="c_spell_name_${i}" type="text" placeholder="Ex: Sinful Shell..."/>
+            <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red3);letter-spacing:.15em;margin-bottom:3px;">NOM DU DOMAINE D'EGO</div>
+            <input class="spell-input" id="c_spell_name_${i}" type="text" placeholder="Ex: Malevolent shrine"/>
           </div>
           <div>
             <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red3);letter-spacing:.15em;margin-bottom:3px;">COÛT / CONDITION</div>
-            <input class="spell-input" id="c_spell_kw1_${i}" type="text" placeholder="Ex: 50 PC, ou 50% PV max..."/>
+            <input class="spell-input" id="c_spell_kw1_${i}" type="text" placeholder="20 PC ou 20 PV MAX PAR TOUR"/>
           </div>
         </div>
         <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red3);letter-spacing:.15em;margin-top:6px;margin-bottom:3px;">EFFET DÉVASTATEUR</div>
-        <textarea class="spell-desc" id="c_spell_desc_${i}" placeholder="Description de ton attaque ultime..." style="height:48px;"></textarea>
+        <textarea class="spell-desc" id="c_spell_desc_${i}" placeholder="Description de ton territoire" style="height:48px;"></textarea>
       `;
     }
 
@@ -1133,6 +1158,36 @@ function buildArcanaGrid(){
     g.appendChild(d);
   });
 }
+// Fonction magique qui transforme le texte en vrai calcul mathématique
+function calculerFormuleDynamique(formuleTexte, niveau, mental) {
+  if (!formuleTexte) return ""; 
+  
+  try {
+    let expression = formuleTexte
+      .replace(/Niv/ig, niveau)
+      .replace(/Men/ig, mental)
+      .replace(/For/ig, mental); 
+
+    let resultat = Math.round(new Function('return ' + expression)());
+    return isNaN(resultat) ? "?" : "=> " + resultat; 
+  } catch (erreur) {
+    return "..."; 
+  }
+}
+
+const inputCout = document.getElementById('s2-cout');
+const spanResCout = document.getElementById('res-s2-cout');
+
+const inputDegats = document.getElementById('s2-degats');
+const spanResDegats = document.getElementById('res-s2-degats');
+
+function actualiserAffichageSort() {
+  if (spanResCout) spanResCout.textContent = calculerFormuleDynamique(inputCout?.value, currentLevel, getEffectiveAttr('meninge') || 0);
+  if (spanResDegats) spanResDegats.textContent = calculerFormuleDynamique(inputDegats?.value, currentLevel, getEffectiveAttr('meninge') || 0);
+}
+
+if(inputCout) inputCout.addEventListener('input', actualiserAffichageSort);
+if(inputDegats) inputDegats.addEventListener('input', actualiserAffichageSort);
 
 function buildArchetypeGrid(){
   const g = document.getElementById('archetype-grid');
@@ -1236,7 +1291,7 @@ function updateLevelInfo(){
   const spGain = (currentLevel - 1) * (1 + Math.max(0, menEffLocal));
   
   let txt = `Niveau ${currentLevel}`;
-  if(currentLevel > 1) txt += ` · +${pvGain} PV · +${spGain} PC accumulés`;
+  if(currentLevel > 1) txt += ` · +${pvGain} PV accumulés`;
   if(currentLevel >= 3) txt += ` · Baton Pass Actif`;
   if(currentLevel >= 10) txt += ` · Éveil Ultime atteint !`;
   document.getElementById('level-info').textContent = txt;
@@ -1262,7 +1317,7 @@ document.getElementById('persona-photo-input').addEventListener('change',functio
 
 // ── ROLL & ATTRIBUTES ──
 function rollDice(){
-  rolls=[];for(let i=0;i<4;i++)rolls.push(Math.floor(Math.random()*8)+1-4);
+  rolls=[3,2,0,-2];
   rolls.sort((a,b)=>b-a);assigned={physique:null,adresse:null,meninge:null,social:null};
   updateAllDisplays();
   const res=document.getElementById('roll-result');res.innerHTML='';
@@ -1317,8 +1372,10 @@ function updateAutoSpells(){
   const phys = getEffectiveAttr('physique') || 0;
   const adr = getEffectiveAttr('adresse') || 0;
   const men = getEffectiveAttr('meninge') || 0;
-
+    
+  // ==========================================
   // SORT 1: Base
+  // ==========================================
   const isSupport = selectedArchetype && selectedArchetype.id === 'support';
   const isRanged  = selectedArchetype && (selectedArchetype.id === 'sniper' || selectedArchetype.id === 'rogue');
   const s1num = document.getElementById('sort1-auto-title');
@@ -1332,40 +1389,68 @@ function updateAutoSpells(){
     if(s1name) s1name.textContent = `Dia (Niv. ${lvl}) [${cost} PC]`;
     if(s1desc) s1desc.textContent = `Restaure ${heal} PV à 1 allié (ou toi-même). Sans jet de dé. Bonus Méninge : +${men}.`;
   } else if (isRanged) {
-    let dmg = 5 + adr + (lvl - 1);
-    if(s1num) s1num.textContent = "▶ SORT AUTO — TIR LÉGER";
-    if(s1name) s1name.textContent = `Tir Léger (Niv. ${lvl})`;
-    if(s1desc) s1desc.textContent = `Dégâts fixes : ${dmg}. Jet d'Adresse ≥ 10 requis. Haute chances de Coup Critique`;
+    let dmg = Math.floor(4 + adr + (lvl*0.2207+0.5*lvl**2));
+    let cost = Math.floor(4 + (lvl*2 - 1))-5;
+    if(s1num) s1num.textContent = "▶ SORT AUTO — TIR PRÉCIS ()";
+    if(s1name) s1name.textContent = `Tir Précis (Niv. ${lvl}) [${cost} PV]`;
+    if(s1desc) s1desc.textContent = `Dégâts fixes : ${dmg}. Jet d'Adresse ≥ 10 requis.`;
   } else {
-    let dmg = 3 + phys + (lvl - 1);
-    let cost = 2 + (lvl - 1);
+    let dmg = Math.floor(4 + phys + (lvl*0.2207+0.2874*lvl**2));
+    let cost = 2 + (lvl*2 - 1);
     if(s1num) s1num.textContent = "▶ SORT AUTO — ATTAQUE PHYSIQUE";
     if(s1name) s1name.textContent = `Frappe Physique (Niv. ${lvl}) [${cost} PV]`;
     if(s1desc) s1desc.textContent = `Dégâts : ${dmg}. Jet de Force ≥ 10 requis. Cible : 1 Ennemi.`;
   }
 
+  // ==========================================
+  // SORT 2: Sort Unique Persona
+  // ==========================================
+  const s2CoutEl = document.getElementById('s2-cout');
+  const s2DegatsEl = document.getElementById('s2-degats');
+
+  if (s2CoutEl && s2DegatsEl) {
+    if (lvl !== null) {
+      const coutPC = Math.round(2 + (lvl * 1.5));
+      const degats = Math.round((lvl * 2) + (Math.max(men,0) * lvl * 0.5)); 
+      
+      s2CoutEl.textContent = coutPC + " PC";
+      s2DegatsEl.textContent = degats;
+    } else {
+      s2CoutEl.textContent = '—';
+      s2DegatsEl.textContent = '—';
+    }
+  }
+
+  // ==========================================
   // SORT 3: Arcane
+  // ==========================================
   if(selectedArcana && selectedArcana.spell){
     const sp = selectedArcana.spell;
     let costTxt = "";
-    if(sp.cost > 0) {
-      let cost = Math.min(8, sp.cost + (lvl - 1));
-      costTxt = ` [${cost} PC]`;
-    } else if(selectedArcana.id === 'strength') {
+    
+    let coutArcane = lvl + 1;
+    costTxt = ` [${coutArcane} PC]`;
+    
+    if(selectedArcana.id === 'strength') {
       costTxt = " [Passif]";
     } else if(selectedArcana.id === 'hanged') {
       costTxt = " [Sacrifice PV]";
     }
+
     document.getElementById('sort3-pending').style.display = 'none';
     document.getElementById('sort3-auto-content').style.display = 'block';
+    
     document.getElementById('sort3-auto-name').textContent = `${selectedArcana.icon} ${sp.name} (Niv. ${lvl})${costTxt}`;
     document.getElementById('sort3-auto-desc').textContent = sp.desc;
+    
   } else {
     document.getElementById('sort3-pending').style.display = 'block';
     document.getElementById('sort3-auto-content').style.display = 'none';
-  }
+  } 
 
+  // ==========================================
   // CUSTOM SPELLS (7 SLOTS)
+  // ==========================================
   const reqLvls = [4, 5, 6, 7, 8, 9, 10];
   const types = ["mots3", "libre", "resistance", "libre", "mots3", "libre", "ultime"];
 
@@ -1413,7 +1498,6 @@ function updateAllDisplays(){
 
   const physEff = getEffectiveAttr('physique');
   const menEff  = getEffectiveAttr('meninge');
-  
   const calcPhys = (physEff !== null && physEff > 0) ? physEff : 0;
   const calcMen  = (menEff !== null && menEff > 0) ? menEff : 0;
   
@@ -1421,19 +1505,42 @@ function updateAllDisplays(){
   const spEl = document.getElementById('sp-display');
   const pvFEl = document.getElementById('pv-formula');
   const spFEl = document.getElementById('sp-formula');
+  
+  const deaths = parseInt(document.getElementById('char-deaths')?.value) || 0;
 
-  // PV et PC avec la nouvelle formule correcte (1 + modificateur) * niveaux accumulés
-  if(physEff !== null){
-    const pv = 10 + physEff + ((currentLevel - 1) * (1 + calcPhys));
+  if (physEff !== null) {
+    const F = calcPhys;       
+    const N = currentLevel;   
+    const pv = Math.round(
+        ((824 - 31 * F) / 7200) * Math.pow(N, 3) + 
+        ((167 * F - 1368) / 800) * Math.pow(N, 2) + 
+        ((18232 - 1433 * F) / 1800) * N + 
+        (43 * F + 40) / 24
+    );
     pvEl.textContent = pv;
-    pvFEl.textContent = `10 + ${physEff} + (${currentLevel-1} × ${1+calcPhys})`;
-  } else { pvEl.textContent='—'; pvFEl.textContent=''; }
+    pvFEl.textContent = `Formule polynomiale (Force: ${F}, Niveau: ${N})`; 
+  } else { 
+    pvEl.textContent = '—'; 
+    pvFEl.textContent = ''; 
+  }
 
-  if(menEff !== null){
-    const sp = 10 + menEff + ((currentLevel - 1) * (1 + calcMen));
+  if (menEff !== null) {
+    const M = calcMen;       
+    const N = currentLevel;  
+    let sp = Math.round(
+        ((824 - 31 * M) / 7200) * Math.pow(N, 3) + 
+        ((167 * M - 1368) / 800) * Math.pow(N, 2) + 
+        ((18232 - 1433 * M) / 1800) * N + 
+        (43 * M + 40) / 24
+    );
+    
+    sp = Math.max(0, sp - (deaths * 5)); // Calcul des morts
     spEl.textContent = sp;
-    spFEl.textContent = `10 + ${menEff} + (${currentLevel-1} × ${1+calcMen})`;
-  } else { spEl.textContent='—'; spFEl.textContent=''; }
+    spFEl.textContent = `Formule polynomiale (Mental: ${M}, Niv: ${N}) - ${deaths*5} PC (Morts)`;
+  } else { 
+    spEl.textContent = '—'; 
+    spFEl.textContent = ''; 
+  }
 
   updateLevelInfo();
   updateAutoSpells();
@@ -1476,6 +1583,13 @@ function populateRecto(){
     if(bio){document.getElementById('fr-bio').textContent=bio; bioBlock.style.display='block';}
     else{bioBlock.style.display='none';}
   }
+
+  const palmares = document.getElementById('char-palmares').value||'';
+  const palmaresBlock = document.getElementById('fr-palmares-block');
+  if(palmaresBlock){
+    if(palmares){document.getElementById('fr-palmares').textContent=palmares; palmaresBlock.style.display='block';}
+    else{palmaresBlock.style.display='none';}
+  }
   
   if(selectedArcana){
     document.getElementById('fr-arc-badge').textContent=selectedArcana.icon+' '+selectedArcana.name;
@@ -1490,8 +1604,9 @@ function populateRecto(){
   const meleeDmg = document.getElementById('equip-melee-dmg').value;
   const rangedName = document.getElementById('equip-ranged-name').value || 'Arme à feu';
   const rangedDmg = document.getElementById('equip-ranged-dmg').value;
+  const rangedAmmo = document.getElementById('equip-ranged-ammo').value || '0';
   document.getElementById('fr-equip-melee').textContent = `${meleeName} (${meleeDmg} DGT)`;
-  document.getElementById('fr-equip-ranged').textContent = `${rangedName} (${rangedDmg} DGT)`;
+  document.getElementById('fr-equip-ranged').textContent = `${rangedName} (${rangedDmg} DGT) [${rangedAmmo} Mun.]`;
 
   ATTRS.forEach(attr=>{
     const v=getEffectiveAttr(attr), el=document.getElementById('fr-'+attr);
@@ -1503,11 +1618,29 @@ function populateRecto(){
 
   const physEff = getEffectiveAttr('physique');
   const calcPhys = (physEff !== null && physEff > 0) ? physEff : 0;
-  const pv = physEff !== null ? 10 + physEff + ((currentLevel - 1) * (1+calcPhys)) : 10;
+  let pv = 10;
+  if (physEff !== null) {
+      pv = Math.round(
+        ((824 - 31 * calcPhys) / 7200) * Math.pow(currentLevel, 3) + 
+        ((167 * calcPhys - 1368) / 800) * Math.pow(currentLevel, 2) + 
+        ((18232 - 1433 * calcPhys) / 1800) * currentLevel + 
+        (43 * calcPhys + 40) / 24
+    );
+  }
   
   const menEff = getEffectiveAttr('meninge');
   const calcMen = (menEff !== null && menEff > 0) ? menEff : 0;
-  const sp = menEff !== null ? 10 + menEff + ((currentLevel - 1) * (1+calcMen)) : 10;
+  let sp = 10;
+  if (menEff !== null) {
+      sp = Math.round(
+        ((824 - 31 * calcMen) / 7200) * Math.pow(currentLevel, 3) + 
+        ((167 * calcMen - 1368) / 800) * Math.pow(currentLevel, 2) + 
+        ((18232 - 1433 * calcMen) / 1800) * currentLevel + 
+        (43 * calcMen + 40) / 24
+    );
+    const deaths = parseInt(document.getElementById('char-deaths')?.value) || 0;
+    sp = Math.max(0, sp - (deaths * 10));
+  }
 
   document.getElementById('fr-pv').textContent=pv;
   document.getElementById('fr-sp').textContent=sp;
@@ -1539,10 +1672,10 @@ function populateVerso(){
   document.getElementById('fv-s1d').textContent = document.getElementById('sort1-auto-desc').textContent;
   
   const s2nom    = (document.getElementById('s2-nom')?.value    || '').trim();
-  const s2cout   = (document.getElementById('s2-cout')?.value   || '').trim();
-  const s2degats = (document.getElementById('s2-degats')?.value || '').trim();
+  const s2cout   = (document.getElementById('s2-cout')?.textContent   || '').trim();
+  const s2degats = (document.getElementById('s2-degats')?.textContent || '').trim();
   const s2effet  = (document.getElementById('s2-effet')?.value  || '').trim();
-  const s2label  = [s2cout ? `[${s2cout} PC]` : '', s2degats ? `${s2degats} DGT` : ''].filter(Boolean).join(' · ');
+  const s2label  = [s2cout ? `[${s2cout}]` : '', s2degats && s2degats !== '—' ? `${s2degats} DGT` : ''].filter(Boolean).join(' · ');
   document.getElementById('fv-s2n').textContent = s2nom || '— Faculté non définie —';
   document.getElementById('fv-s2d').textContent = [s2label, s2effet].filter(Boolean).join(' — ') || '—';
   
@@ -1573,8 +1706,9 @@ function populateVerso(){
       const kw1 = document.getElementById('c_spell_kw1_'+i)?.value || 'Élément';
       const kw2 = document.getElementById('c_spell_kw2_'+i)?.value || 'Forme';
       const kw3 = document.getElementById('c_spell_kw3_'+i)?.value || 'Déclencheur';
+      const kw4 = document.getElementById('c_spell_kw4_'+i)?.value || 'Modificateur';
       if(name || desc || kw1!=='Élément') {
-        kwString = `<div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:#f4f4f4;margin-bottom:4px;letter-spacing:0.05em;border-bottom:1px solid #330010;padding-bottom:2px;"><span style="color:#ffd700;">[${kw1}]</span> + [${kw2}] + [${kw3}]</div>`;
+        kwString = `<div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:#f4f4f4;margin-bottom:4px;letter-spacing:0.05em;border-bottom:1px solid #330010;padding-bottom:2px;"><span style="color:#ffd700;">[${kw1}]</span> + [${kw2}] + [${kw4}] + [${kw3}]</div>`;
       }
     } else if(type === 'resistance') {
       fspellNumText = `▶ RÉSISTANCE (NIV. ${reqLvls[i-1]})`;
@@ -1636,16 +1770,15 @@ async function exportBoth(){
 // ── SAUVEGARDE / CHARGEMENT ──
 const SAVE_KEY = 'persona5_fiche_v3';
 const FORM_FIELDS = [
-  'char-name','char-class','char-universe','char-bio','char-gold',
+  'char-name','char-class','char-universe','char-bio','char-gold', 'char-deaths', 'char-palmares',
   'competence','metier','phobie',
-  'equip-melee-name','equip-melee-dmg','equip-ranged-name','equip-ranged-dmg',
+  'equip-melee-name','equip-melee-dmg','equip-ranged-name','equip-ranged-dmg', 'equip-ranged-ammo',
   'persona-name','persona-origin','persona-desc',
   'weak1','res1','immune1',
   's2-nom','s2-cout','s2-degats','s2-effet'
 ];
-// On va maintenant jusqu'à 7 pour sauver l'attaque ultime !
 for(let i=1; i<=7; i++){
-  FORM_FIELDS.push('c_spell_name_'+i, 'c_spell_desc_'+i, 'c_spell_kw1_'+i, 'c_spell_kw2_'+i, 'c_spell_kw3_'+i);
+  FORM_FIELDS.push('c_spell_name_'+i, 'c_spell_desc_'+i, 'c_spell_kw1_'+i, 'c_spell_kw2_'+i, 'c_spell_kw3_'+i, 'c_spell_kw4_'+i);
 }
 
 function collectState(){
