@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -22,6 +23,49 @@
   --gold:#ffd700;--gold2:#ffaa00;--blue:#4466ff;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
+
+/* Styles pour les cases à cocher Persona */
+.combat-tracker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  background: rgba(230,0,18,0.08);
+  padding: 6px 12px;
+  border: 1px solid var(--red-dim);
+  border-left: 3px solid var(--red);
+}
+.combat-tracker label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: var(--red3);
+  margin: 0;
+  letter-spacing: 0.1em;
+}
+.chk-box {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--red);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+  background: rgba(0,0,0,0.5);
+  margin: 0;
+}
+.chk-box:checked {
+  background: var(--red);
+  box-shadow: 0 0 8px var(--red-glow);
+}
+.chk-box:checked::after {
+  content: '✖';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 11px;
+}
 
 @keyframes slash{from{transform:translateX(-110%) skewX(-15deg);}to{transform:translateX(0) skewX(-15deg);}}
 @keyframes flicker{0%,100%{opacity:1;}91%{opacity:1;}93%{opacity:.3;}95%{opacity:1;}98%{opacity:.7;}100%{opacity:1;}}
@@ -218,7 +262,7 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
 .spell-input{background:transparent;border:none;border-bottom:1px solid var(--border2);color:var(--text);font-family:'Noto Sans JP',sans-serif;font-size:15px;font-weight:300;padding:3px 0;outline:none;width:100%;transition:border-color .2s; word-break: break-word;}
 .spell-input:focus{border-bottom-color:var(--gold);}
 .spell-input::placeholder{color:var(--text4);font-size:13px;}
-.spell-desc{background:transparent;border:none;color:var(--text2);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-style:italic;padding:3px 0;outline:none;width:100%;resize:none;height:36px;line-height:1.4;font-weight:300; word-break: break-word;}
+.spell-desc{background:transparent;border:none;color:var(--text2);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-style:italic;padding:3px 0;outline:none;width:100%;resize:none;height:54px;line-height:1.4;font-weight:300; word-break: break-word;}
 .spell-desc::placeholder{color:var(--text4);font-size:12px;}
 
 .spell-auto{background:rgba(230,0,18,.06);border:2px solid var(--red-dim);border-left:3px solid var(--red);padding:12px;position:relative; clip-path:polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%);}
@@ -275,7 +319,7 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
   border:2px solid #220008;
 }
 .fh{grid-column:1/-1;background:#000;border-bottom:3px solid #e60012;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:15px;position:relative;box-shadow:0 3px 20px rgba(230,0,18,.3);}
-.fh::after{content:'absolute;bottom:-1px;left:0;right:0;height:1px;background:linear-gradient(90deg,#e60012,transparent 60%);}
+.fh::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:linear-gradient(90deg,#e60012,transparent 60%);}
 .fh > div { min-width: 0; }
 .fh-tag{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:.4em;color:#e60012;text-transform:uppercase;margin-bottom:3px;}
 .fh-name{font-family:'Bebas Neue',sans-serif;font-size:38px;color:#fff;letter-spacing:.06em;line-height:1;text-shadow:3px 3px 0 #e60012; word-break: break-word; overflow-wrap: break-word; white-space: normal; max-width: 100%;}
@@ -473,7 +517,7 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
       <div class="panel-title"><span class="pt-icon">⭐</span><span class="pt-text">Niveau de Notoriété du Groupe</span><span class="pt-num">03</span></div>
       <div class="panel-body">
         <p style="font-size:13px;color:var(--text2);margin-bottom:12px;font-style:italic;line-height:1.6;">
-          Ton niveau augmente tes PV et tes PC. Aux niveaux <strong style="color:var(--gold);">3, 5, 7 et 9</strong>, tu gagnes un bonus permanent de <strong style="color:var(--gold);">+1 point</strong> à répartir. Au Niveau 10, ton Persona atteint son <strong style="color:var(--red);">Éveil Ultime</strong> !
+          Ton niveau augmente tes PV et tes PC. Aux niveaux <strong style="color:var(--gold);">3, 5, 7 et 9</strong>, tu gagnes un bonus permanent de <strong style="color:var(--gold);">+1 point</strong> à répartir. Au Niveau 7, ton Persona atteint son <strong style="color:var(--red);">Dépassement d'égo</strong> !
         </p>
         <div style="display:flex;align-items:center;gap:16px;margin-bottom:10px;">
           <div class="level-display" id="level-display">1</div>
@@ -499,7 +543,7 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
           <div class="bpp-grid" id="bpp-grid-9"></div>
         </div>
         <div class="bonus-point-panel" id="bonus-panel-10" style="border-color:var(--red); background:rgba(230,0,18,0.06);">
-          <div class="bpp-title" style="color:var(--red);"><span style="color:var(--red);">★</span> Niveau 10 — ÉVEIL ULTIME</div>
+          <div class="bpp-title" style="color:var(--red);"><span style="color:var(--red);">★</span> Niveau 7 — Dépassement d'égo</div>
           <div style="font-size:13px; color:var(--text2); font-style:italic; line-height:1.4;">
             Ton Persona évolue vers sa forme mythologique finale ! Tes résistances s'améliorent et tu débloques ton attaque signature dévastatrice sur la page Verso.
           </div>
@@ -575,9 +619,9 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
           <div style="display:flex;gap:10px;">
             <input type="text" id="equip-melee-name" placeholder="Nom de l'arme (ex: Katana, Poing américain)..." style="flex:2;">
             <select id="equip-melee-dmg" style="flex:1;">
-              <option value="1">Poing (1 dégât)</option>
-              <option value="2">Arme légère (2 dégâts)</option>
-              <option value="4" selected>Arme lourde (4 dégâts)</option>
+              <option value="1">Poing (Niv Dégâts)</option>
+              <option value="2">Arme légère (Niv + Force Dégâts)</option>
+              <option value="4" selected>Arme lourde (Niv + 2*Force Dégâts)</option>
             </select>
           </div>
         </div>
@@ -586,9 +630,9 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
           <div style="display:flex;gap:10px;">
             <input type="text" id="equip-ranged-name" placeholder="Arme à feu (ex: Pistolet, Arc)..." style="flex:2;">
             <select id="equip-ranged-dmg" style="flex:1;">
-              <option value="2">Pistolet (2 dégâts)</option>
-              <option value="4" selected>Fusil/Pompe (4 dégâts)</option>
-              <option value="6">Lance-grenades (6 dégâts)</option>
+              <option value="2">Pistolet ( Niv/2 +Addr dégâts)</option>
+              <option value="4" selected>Fusil/Pompe (Niv+ Addr dégâts)</option>
+              <option value="6">Lance-grenades (Niv+Addr dégâts en zone)</option>
             </select>
             <input type="number" id="equip-ranged-ammo" placeholder="Mun." style="flex:0.5; min-width:60px; text-align:center;" min="0" title="Munitions">
           </div>
@@ -727,7 +771,7 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
       <div class="panel-title"><span class="pt-icon">🌟</span><span class="pt-text">Grimoire — Les Slots Personnalisés (Niv 4 à 10)</span><span class="pt-num">P5</span></div>
       <div class="panel-body">
         <p style="font-size:13px;color:var(--text2);margin-bottom:12px;font-style:italic;line-height:1.6;">
-          Remplis tes emplacements de sorts selon ta progression. Le dernier slot se débloque au <strong>Niveau 10</strong> et abrite ton <strong>Attaque Signature / Éveil Ultime</strong> !
+          Remplis tes emplacements de sorts selon ta progression. Le dernier slot se débloque au <strong>Niveau 7</strong> et abrite ton <strong>Dépassement d'égo</strong> !
         </p>
         
         <div class="spells-grid" style="margin-bottom:12px;">
@@ -785,7 +829,7 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
         <div class="rules-grid">
           <div class="rule-card"><div class="rule-card-title">🎭 Lancer un Sort</div><div class="rule-card-body">Les sorts du Persona touchent <strong>automatiquement</strong> (sans jet de dé). Le tir léger (Sniper) nécessite un jet d'Adresse.</div></div>
           <div class="rule-card"><div class="rule-card-title">💥 Faiblesse et Down</div><div class="rule-card-body">Frapper une faiblesse ennemie = <strong>Down</strong> garanti. L'ennemi passe son prochain tour et tu gagnes un 1-More.</div></div>
-          <div class="rule-card"><div class="rule-card-title">💀 Faiblesse Subie</div><div class="rule-card-body">Si tu es touché par ton propre élément faible, tu tombes et reçois <strong>×2 dégâts</strong>.</div></div>
+          <div class="rule-card"><div class="rule-card-title">💀 Faiblesse Subie</div><div class="rule-card-body">Si tu es touché par ton propre élément faible, tu tombes et reçois <strong>×1.5 dégâts</strong>.</div></div>
         </div>
       </div>
     </div>
@@ -994,7 +1038,7 @@ const ARCANES = [
   {id:'hierophant', icon:'📜', name:'Le Hiérophante (V)',  bonus:"Les gardiens des traditions et de l'ordre établi.<br><br>+10 points lors des exams. Lis des livres en 1 jour de moins", 
    spell:{name:'Rappel au Règlement', cost: 3, desc:'Peut décréter qu\'une pièce suive une règle de l\'endroit réel qu\'elle copie'}},
   {id:'lovers',     icon:'❤️', name:'Les Amoureux (VI)',   bonus:"Ceux définis par leurs liens profonds et les choix du cœur.<br><br>Peut passer ses soirées avec son confident au téléphone et gagner un jalon de plus.", 
-   spell:{name:'Appel à un Ami', cost: 3, desc:'Appel un confident du monde réel pour lui demander un service comme modifier une pièce ou distraire une personne.'}},
+   spell:{name:'Appel à un Ami', cost: 5, desc:'Appel un confident du monde réel pour lui demander un service comme modifier une pièce ou distraire une personne.'}},
   {id:'chariot',    icon:'🏎️', name:'Le Chariot (VII)',    bonus:"Des fonceurs portés par une détermination inébranlable.<br><br>Ne nécessite pas de jet de dès pour s'enfuir ou poursuivre quelqu'un", 
    spell:{name:'Momentum', cost: 4, desc:'En le touchant, tu peux stopper le mouvement d\'un objet de taille moyenne (humaine)'}},
   {id:'justice',    icon:'⚖️', name:'La Justice (VIII)',   bonus:"Les idéalistes en quête constante de vérité absolue et d'équité.<br><br>Peut enquêter la nuit avant de dormir, le lendemain, aura la réponse à 1D3 questions.", 
@@ -1011,36 +1055,25 @@ const ARCANES = [
    spell:{name:'Recarm', cost: 5, desc:'Peut ressuciter un etre vivant ou un objet'}},
 ];
 
-const ELEMENT_SPELLS = {
-  fire:    {name:'Agi',      effect:'Brûlure : −1 PV/tour.'},
-  ice:     {name:'Bufu',     effect:'Ralentit l\'ennemi.'},
-  wind:    {name:'Garu',     effect:'Ignore les abris physiques.'},
-  thunder: {name:'Zio',      effect:'Paralyse : skip 1 action sur Critique.'},
-  psycho:  {name:'Psi',      effect:'Confusion mentale possible.'},
-  nuke:    {name:'Frei',     effect:'Dégâts massifs en petite zone.'},
-  bless:   {name:'Kouha',    effect:'Insta-Kill si l\'ennemi est très faible.'},
-  curse:   {name:'Eiha',     effect:'Drain de PV mineur.'},
-  phys:    {name:'Cleave',   effect:'Chance de critique élevée'},
-};
-
 const ARCHETYPES = [
   {id:'warrior',  icon:'⚔️', name:'Guerrier',  cond:'Quand tu attaques au CàC ou que tu charges', bonus:'+2 + NIV Dégats'},
   {id:'tank',     icon:'🛡️', name:'Tank',      cond:'Quand tu encaisses une attaque',      bonus:'+2 + NIV Réduction de dégats'},
-  {id:'rogue',    icon:'🗡️', name:'Rogue',     cond:'Tant que tu n\'es pas détecté',       bonus:'+2 Adresse'},
+  {id:'rogue',    icon:'🗡️', name:'Rogue',     cond:'Tant que tu n\'es pas détecté',       bonus:'+2 Chance de coup critiques'},
   {id:'sniper',   icon:'🎯', name:'Sniper',    cond:'Quand tu tires à distance',           bonus:'+2 + NIV Dégats'},
   {id:'mage',     icon:'🔮', name:'Mage',      cond:'Quand tu infliges un "Down"',         bonus:'+2 + NIV PC'},
   {id:'support',  icon:'💊', name:'Support',   cond:'Quand tu soignes un allié',           bonus:'+2 + NIV Valeur de Soins'},
-  {id:'leader',   icon:'📣', name:'Leader',    cond:'Au début de ton tour',                bonus:'+2 +Niveau PC à un allié'},
+  {id:'leader',   icon:'📣', name:'Leader',    cond:'Au début de ton tour',                bonus:'+2 + Niveau PC à un allié'},
   {id:'phantom',  icon:'🎭', name:'Phantom',   cond:'Dépense Niveau*PC pour gagner ce tour : ', bonus:'+2 stat au choix'},
+  {id:'navi',     icon:'🎧', name:'Navi',      cond:'Pendant une réaction',                bonus:'+2 à tous les jets'},
 ];
 
 const ELEMENTS = [
-  {id:'fire',    icon:'🔥', name:'Feu',        desc:'Sorts de flammes, brûlures, explosion', weak:'Glace', resist:'Feu', immune:'—'},
-  {id:'ice',     icon:'❄️', name:'Glace',      desc:'Sorts de froid, gel, ralentissement', weak:'Feu', resist:'Glace', immune:'—'},
-  {id:'wind',    icon:'🌪️', name:'Vent',       desc:'Sorts d\'air, vitesse, déviation', weak:'Foudre', resist:'Vent', immune:'—'},
+  {id:'fire',    icon:'🔥', name:'Feu',        desc:'Sorts de flammes, brûlures', weak:'Glace', resist:'Feu', immune:'—'},
+  {id:'ice',     icon:'❄️', name:'Glace',      desc:'Sorts de froid, gel', weak:'Feu', resist:'Glace', immune:'—'},
+  {id:'wind',    icon:'🌪️', name:'Vent',       desc:'Sorts d\'air', weak:'Foudre', resist:'Vent', immune:'—'},
   {id:'thunder', icon:'⚡', name:'Foudre',     desc:'Sorts d\'électricité, paralysie', weak:'Vent', resist:'Foudre', immune:'—'},
-  {id:'psycho',  icon:'🔮', name:'Psy',        desc:'Sorts psychiques, confusion, télékinésie', weak:'Nuke', resist:'Psy', immune:'—'},
-  {id:'nuke',    icon:'☢️', name:'Nuke',       desc:'Sorts nucléaires, radiation, dégâts massifs', weak:'Psy', resist:'Nuke', immune:'—'},
+  {id:'psycho',  icon:'🔮', name:'Psy',        desc:'Sorts psychiques', weak:'Nuke', resist:'Psy', immune:'—'},
+  {id:'nuke',    icon:'☢️', name:'Nuke',       desc:'Sorts nucléaires', weak:'Psy', resist:'Nuke', immune:'—'},
   {id:'bless',   icon:'✨', name:'Lumière',    desc:'Sorts divins, soin, insta-kill', weak:'Malédiction', resist:'Lumière', immune:'—'},
   {id:'curse',   icon:'💀', name:'Malédiction',desc:'Sorts sombres, drain de vie, insta-kill', weak:'Lumière', resist:'Malédiction', immune:'—'},
 ];
@@ -1060,8 +1093,7 @@ function buildCustomSpells(){
   if(!container) return;
   container.innerHTML = '';
   
-  // Progression: Niv 4, Niv 5, Niv 6, Niv 7, Niv 8, Niv 9, Niv 10 (7 slots au total)
-  const reqLvls = [4, 5, 6, 7, 8, 9, 10];
+  const reqLvls = [4, 5, 6, 7, 8, 9, 7];
   const types = ["mots3", "libre", "resistance", "libre", "mots3", "libre", "ultime"];
 
   for(let i=1; i<=7; i++) {
@@ -1077,17 +1109,28 @@ function buildCustomSpells(){
        div.style.borderLeftColor = 'var(--red)';
        div.style.borderColor = 'var(--red-dim)';
        div.style.background = 'rgba(230,0,18,.05)';
-       div.style.gridColumn = '1 / -1'; // Prend toute la largeur !
+       div.style.gridColumn = '1 / -1';
     }
 
     let innerContent = '';
     let titlePrefix = 'SLOT LIBRE';
+    let trackerHTML = '';
+
+    // Ajout direct (statique) des conteneurs de cases à cocher pour éviter toute duplication
+    if (i === 2) {
+        trackerHTML = `<div id="c_spell_tracker_${i}" class="combat-tracker" style="display:none;"><label>UTILISATION / COMBAT (1/1) :</label><input type="checkbox" id="chk_spell_5_1" class="chk-box" onchange="scheduleSave()"></div>`;
+    } else if (i === 4) {
+        trackerHTML = `<div id="c_spell_tracker_${i}" class="combat-tracker" style="display:none;"><label>UTILISATIONS / COMBAT (2/2) :</label><input type="checkbox" id="chk_spell_7_1" class="chk-box" onchange="scheduleSave()"><input type="checkbox" id="chk_spell_7_2" class="chk-box" onchange="scheduleSave()"></div>`;
+    } else if (i === 6) {
+        trackerHTML = `<div id="c_spell_tracker_${i}" class="combat-tracker" style="display:none;"><label>UTILISATION / COMBAT (1/1) :</label><input type="checkbox" id="chk_spell_9_1" class="chk-box" onchange="scheduleSave()"></div>`;
+    }
 
     if(type === 'libre') {
       innerContent = `
         <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:.15em;margin-bottom:3px;">VOTRE SORT UNIQUE GAGNE UNE NOUVELLE FORME//FACULTE</div>
         <input class="spell-input" id="c_spell_name_${i}" type="text" placeholder="Nom de la variante....."/>
-        <textarea class="spell-desc" id="c_spell_desc_${i}" placeholder="Description complète (Nouveau cas d'utilisation/nouvel effet)"></textarea>
+        <textarea class="spell-desc" id="c_spell_desc_${i}" placeholder="Description complète (Nouveau cas d'utilisation/nouvel effet)" style="height:54px;"></textarea>
+        ${trackerHTML}
       `;
     } else if(type === 'resistance') {
       titlePrefix = 'NOUVELLE RÉSISTANCE';
@@ -1158,36 +1201,6 @@ function buildArcanaGrid(){
     g.appendChild(d);
   });
 }
-// Fonction magique qui transforme le texte en vrai calcul mathématique
-function calculerFormuleDynamique(formuleTexte, niveau, mental) {
-  if (!formuleTexte) return ""; 
-  
-  try {
-    let expression = formuleTexte
-      .replace(/Niv/ig, niveau)
-      .replace(/Men/ig, mental)
-      .replace(/For/ig, mental); 
-
-    let resultat = Math.round(new Function('return ' + expression)());
-    return isNaN(resultat) ? "?" : "=> " + resultat; 
-  } catch (erreur) {
-    return "..."; 
-  }
-}
-
-const inputCout = document.getElementById('s2-cout');
-const spanResCout = document.getElementById('res-s2-cout');
-
-const inputDegats = document.getElementById('s2-degats');
-const spanResDegats = document.getElementById('res-s2-degats');
-
-function actualiserAffichageSort() {
-  if (spanResCout) spanResCout.textContent = calculerFormuleDynamique(inputCout?.value, currentLevel, getEffectiveAttr('meninge') || 0);
-  if (spanResDegats) spanResDegats.textContent = calculerFormuleDynamique(inputDegats?.value, currentLevel, getEffectiveAttr('meninge') || 0);
-}
-
-if(inputCout) inputCout.addEventListener('input', actualiserAffichageSort);
-if(inputDegats) inputDegats.addEventListener('input', actualiserAffichageSort);
 
 function buildArchetypeGrid(){
   const g = document.getElementById('archetype-grid');
@@ -1197,7 +1210,7 @@ function buildArchetypeGrid(){
     d.innerHTML = `<input type="radio" name="archetype" value="${a.id}">
       <div class="arch-name"><span class="a-icon">${a.icon}</span>${a.name}</div>
       <div class="arch-cond">CONDITION : ${a.cond}</div>
-      <div class="arch-bonus">→ <strong>+2 ${a.bonus.split('+2 ')[1]}</strong></div>`;
+      <div class="arch-bonus">→ <strong>+2 ${a.bonus.split('+2 ')[1] || 'Bonus'}</strong></div>`;
     d.onclick = () => {
       document.querySelectorAll('.archetype-opt').forEach(x=>x.classList.remove('selected'));
       d.classList.add('selected');
@@ -1221,18 +1234,15 @@ function buildElementGrid(){
       document.querySelectorAll('.persona-type-card').forEach(x=>x.classList.remove('selected'));
       d.classList.add('selected');
       selectedElement = e;
-      
       document.getElementById('weak1').value = e.weak;
       document.getElementById('res1').value = e.resist;
       document.getElementById('immune1').value = e.immune;
-
       updateAutoSpells();
     };
     g.appendChild(d);
   });
 }
 
-// ── LEVEL SYSTEM ──
 function buildLevelTrack(){
   const track = document.getElementById('level-track');
   track.innerHTML = '';
@@ -1276,28 +1286,24 @@ function setLevel(n){
     if(currentLevel < lvl) bonusPoints[lvl] = null;
   });
   const panel10 = document.getElementById('bonus-panel-10');
-  if(panel10) panel10.classList.toggle('visible', currentLevel >= 10);
+  if(panel10) panel10.classList.toggle('visible', currentLevel >= 7);
   buildBonusPickers();
   updateAllDisplays();
 }
 
 function updateLevelInfo(){
   document.getElementById('level-display').textContent = currentLevel;
-  
   const physEffLocal = getEffectiveAttr('physique') ?? 0;
   const menEffLocal  = getEffectiveAttr('meninge')  ?? 0;
-  
   const pvGain = (currentLevel - 1) * (1 + Math.max(0, physEffLocal));
   const spGain = (currentLevel - 1) * (1 + Math.max(0, menEffLocal));
-  
   let txt = `Niveau ${currentLevel}`;
   if(currentLevel > 1) txt += ` · +${pvGain} PV accumulés`;
   if(currentLevel >= 3) txt += ` · Baton Pass Actif`;
-  if(currentLevel >= 10) txt += ` · Éveil Ultime atteint !`;
+  if(currentLevel >= 7) txt += ` · Ego éveillé !`;
   document.getElementById('level-info').textContent = txt;
 }
 
-// ── TABS & PHOTOS ──
 function switchTab(t){
   document.querySelectorAll('.tab').forEach((el,i)=>{el.classList.toggle('active',i===(t==='recto'?0:1));});
   document.querySelectorAll('.page').forEach((el,i)=>{el.classList.toggle('active',i===(t==='recto'?0:1));});
@@ -1315,7 +1321,6 @@ document.getElementById('persona-photo-input').addEventListener('change',functio
   r.readAsDataURL(f);
 });
 
-// ── ROLL & ATTRIBUTES ──
 function rollDice(){
   rolls=[3,2,0,-2];
   rolls.sort((a,b)=>b-a);assigned={physique:null,adresse:null,meninge:null,social:null};
@@ -1331,11 +1336,9 @@ function updateSelects(){
     if(!rolls.length){sel.innerHTML="<option value=''>— Lance d'abord —</option>";return;}
     sel.innerHTML='';
     const e=document.createElement('option');e.value='';e.textContent=current!==null?'— Changer —':'— Sélectionner —';sel.appendChild(e);
-    
     const taken=Object.entries(assigned).filter(([k,v])=>k!==attr&&v!==null).map(([,v])=>v);
     const avail=[...rolls];
     taken.forEach(t=>{const i=avail.indexOf(t);if(i!==-1)avail.splice(i,1);});
-    
     const seen=new Set();
     rolls.forEach(v=>{
       if(!seen.has(v)){
@@ -1372,111 +1375,126 @@ function updateAutoSpells(){
   const phys = getEffectiveAttr('physique') || 0;
   const adr = getEffectiveAttr('adresse') || 0;
   const men = getEffectiveAttr('meninge') || 0;
-    
-  // ==========================================
-  // SORT 1: Base
-  // ==========================================
   const isSupport = selectedArchetype && selectedArchetype.id === 'support';
   const isRanged  = selectedArchetype && (selectedArchetype.id === 'sniper' || selectedArchetype.id === 'rogue');
+  const isNavi    = selectedArchetype && selectedArchetype.id === 'navi';
+
   const s1num = document.getElementById('sort1-auto-title');
   const s1name = document.getElementById('sort1-auto-name');
   const s1desc = document.getElementById('sort1-auto-desc');
 
-  if (isSupport) {
-    let heal = 3 + men + (lvl - 1);
-    let cost = 2 + (lvl - 1);
+  if (isNavi) {
+    if(s1num) s1num.textContent = "▶ SORT AUTO — PARE-FEU D'URGENCE";
+    if(s1name) s1name.textContent = `Bouclier Cognitif (Niv. ${lvl})`;
+    if(s1desc) s1desc.textContent = `[Réaction] Absorbe in extremis une attaque visant un allié. Tu subis les dégâts sur tes PC.`;
+  } else if (isSupport) {
+    let heal = Math.floor(3 + men + (lvl*1.5 - 1));
+    let cost = Math.floor(2 + (lvl*1.5 - 1));
     if(s1num) s1num.textContent = "▶ SORT AUTO — SOIN DE BASE";
     if(s1name) s1name.textContent = `Dia (Niv. ${lvl}) [${cost} PC]`;
     if(s1desc) s1desc.textContent = `Restaure ${heal} PV à 1 allié (ou toi-même). Sans jet de dé. Bonus Méninge : +${men}.`;
   } else if (isRanged) {
-    let dmg = Math.floor(4 + adr + (lvl*0.2207+0.5*lvl**2));
+    let dmg = Math.floor(4 + adr*3 + (lvl*0.5+0.5*lvl**1.6));
     let cost = Math.floor(4 + (lvl*2 - 1))-5;
     if(s1num) s1num.textContent = "▶ SORT AUTO — TIR PRÉCIS ()";
     if(s1name) s1name.textContent = `Tir Précis (Niv. ${lvl}) [${cost} PV]`;
     if(s1desc) s1desc.textContent = `Dégâts fixes : ${dmg}. Jet d'Adresse ≥ 10 requis.`;
   } else {
     let dmg = Math.floor(4 + phys + (lvl*0.2207+0.2874*lvl**2));
-    let cost = 2 + (lvl*2 - 1);
+    let cost = 2 + (lvl*3 - 1);
     if(s1num) s1num.textContent = "▶ SORT AUTO — ATTAQUE PHYSIQUE";
     if(s1name) s1name.textContent = `Frappe Physique (Niv. ${lvl}) [${cost} PV]`;
     if(s1desc) s1desc.textContent = `Dégâts : ${dmg}. Jet de Force ≥ 10 requis. Cible : 1 Ennemi.`;
   }
 
-  // ==========================================
-  // SORT 2: Sort Unique Persona
-  // ==========================================
+  const s2nomEl = document.getElementById('s2-nom');
+  const s2effetEl = document.getElementById('s2-effet');
   const s2CoutEl = document.getElementById('s2-cout');
   const s2DegatsEl = document.getElementById('s2-degats');
 
-  if (s2CoutEl && s2DegatsEl) {
-    if (lvl !== null) {
-      const coutPC = Math.round(2 + (lvl * 1.5));
-      const degats = Math.round((lvl * 2) + (Math.max(men,0) * lvl * 0.5)); 
-      
-      s2CoutEl.textContent = coutPC + " PC";
-      s2DegatsEl.textContent = degats;
-    } else {
-      s2CoutEl.textContent = '—';
-      s2DegatsEl.textContent = '—';
+  if (isNavi) {
+    if(s2nomEl) { s2nomEl.value = "Détection de Faiblesses"; s2nomEl.readOnly = true; s2nomEl.style.color = "var(--gold)"; }
+    if(s2effetEl) { s2effetEl.value = "Action (Jet de Méninges) : Scanne la cible pour révéler 1 information (Faiblesse, Résistance, PV) d'un ennemi"; s2effetEl.readOnly = true; s2effetEl.style.color = "var(--gold)"; }
+    if (s2CoutEl) s2CoutEl.textContent = '1 Action';
+    if (s2DegatsEl) s2DegatsEl.textContent = '—';
+  } else {
+    if(s2nomEl) { s2nomEl.readOnly = false; s2nomEl.style.color = ""; if(s2nomEl.value === "Détection de Faiblesses") s2nomEl.value = ""; }
+    if(s2effetEl) { s2effetEl.readOnly = false; s2effetEl.style.color = ""; if(s2effetEl.value.startsWith("Action (Jet de Méninges)")) s2effetEl.value = ""; }
+    if (s2CoutEl && s2DegatsEl) {
+      if (lvl !== null) {
+        const coutPC = Math.round(2 + (lvl * 1.5));
+        const degats = Math.round((lvl * 2) + (Math.max(men,0) * lvl * 0.5)); 
+        s2CoutEl.textContent = coutPC + " PC";
+        s2DegatsEl.textContent = degats;
+      }
     }
   }
 
-  // ==========================================
-  // SORT 3: Arcane
-  // ==========================================
-  if(selectedArcana && selectedArcana.spell){
-    const sp = selectedArcana.spell;
-    let costTxt = "";
-    
-    let coutArcane = lvl + 1;
-    costTxt = ` [${coutArcane} PC]`;
-    
-    if(selectedArcana.id === 'strength') {
-      costTxt = " [Passif]";
-    } else if(selectedArcana.id === 'hanged') {
-      costTxt = " [Sacrifice PV]";
-    }
-
+  if (isNavi) {
     document.getElementById('sort3-pending').style.display = 'none';
     document.getElementById('sort3-auto-content').style.display = 'block';
-    
+    document.getElementById('sort3-auto-name').textContent = `🎧 Réseau d'Arcanes (Niv. ${lvl})`;
+    document.getElementById('sort3-auto-desc').textContent = `Accès à TOUS les sorts de Soutien d'Arcane non utilisés par les autres joueurs à la table. Coût en PC doublé.`;
+  } else if (selectedArcana && selectedArcana.spell) {
+    const sp = selectedArcana.spell;
+    let costTxt = ` [${lvl + 1} PC]`;
+    if(selectedArcana.id === 'strength') costTxt = " [Passif]";
+    else if(selectedArcana.id === 'hanged') costTxt = " [Sacrifice PV]";
+    document.getElementById('sort3-pending').style.display = 'none';
+    document.getElementById('sort3-auto-content').style.display = 'block';
     document.getElementById('sort3-auto-name').textContent = `${selectedArcana.icon} ${sp.name} (Niv. ${lvl})${costTxt}`;
     document.getElementById('sort3-auto-desc').textContent = sp.desc;
-    
-  } else {
-    document.getElementById('sort3-pending').style.display = 'block';
-    document.getElementById('sort3-auto-content').style.display = 'none';
-  } 
+  }
 
-  // ==========================================
-  // CUSTOM SPELLS (7 SLOTS)
-  // ==========================================
-  const reqLvls = [4, 5, 6, 7, 8, 9, 10];
-  const types = ["mots3", "libre", "resistance", "libre", "mots3", "libre", "ultime"];
-
+  // --- Gestion des slots dynamiques et trackers ---
+  const reqLvls = [4, 5, 6, 7, 8, 9, 7];
   for(let i=1; i<=7; i++){
     const lock = document.getElementById('custom-spell-lock-'+i);
     const content = document.getElementById('custom-spell-content-'+i);
     const title = document.getElementById('custom-spell-title-'+i);
-    if(!lock) continue;
+    const tracker = document.getElementById('c_spell_tracker_'+i);
     
+    if(!lock) continue;
     const reqLvl = reqLvls[i-1];
-    let titlePrefix = 'SLOT LIBRE';
-    if(types[i-1] === 'resistance') titlePrefix = 'NOUVELLE RÉSISTANCE';
-    if(types[i-1] === 'mots3') titlePrefix = 'SORT MOTS-CLÉS';
-    if(types[i-1] === 'ultime') titlePrefix = 'PROJECTION D\'EGO';
+    
+    // Remplissage automatique pour Navi + Affichage du tracker existant
+    if (isNavi) {
+      if (i === 2) {
+        document.getElementById('c_spell_name_2').value = "Guidage Tactique";
+        document.getElementById('c_spell_desc_2').value = "Coût : 1 Action.\nEffet : Le Navi calcule les probabilités. Un allié gagne un Avantage (lance 2d20 et garde le meilleur) sur son tout prochain jet de dé.";
+        document.getElementById('c_spell_name_2').readOnly = true;
+        document.getElementById('c_spell_desc_2').readOnly = true;
+        if (tracker) tracker.style.display = 'flex';
+      }
+      else if (i === 4) {
+        document.getElementById('c_spell_name_4').value = "Ravitaillement Cognitif";
+        document.getElementById('c_spell_desc_4').value = "Coût : 1 Action.\nEffet : Le Navi lance 1d20 et 1d3. Restaure la valeur du résultat du d20 en PV ET en PC à un nombre d'alliés égal au d3 !";
+        document.getElementById('c_spell_name_4').readOnly = true;
+        document.getElementById('c_spell_desc_4').readOnly = true;
+        if (tracker) tracker.style.display = 'flex';
+      }
+      else if (i === 6) {
+        document.getElementById('c_spell_name_6').value = "Overclocking";
+        document.getElementById('c_spell_desc_6').value = "Coût : 1 Action.\nEffet : Le Navi injecte de l'adrénaline cognitive. Un allié joue immédiatement un Tour Supplémentaire (compétences à 0 PC pendant ce tour).";
+        document.getElementById('c_spell_name_6').readOnly = true;
+        document.getElementById('c_spell_desc_6').readOnly = true;
+        if (tracker) tracker.style.display = 'flex';
+      }
+    } else {
+      if (i === 2 || i === 4 || i === 6) {
+         document.getElementById('c_spell_name_'+i).readOnly = false;
+         document.getElementById('c_spell_desc_'+i).readOnly = false;
+      }
+      if (tracker) tracker.style.display = 'none';
+    }
 
+    // Déblocage visuel selon le niveau
     if(currentLevel >= reqLvl) {
       lock.style.display = 'none';
       content.style.display = 'block';
-      title.textContent = `▶ ${titlePrefix} (DÉBLOQUÉ)`;
-      title.style.color = types[i-1] === 'resistance' ? '#4466ff' : (types[i-1] === 'ultime' ? 'var(--red)' : 'var(--gold)');
     } else {
       lock.style.display = 'block';
       content.style.display = 'none';
-      lock.textContent = '🔒 Se débloque au Niveau ' + reqLvl;
-      title.textContent = `▶ ${titlePrefix} (NIV. ${reqLvl})`;
-      title.style.color = 'var(--text4)';
     }
   }
 }
@@ -1486,67 +1504,28 @@ function updateAllDisplays(){
     const eff = getEffectiveAttr(attr);
     const el = document.getElementById('val-'+attr);
     const card = document.getElementById('card-'+attr);
-    if(eff === null){
-      el.textContent='—'; el.className='attr-val zero'; card.classList.remove('assigned');
-    } else {
-      el.textContent=(eff>=0?'+':'')+eff;
-      el.className='attr-val '+(eff>0?'positive':eff<0?'negative':'zero');
-      el.classList.add('rolling'); setTimeout(()=>el.classList.remove('rolling'),600);
-      card.classList.add('assigned');
-    }
+    if(eff === null){ el.textContent='—'; el.className='attr-val zero'; card.classList.remove('assigned'); }
+    else { el.textContent=(eff>=0?'+':'')+eff; el.className='attr-val '+(eff>0?'positive':eff<0?'negative':'zero'); card.classList.add('assigned'); }
   });
-
-  const physEff = getEffectiveAttr('physique');
-  const menEff  = getEffectiveAttr('meninge');
-  const calcPhys = (physEff !== null && physEff > 0) ? physEff : 0;
-  const calcMen  = (menEff !== null && menEff > 0) ? menEff : 0;
-  
-  const pvEl = document.getElementById('pv-display');
-  const spEl = document.getElementById('sp-display');
-  const pvFEl = document.getElementById('pv-formula');
-  const spFEl = document.getElementById('sp-formula');
-  
+  const physEff = getEffectiveAttr('physique') || 0;
+  const menEff  = getEffectiveAttr('meninge') || 0;
   const deaths = parseInt(document.getElementById('char-deaths')?.value) || 0;
-
-  if (physEff !== null) {
-    const F = calcPhys;       
-    const N = currentLevel;   
-    const pv = Math.round(
-        ((824 - 31 * F) / 7200) * Math.pow(N, 3) + 
-        ((167 * F - 1368) / 800) * Math.pow(N, 2) + 
-        ((18232 - 1433 * F) / 1800) * N + 
-        (43 * F + 40) / 24
-    );
-    pvEl.textContent = pv;
-    pvFEl.textContent = `Formule polynomiale (Force: ${F}, Niveau: ${N})`; 
-  } else { 
-    pvEl.textContent = '—'; 
-    pvFEl.textContent = ''; 
+  
+if (physEff !== null) {
+    // Nouvelle formule PV : Base de 20 + 10 par niveau + 1.5 par point de Physique et par niveau
+    const pv = Math.round(12+(currentLevel * 10) + (physEff * currentLevel*1.3));
+    document.getElementById('pv-display').textContent = pv;
   }
-
   if (menEff !== null) {
-    const M = calcMen;       
-    const N = currentLevel;  
-    let sp = Math.round(
-        ((824 - 31 * M) / 7200) * Math.pow(N, 3) + 
-        ((167 * M - 1368) / 800) * Math.pow(N, 2) + 
-        ((18232 - 1433 * M) / 1800) * N + 
-        (43 * M + 40) / 24
-    );
-    
-    sp = Math.max(0, sp - (deaths * 5)); // Calcul des morts
-    spEl.textContent = sp;
-    spFEl.textContent = `Formule polynomiale (Mental: ${M}, Niv: ${N}) - ${deaths*5} PC (Morts)`;
-  } else { 
-    spEl.textContent = '—'; 
-    spFEl.textContent = ''; 
+    // Nouvelle formule PC : Base de 15 + 8 par niveau + 1.2 par point de Méninge et par niveau
+    let sp = Math.round(5 + (currentLevel * 6) + (menEff * currentLevel * 1.6));
+    sp = Math.max(0, sp - (deaths * 5)); // On garde ta mécanique de punition pour les morts !
+    document.getElementById('sp-display').textContent = sp;
   }
-
   updateLevelInfo();
   updateAutoSpells();
 }
 
-// ── INITIALISATION ──
 buildArcanaGrid();
 buildArchetypeGrid();
 buildElementGrid();
@@ -1554,103 +1533,172 @@ buildLevelTrack();
 buildBonusPickers();
 buildCustomSpells();
 
-// ── EXPORT ──
-function buildPVBoxes(id,pv){
-  const c=document.getElementById(id);c.innerHTML='';
-  for(let i=0;i<pv;i++){const b=document.createElement('div');b.className='fpv-box';c.appendChild(b);}
+// ── SAUVEGARDE ET EXPORT (avec support Checkbox) ──
+const SAVE_KEY = 'persona5_fiche_v3';
+const FORM_FIELDS = [
+  'char-name','char-class','char-universe','char-bio','char-gold', 'char-deaths', 'char-palmares',
+  'competence','metier','phobie',
+  'equip-melee-name','equip-melee-dmg','equip-ranged-name','equip-ranged-dmg', 'equip-ranged-ammo',
+  'persona-name','persona-origin','persona-desc',
+  'weak1','res1','immune1',
+  's2-nom','s2-cout','s2-degats','s2-effet',
+  'chk_spell_5_1', 'chk_spell_7_1', 'chk_spell_7_2', 'chk_spell_9_1' // IDs des cases à cocher !
+];
+
+for(let i=1; i<=7; i++){
+  FORM_FIELDS.push('c_spell_name_'+i, 'c_spell_desc_'+i, 'c_spell_kw1_'+i, 'c_spell_kw2_'+i, 'c_spell_kw3_'+i, 'c_spell_kw4_'+i);
 }
+
+function collectState(){
+  const formData = {};
+  FORM_FIELDS.forEach(id => {
+    const el = document.getElementById(id);
+    if(el) {
+      if (el.type === 'checkbox') formData[id] = el.checked;
+      else formData[id] = el.value;
+    }
+  });
+  return {
+    version: 3, formData, rolls, assigned,
+    arcanaId: selectedArcana ? selectedArcana.id : null,
+    archetypeId: selectedArchetype ? selectedArchetype.id : null,
+    elementId: selectedElement ? selectedElement.id : null,
+    currentLevel, bonusPoints, photoDataURL, personaPhotoDataURL,
+  };
+}
+
+function applyState(data){
+  if(!data) return;
+  if(data.formData){
+    FORM_FIELDS.forEach(id => {
+      const el = document.getElementById(id);
+      if(el && data.formData[id] !== undefined) {
+        if (el.type === 'checkbox') el.checked = data.formData[id];
+        else el.value = data.formData[id];
+      }
+    });
+  }
+
+  rolls = data.rolls || [];
+  assigned = data.assigned || {physique:null,adresse:null,meninge:null,social:null};
+  currentLevel = data.currentLevel || 1;
+  bonusPoints = data.bonusPoints || {3:null, 5:null, 7:null, 9:null};
+
+  selectedArcana = ARCANES.find(a => a.id === data.arcanaId) || null;
+  selectedArchetype = ARCHETYPES.find(a => a.id === data.archetypeId) || null;
+  selectedElement = ELEMENTS.find(e => e.id === data.elementId) || null;
+
+  photoDataURL = data.photoDataURL || null;
+  personaPhotoDataURL = data.personaPhotoDataURL || null;
+  if(photoDataURL){ document.getElementById('photo-placeholder').style.display='none'; const z=document.getElementById('photo-zone'); let img=z.querySelector('img'); if(!img){img=document.createElement('img'); z.appendChild(img);} img.src=photoDataURL; }
+  if(personaPhotoDataURL){ document.getElementById('persona-photo-placeholder').style.display='none'; const z=document.getElementById('persona-photo-zone'); let img=z.querySelector('img'); if(!img){img=document.createElement('img'); z.appendChild(img);} img.src=personaPhotoDataURL; }
+
+  document.querySelectorAll('.arcana-opt').forEach(el => el.classList.toggle('selected', el.querySelector('input')?.value === data.arcanaId));
+  document.querySelectorAll('.archetype-opt').forEach(el => el.classList.toggle('selected', el.querySelector('input')?.value === data.archetypeId));
+  document.querySelectorAll('.persona-type-card').forEach(el => el.classList.toggle('selected', el.querySelector('input')?.value === data.elementId));
+
+  buildLevelTrack();
+  [3,5,7,9].forEach(lvl => { const p = document.getElementById('bonus-panel-'+lvl); if(p) p.classList.toggle('visible', currentLevel >= lvl); });
+  const p10 = document.getElementById('bonus-panel-10'); if(p10) p10.classList.toggle('visible', currentLevel >= 7);
+  buildBonusPickers();
+
+  if(rolls.length){
+    const res = document.getElementById('roll-result'); res.innerHTML = '';
+    rolls.forEach((v,i) => { const b = document.createElement('div'); b.className = 'die-badge' + (v < 0 ? ' neg' : ''); b.style.animationDelay = (i * .12) + 's'; b.textContent = (v >= 0 ? '+' : '') + v; res.appendChild(b); });
+    updateSelects();
+  }
+  updateAllDisplays();
+}
+
+let _saveTimer = null;
+function scheduleSave(){
+  const dot = document.getElementById('autosave-dot');
+  dot.className = 'autosave-dot saving';
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(() => {
+    const state = collectState();
+    try { localStorage.setItem(SAVE_KEY, JSON.stringify(state)); } catch(e) { try { localStorage.setItem(SAVE_KEY, JSON.stringify({...state, photoDataURL: null, personaPhotoDataURL: null})); } catch(_){} }
+    dot.className = 'autosave-dot saved';
+    document.getElementById('autosave-label').textContent = 'SAUVEGARDÉ ' + new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  }, 800);
+}
+
+function loadAutoSave(){
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if(!raw) return false;
+    applyState(JSON.parse(raw));
+    const dot = document.getElementById('autosave-dot'); dot.className = 'autosave-dot saved';
+    document.getElementById('autosave-label').textContent = 'SESSION RESTAURÉE';
+    return true;
+  } catch(e){ return false; }
+}
+
+function exportJSON(){
+  const blob = new Blob([JSON.stringify(collectState(), null, 2)], {type:'application/json'});
+  const link = document.createElement('a'); link.download = (document.getElementById('char-name').value || 'personnage') + '_persona5.json';
+  link.href = URL.createObjectURL(blob); link.click(); URL.revokeObjectURL(link.href);
+}
+
+function importJSON(event){
+  const file = event.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => { try { applyState(JSON.parse(e.target.result)); scheduleSave(); } catch(err){ alert('Fichier invalide : ' + err.message); } event.target.value = ''; };
+  reader.readAsText(file);
+}
+
+function confirmReset(){
+  if(confirm('Réinitialiser toute la fiche ?')) { localStorage.removeItem(SAVE_KEY); location.reload(); }
+}
+
+document.addEventListener('input', scheduleSave);
+document.addEventListener('change', scheduleSave);
+
+loadAutoSave();
+
+// Fonctions d'export Image (identiques à avant)
 function setPhoto(id,dataURL,fallback){
   const c=document.getElementById(id);c.innerHTML='';
   if(dataURL){const i=document.createElement('img');i.src=dataURL;i.style.cssText='width:100%;height:100%;object-fit:cover;display:block;';c.appendChild(i);}
   else{c.innerHTML=`<div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#220008;letter-spacing:.3em;text-transform:uppercase;">${fallback}</div>`;}
 }
+function buildPVBoxes(id,pv){ const c=document.getElementById(id);c.innerHTML=''; for(let i=0;i<pv;i++){const b=document.createElement('div');b.className='fpv-box';c.appendChild(b);} }
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
-
 function populateRecto(){
   document.getElementById('fr-name').textContent=(document.getElementById('char-name').value||'JOKER').toUpperCase();
   document.getElementById('fr-sub').textContent=(document.getElementById('char-class').value||'—');
-  const frUniv = document.getElementById('fr-universe');
-  if(frUniv) frUniv.textContent=(document.getElementById('char-universe').value||'—');
+  document.getElementById('fr-universe').textContent=(document.getElementById('char-universe').value||'—');
   document.getElementById('fr-comp').textContent=(document.getElementById('competence').value||'—');
   document.getElementById('fr-club').textContent=(document.getElementById('metier').value||'—');
   document.getElementById('fr-trauma').textContent=(document.getElementById('phobie').value||'—');
-  const frGold = document.getElementById('fr-gold');
-  if(frGold) frGold.textContent=(document.getElementById('char-gold').value||'0');
+  document.getElementById('fr-gold').textContent=(document.getElementById('char-gold').value||'0');
   
   const bio=document.getElementById('char-bio').value||'';
   const bioBlock = document.getElementById('fr-bio-block');
-  if(bioBlock){
-    if(bio){document.getElementById('fr-bio').textContent=bio; bioBlock.style.display='block';}
-    else{bioBlock.style.display='none';}
-  }
+  if(bio){document.getElementById('fr-bio').textContent=bio; bioBlock.style.display='block';} else{bioBlock.style.display='none';}
 
   const palmares = document.getElementById('char-palmares').value||'';
   const palmaresBlock = document.getElementById('fr-palmares-block');
-  if(palmaresBlock){
-    if(palmares){document.getElementById('fr-palmares').textContent=palmares; palmaresBlock.style.display='block';}
-    else{palmaresBlock.style.display='none';}
-  }
+  if(palmares){document.getElementById('fr-palmares').textContent=palmares; palmaresBlock.style.display='block';} else{palmaresBlock.style.display='none';}
   
-  if(selectedArcana){
-    document.getElementById('fr-arc-badge').textContent=selectedArcana.icon+' '+selectedArcana.name;
-    document.getElementById('fr-arc-bonus').textContent=selectedArcana.bonus;
-  }
-  if(selectedArchetype){
-    document.getElementById('fr-arch-badge').textContent=selectedArchetype.icon+' '+selectedArchetype.name;
-    document.getElementById('fr-arch-bonus').textContent='Cond: '+selectedArchetype.cond+' → '+selectedArchetype.bonus;
-  }
+  if(selectedArcana){ document.getElementById('fr-arc-badge').textContent=selectedArcana.icon+' '+selectedArcana.name; document.getElementById('fr-arc-bonus').textContent=selectedArcana.bonus; }
+  if(selectedArchetype){ document.getElementById('fr-arch-badge').textContent=selectedArchetype.icon+' '+selectedArchetype.name; document.getElementById('fr-arch-bonus').textContent='Cond: '+selectedArchetype.cond+' → '+selectedArchetype.bonus; }
 
-  const meleeName = document.getElementById('equip-melee-name').value || 'Arme de Mêlée';
-  const meleeDmg = document.getElementById('equip-melee-dmg').value;
-  const rangedName = document.getElementById('equip-ranged-name').value || 'Arme à feu';
-  const rangedDmg = document.getElementById('equip-ranged-dmg').value;
-  const rangedAmmo = document.getElementById('equip-ranged-ammo').value || '0';
-  document.getElementById('fr-equip-melee').textContent = `${meleeName} (${meleeDmg} DGT)`;
-  document.getElementById('fr-equip-ranged').textContent = `${rangedName} (${rangedDmg} DGT) [${rangedAmmo} Mun.]`;
+  document.getElementById('fr-equip-melee').textContent = `${document.getElementById('equip-melee-name').value || 'Arme de Mêlée'} (${document.getElementById('equip-melee-dmg').value} DGT)`;
+  document.getElementById('fr-equip-ranged').textContent = `${document.getElementById('equip-ranged-name').value || 'Arme à feu'} (${document.getElementById('equip-ranged-dmg').value} DGT) [${document.getElementById('equip-ranged-ammo').value || '0'} Mun.]`;
 
   ATTRS.forEach(attr=>{
     const v=getEffectiveAttr(attr), el=document.getElementById('fr-'+attr);
-    if(el) {
-      if(v===null){el.textContent='—';el.className='fa-val zero';}
-      else{el.textContent=(v>=0?'+':'')+v;el.className='fa-val '+(v>0?'pos':v<0?'neg':'zero');}
-    }
+    if(v===null){el.textContent='—';el.className='fa-val zero';} else{el.textContent=(v>=0?'+':'')+v;el.className='fa-val '+(v>0?'pos':v<0?'neg':'zero');}
   });
 
-  const physEff = getEffectiveAttr('physique');
-  const calcPhys = (physEff !== null && physEff > 0) ? physEff : 0;
-  let pv = 10;
-  if (physEff !== null) {
-      pv = Math.round(
-        ((824 - 31 * calcPhys) / 7200) * Math.pow(currentLevel, 3) + 
-        ((167 * calcPhys - 1368) / 800) * Math.pow(currentLevel, 2) + 
-        ((18232 - 1433 * calcPhys) / 1800) * currentLevel + 
-        (43 * calcPhys + 40) / 24
-    );
-  }
-  
-  const menEff = getEffectiveAttr('meninge');
-  const calcMen = (menEff !== null && menEff > 0) ? menEff : 0;
-  let sp = 10;
-  if (menEff !== null) {
-      sp = Math.round(
-        ((824 - 31 * calcMen) / 7200) * Math.pow(currentLevel, 3) + 
-        ((167 * calcMen - 1368) / 800) * Math.pow(currentLevel, 2) + 
-        ((18232 - 1433 * calcMen) / 1800) * currentLevel + 
-        (43 * calcMen + 40) / 24
-    );
-    const deaths = parseInt(document.getElementById('char-deaths')?.value) || 0;
-    sp = Math.max(0, sp - (deaths * 10));
-  }
-
-  document.getElementById('fr-pv').textContent=pv;
-  document.getElementById('fr-sp').textContent=sp;
-  buildPVBoxes('fr-pv-boxes',pv);
+  document.getElementById('fr-pv').textContent = document.getElementById('pv-display').textContent;
+  document.getElementById('fr-sp').textContent = document.getElementById('sp-display').textContent;
+  buildPVBoxes('fr-pv-boxes', parseInt(document.getElementById('pv-display').textContent) || 10);
   
   document.getElementById('fr-level').textContent='NIV. '+currentLevel;
   let bonusTxt = '';
-  [3,5,7,9].forEach(lvl => {
-     if(currentLevel >= lvl && bonusPoints[lvl]) bonusTxt += `Niv.${lvl} +1 ${ATTR_LABELS[bonusPoints[lvl]].split(' ')[1]}  `;
-  });
+  [3,5,7,9].forEach(lvl => { if(currentLevel >= lvl && bonusPoints[lvl]) bonusTxt += `Niv.${lvl} +1 ${ATTR_LABELS[bonusPoints[lvl]].split(' ')[1]}  `; });
   if(currentLevel >= 10) bonusTxt += ` ÉVEIL ULTIME `;
   document.getElementById('fr-level-bonus').textContent = bonusTxt || 'Aucun bonus';
   setPhoto('fr-photo',photoDataURL,'PORTRAIT');
@@ -1666,39 +1714,29 @@ function populateVerso(){
   document.getElementById('fv-desc').textContent=document.getElementById('persona-desc').value||'—';
   document.getElementById('fv-type').textContent=selectedElement?selectedElement.icon+' '+selectedElement.name.toUpperCase():'—';
 
-  const s1t = document.getElementById('sort1-auto-title');
-  document.getElementById('fv-s1t').textContent = s1t ? s1t.textContent : '▶ SORT AUTO 1';
+  document.getElementById('fv-s1t').textContent = document.getElementById('sort1-auto-title').textContent;
   document.getElementById('fv-s1n').textContent = document.getElementById('sort1-auto-name').textContent;
   document.getElementById('fv-s1d').textContent = document.getElementById('sort1-auto-desc').textContent;
   
-  const s2nom    = (document.getElementById('s2-nom')?.value    || '').trim();
-  const s2cout   = (document.getElementById('s2-cout')?.textContent   || '').trim();
-  const s2degats = (document.getElementById('s2-degats')?.textContent || '').trim();
-  const s2effet  = (document.getElementById('s2-effet')?.value  || '').trim();
-  const s2label  = [s2cout ? `[${s2cout}]` : '', s2degats && s2degats !== '—' ? `${s2degats} DGT` : ''].filter(Boolean).join(' · ');
-  document.getElementById('fv-s2n').textContent = s2nom || '— Faculté non définie —';
-  document.getElementById('fv-s2d').textContent = [s2label, s2effet].filter(Boolean).join(' — ') || '—';
+  const s2cout = document.getElementById('s2-cout').textContent.trim();
+  const s2degats = document.getElementById('s2-degats').textContent.trim();
+  const s2label = [s2cout ? `[${s2cout}]` : '', s2degats && s2degats !== '—' ? `${s2degats} DGT` : ''].filter(Boolean).join(' · ');
+  document.getElementById('fv-s2n').textContent = document.getElementById('s2-nom').value || '— Faculté non définie —';
+  document.getElementById('fv-s2d').textContent = [s2label, document.getElementById('s2-effet').value].filter(Boolean).join(' — ') || '—';
   
-  document.getElementById('fv-s3n').textContent = selectedArcana ? document.getElementById('sort3-auto-name').textContent : '— Arcane non choisi —';
-  document.getElementById('fv-s3d').textContent = selectedArcana ? document.getElementById('sort3-auto-desc').textContent : '—';
+  document.getElementById('fv-s3n').textContent = document.getElementById('sort3-auto-name').textContent || '— Arcane non choisi —';
+  document.getElementById('fv-s3d').textContent = document.getElementById('sort3-auto-desc').textContent || '—';
 
-  // Custom Spells (7 slots limit)
   const customContainer = document.getElementById('fv-custom-spells');
   customContainer.innerHTML = '';
-  const reqLvls = [4, 5, 6, 7, 8, 9, 10];
+  const reqLvls = [4, 5, 6, 7, 8, 9, 7];
   const types = ["mots3", "libre", "resistance", "libre", "mots3", "libre", "ultime"];
   
   for(let i=1; i<=7; i++){
     if(currentLevel < reqLvls[i-1]) continue;
-
-    const nameEl = document.getElementById('c_spell_name_'+i);
-    const descEl = document.getElementById('c_spell_desc_'+i);
-    if(!nameEl || !descEl) continue;
-    
-    const name = nameEl.value;
-    const desc = descEl.value;
+    const name = document.getElementById('c_spell_name_'+i)?.value;
+    const desc = document.getElementById('c_spell_desc_'+i)?.value;
     const type = types[i-1];
-    
     let kwString = "";
     let fspellNumText = `▶ SLOT ${i} (NIV. ${reqLvls[i-1]})`;
 
@@ -1707,33 +1745,23 @@ function populateVerso(){
       const kw2 = document.getElementById('c_spell_kw2_'+i)?.value || 'Forme';
       const kw3 = document.getElementById('c_spell_kw3_'+i)?.value || 'Déclencheur';
       const kw4 = document.getElementById('c_spell_kw4_'+i)?.value || 'Modificateur';
-      if(name || desc || kw1!=='Élément') {
-        kwString = `<div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:#f4f4f4;margin-bottom:4px;letter-spacing:0.05em;border-bottom:1px solid #330010;padding-bottom:2px;"><span style="color:#ffd700;">[${kw1}]</span> + [${kw2}] + [${kw4}] + [${kw3}]</div>`;
-      }
-    } else if(type === 'resistance') {
-      fspellNumText = `▶ RÉSISTANCE (NIV. ${reqLvls[i-1]})`;
-    } else if(type === 'ultime') {
+      if(name || desc || kw1!=='Élément') kwString = `<div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:#f4f4f4;margin-bottom:4px;letter-spacing:0.05em;border-bottom:1px solid #330010;padding-bottom:2px;"><span style="color:#ffd700;">[${kw1}]</span> + [${kw2}] + [${kw4}] + [${kw3}]</div>`;
+    } else if(type === 'resistance') fspellNumText = `▶ RÉSISTANCE (NIV. ${reqLvls[i-1]})`;
+    else if(type === 'ultime') {
       fspellNumText = `▶ CAPACITÉ ULTIME (NIV. 10)`;
       const cost = document.getElementById('c_spell_kw1_'+i)?.value || '';
-      if(cost) {
-        kwString = `<div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:#ff1a2e;margin-bottom:4px;letter-spacing:0.05em;border-bottom:1px solid #330010;padding-bottom:2px;">CONDITION / COÛT : [${cost}]</div>`;
-      }
+      if(cost) kwString = `<div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:#ff1a2e;margin-bottom:4px;letter-spacing:0.05em;border-bottom:1px solid #330010;padding-bottom:2px;">CONDITION / COÛT : [${cost}]</div>`;
     }
 
-    if(name.trim() !== '' || desc.trim() !== '' || kwString !== '') {
+    if(name?.trim() !== '' || desc?.trim() !== '' || kwString !== '') {
       const div = document.createElement('div');
       div.className = 'fspell';
       if(type === 'resistance') div.style.borderLeftColor = '#4466ff';
-      if(type === 'ultime') {
-         div.style.borderLeftColor = 'var(--red)';
-         div.style.background = 'rgba(230,0,18,.05)';
-         div.style.gridColumn = '1 / -1'; // S'étale sur toute la largeur
-      }
+      if(type === 'ultime') { div.style.borderLeftColor = 'var(--red)'; div.style.background = 'rgba(230,0,18,.05)'; div.style.gridColumn = '1 / -1'; }
       div.innerHTML = `<div class="fspell-num" ${type==='ultime'?'style="color:var(--red);"' : ''}>${fspellNumText}</div><div class="fspell-name">${name || '—'}</div>${kwString}<div class="fspell-desc">${desc || '—'}</div>`;
       customContainer.appendChild(div);
     }
   }
-
   setPhoto('fv-photo',personaPhotoDataURL,'PERSONA');
 }
 
@@ -1748,211 +1776,9 @@ async function renderFiche(wrapId, exportId, filename){
   fiche.style.left='-9999px';fiche.style.zIndex='';
 }
 
-async function exportRecto(){
-  populateRecto();
-  await renderFiche('fiche-recto-wrap','fiche-recto-export',(document.getElementById('char-name').value||'hero')+'_RECTO.png');
-  showToast('▶ RECTO EXPORTÉ ◀');
-}
-async function exportVerso(){
-  populateVerso();
-  await renderFiche('fiche-verso-wrap','fiche-verso-export',(document.getElementById('char-name').value||'hero')+'_VERSO.png');
-  showToast('▶ VERSO EXPORTÉ ◀');
-}
-async function exportBoth(){
-  populateRecto();
-  populateVerso();
-  await renderFiche('fiche-recto-wrap','fiche-recto-export',(document.getElementById('char-name').value||'hero')+'_RECTO.png');
-  await new Promise(r=>setTimeout(r,400));
-  await renderFiche('fiche-verso-wrap','fiche-verso-export',(document.getElementById('char-name').value||'hero')+'_VERSO.png');
-  showToast('▶ RECTO + VERSO EXPORTÉS ◀');
-}
-
-// ── SAUVEGARDE / CHARGEMENT ──
-const SAVE_KEY = 'persona5_fiche_v3';
-const FORM_FIELDS = [
-  'char-name','char-class','char-universe','char-bio','char-gold', 'char-deaths', 'char-palmares',
-  'competence','metier','phobie',
-  'equip-melee-name','equip-melee-dmg','equip-ranged-name','equip-ranged-dmg', 'equip-ranged-ammo',
-  'persona-name','persona-origin','persona-desc',
-  'weak1','res1','immune1',
-  's2-nom','s2-cout','s2-degats','s2-effet'
-];
-for(let i=1; i<=7; i++){
-  FORM_FIELDS.push('c_spell_name_'+i, 'c_spell_desc_'+i, 'c_spell_kw1_'+i, 'c_spell_kw2_'+i, 'c_spell_kw3_'+i, 'c_spell_kw4_'+i);
-}
-
-function collectState(){
-  const formData = {};
-  FORM_FIELDS.forEach(id => {
-    const el = document.getElementById(id);
-    if(el) formData[id] = el.value;
-  });
-  return {
-    version: 3,
-    formData,
-    rolls,
-    assigned,
-    arcanaId:    selectedArcana    ? selectedArcana.id    : null,
-    archetypeId: selectedArchetype ? selectedArchetype.id : null,
-    elementId:   selectedElement   ? selectedElement.id   : null,
-    currentLevel,
-    bonusPoints,
-    photoDataURL,
-    personaPhotoDataURL,
-  };
-}
-
-function applyState(data){
-  if(!data) return;
-
-  if(data.formData){
-    FORM_FIELDS.forEach(id => {
-      const el = document.getElementById(id);
-      if(el && data.formData[id] !== undefined) el.value = data.formData[id];
-    });
-  }
-
-  rolls        = data.rolls        || [];
-  assigned     = data.assigned     || {physique:null,adresse:null,meninge:null,social:null};
-  currentLevel = data.currentLevel || 1;
-  bonusPoints  = data.bonusPoints  || {3:null, 5:null, 7:null, 9:null};
-
-  selectedArcana    = ARCANES.find(a => a.id === data.arcanaId)       || null;
-  selectedArchetype = ARCHETYPES.find(a => a.id === data.archetypeId) || null;
-  selectedElement   = ELEMENTS.find(e => e.id === data.elementId)     || null;
-
-  photoDataURL        = data.photoDataURL        || null;
-  personaPhotoDataURL = data.personaPhotoDataURL || null;
-
-  if(photoDataURL){
-    document.getElementById('photo-placeholder').style.display = 'none';
-    const z = document.getElementById('photo-zone');
-    let img = z.querySelector('img');
-    if(!img){ img = document.createElement('img'); z.appendChild(img); }
-    img.src = photoDataURL;
-  }
-  if(personaPhotoDataURL){
-    document.getElementById('persona-photo-placeholder').style.display = 'none';
-    const z = document.getElementById('persona-photo-zone');
-    let img = z.querySelector('img');
-    if(!img){ img = document.createElement('img'); z.appendChild(img); }
-    img.src = personaPhotoDataURL;
-  }
-
-  document.querySelectorAll('.arcana-opt').forEach(el => {
-    el.classList.toggle('selected', el.querySelector('input')?.value === data.arcanaId);
-  });
-  document.querySelectorAll('.archetype-opt').forEach(el => {
-    el.classList.toggle('selected', el.querySelector('input')?.value === data.archetypeId);
-  });
-  document.querySelectorAll('.persona-type-card').forEach(el => {
-    el.classList.toggle('selected', el.querySelector('input')?.value === data.elementId);
-  });
-
-  if(selectedArcana){
-    document.getElementById('sort3-pending').style.display = 'none';
-    document.getElementById('sort3-auto-content').style.display = 'block';
-  }
-
-  buildLevelTrack();
-  [3,5,7,9].forEach(lvl => {
-    const p = document.getElementById('bonus-panel-'+lvl);
-    if(p) p.classList.toggle('visible', currentLevel >= lvl);
-  });
-  const p10 = document.getElementById('bonus-panel-10');
-  if(p10) p10.classList.toggle('visible', currentLevel >= 10);
-  buildBonusPickers();
-
-  if(rolls.length){
-    const res = document.getElementById('roll-result');
-    res.innerHTML = '';
-    rolls.forEach((v,i) => {
-      const b = document.createElement('div');
-      b.className = 'die-badge' + (v < 0 ? ' neg' : '');
-      b.style.animationDelay = (i * .12) + 's';
-      b.textContent = (v >= 0 ? '+' : '') + v;
-      res.appendChild(b);
-    });
-    updateSelects();
-  }
-
-  updateAllDisplays();
-}
-
-let _saveTimer = null;
-function scheduleSave(){
-  const dot = document.getElementById('autosave-dot');
-  dot.className = 'autosave-dot saving';
-  clearTimeout(_saveTimer);
-  _saveTimer = setTimeout(() => {
-    const state = collectState();
-    try {
-      localStorage.setItem(SAVE_KEY, JSON.stringify(state));
-    } catch(e) {
-      try {
-        const lite = {...state, photoDataURL: null, personaPhotoDataURL: null};
-        localStorage.setItem(SAVE_KEY, JSON.stringify(lite));
-      } catch(_){}
-    }
-    dot.className = 'autosave-dot saved';
-    document.getElementById('autosave-label').textContent =
-      'SAUVEGARDÉ ' + new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
-  }, 800);
-}
-
-function loadAutoSave(){
-  try {
-    const raw = localStorage.getItem(SAVE_KEY);
-    if(!raw) return false;
-    const data = JSON.parse(raw);
-    applyState(data);
-    const dot = document.getElementById('autosave-dot');
-    dot.className = 'autosave-dot saved';
-    document.getElementById('autosave-label').textContent = 'SESSION RESTAURÉE';
-    return true;
-  } catch(e){ return false; }
-}
-
-function exportJSON(){
-  const state = collectState();
-  const charName = document.getElementById('char-name').value || 'personnage';
-  const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
-  const link = document.createElement('a');
-  link.download = charName + '_persona5.json';
-  link.href = URL.createObjectURL(blob);
-  link.click();
-  URL.revokeObjectURL(link.href);
-  showToast('▶ JSON EXPORTÉ ◀');
-}
-
-function importJSON(event){
-  const file = event.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    try {
-      const data = JSON.parse(e.target.result);
-      applyState(data);
-      scheduleSave();
-      showToast('▶ FICHE IMPORTÉE ◀');
-    } catch(err){
-      alert('Fichier JSON invalide : ' + err.message);
-    }
-    event.target.value = '';
-  };
-  reader.readAsText(file);
-}
-
-function confirmReset(){
-  if(!confirm('Réinitialiser toute la fiche ? Cette action est irréversible.')) return;
-  localStorage.removeItem(SAVE_KEY);
-  location.reload();
-}
-
-document.addEventListener('input',  scheduleSave);
-document.addEventListener('change', scheduleSave);
-
-loadAutoSave();
+async function exportRecto(){ populateRecto(); await renderFiche('fiche-recto-wrap','fiche-recto-export',(document.getElementById('char-name').value||'hero')+'_RECTO.png'); showToast('▶ RECTO EXPORTÉ ◀'); }
+async function exportVerso(){ populateVerso(); await renderFiche('fiche-verso-wrap','fiche-verso-export',(document.getElementById('char-name').value||'hero')+'_VERSO.png'); showToast('▶ VERSO EXPORTÉ ◀'); }
+async function exportBoth(){ populateRecto(); populateVerso(); await renderFiche('fiche-recto-wrap','fiche-recto-export',(document.getElementById('char-name').value||'hero')+'_RECTO.png'); await new Promise(r=>setTimeout(r,400)); await renderFiche('fiche-verso-wrap','fiche-verso-export',(document.getElementById('char-name').value||'hero')+'_VERSO.png'); showToast('▶ RECTO + VERSO EXPORTÉS ◀'); }
 </script>
 </body>
 </html>
