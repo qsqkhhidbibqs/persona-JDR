@@ -472,22 +472,29 @@ input.yen-inp:focus{box-shadow:none;border-left:none;background:transparent;bord
           <span class="lbl-hint">Tes plus grands exploits de voleur</span>
           <textarea id="char-palmares" placeholder="Ex: A volé le cœur de Kamoshida, a vaincu..."></textarea>
         </div>
-        
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px;">
+        <div class="field">
+          <label>Inventaire / Objets</label>
+          <span class="lbl-hint">Crochets, potions, trésors et objets clés</span>
+          <textarea id="char-inventory" placeholder="Ex: 3x Médicaments, 1x Sombreflamme..."></textarea>
+        </div>
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px;">
           <div class="stat-block">
             <label>PV (Stamina)</label>
-            <span class="lbl-hint">10 + Attr + (Niveau×(1+Attr))</span>
-            <div class="stat-val-big hp" id="pv-display">—</div>
-            <div class="stat-formula" id="pv-formula"></div>
+            <span class="lbl-hint">Actuels / Max</span>
+            <div style="display:flex; align-items:center; gap:8px; margin-top:6px; flex-wrap:nowrap;">
+              <input type="number" id="pv-current" placeholder="PV" style="width:60px; font-family:'Bebas Neue',sans-serif; font-size:32px; color:var(--red); text-shadow:2px 2px 0 rgba(230,0,18,.3); background:rgba(0,0,0,0.4); border:none; border-bottom:3px solid var(--red); text-align:center; padding:2px 0 0 0; outline:none; transition:all 0.2s;" onfocus="this.style.background='rgba(230,0,18,.1)'" onblur="this.style.background='rgba(0,0,0,0.4)'" />
+              <span style="font-family:'Bebas Neue',sans-serif; font-size:32px; color:var(--text4); white-space:nowrap; line-height:1;">/ <span id="pv-display">—</span></span>
+            </div>
           </div>
           <div class="stat-block">
             <label>PC (Concentration)</label>
-            <span class="lbl-hint">Formule polynomiale - Morts*5</span>
-            <div class="stat-val-big sp" id="sp-display">—</div>
-            <div class="stat-formula" id="sp-formula"></div>
+            <span class="lbl-hint">Actuels / Max</span>
+            <div style="display:flex; align-items:center; gap:8px; margin-top:6px; flex-wrap:nowrap;">
+              <input type="number" id="sp-current" placeholder="PC" style="width:60px; font-family:'Bebas Neue',sans-serif; font-size:32px; color:#4466ff; text-shadow:2px 2px 0 rgba(68,102,255,.3); background:rgba(0,0,0,0.4); border:none; border-bottom:3px solid #4466ff; text-align:center; padding:2px 0 0 0; outline:none; transition:all 0.2s;" onfocus="this.style.background='rgba(68,102,255,.1)'" onblur="this.style.background='rgba(0,0,0,0.4)'" />
+              <span style="font-family:'Bebas Neue',sans-serif; font-size:32px; color:var(--text4); white-space:nowrap; line-height:1;">/ <span id="sp-display">—</span></span>
+            </div>
           </div>
         </div>
-
         <div class="field" style="margin-top:12px; display:flex; gap:12px; flex-wrap:wrap;">
           <div style="flex:1; min-width:140px;">
             <label>💴 Yens</label>
@@ -1048,7 +1055,7 @@ const ARCANES = [
   {id:'fortune',    icon:'🎡', name:'La Roue (X)',         bonus:"Ceux qui acceptent et manipulent les caprices du destin.<br><br>1 fois par jour dans le lycée, tu peux relancer 1 dé (le tien, celui d'un allié, ou forcer un ennemi à relancer).", 
    spell:{name:'Iversion des poles', cost: 4, desc:'Tu désignes un évènement qui vient de se produire, la prochaine fois qu\'il arrive, il entrainera des conséquences opposées'}},
   {id:'strength',   icon:'🦁', name:'La Force (XI)',       bonus:"Des personnes faisant preuve d'une résilience et d'un courage purs.<br><br>Peut utiliser son modificateur de physique et non de social pour intimider dans le lycée, les gens s'en souviendront.", 
-   spell:{name:'Focus', cost: 3, desc:'La prochaine attaque physique du lanceur est un coup critique'}},
+   spell:{name:'Focus', cost: 3, desc:'La prochaine attaque physique du lanceur est un coup critique mais peut rater.'}},
   {id:'hanged',     icon:'🙃', name:'Le Pendu (XII)',      bonus:"Ceux qui acceptent le sacrifice pour changer de perspective.<br><br>+4 Social dans le lycée quand en position de faiblesse", 
    spell:{name:'Renversement', cost: 2, desc:'Inverse la fonction d\'un objet ou d\'un piège.'}},
   {id:'death',      icon:'💀', name:'La Mort (XIII)',      bonus:"Les initiateurs de fins inévitables et de grands renouveaux.<br><br>Commence chaque nouvelle journée avec un jeton aléatoire.", 
@@ -1167,7 +1174,7 @@ function buildCustomSpells(){
           </div>
           <div>
             <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red3);letter-spacing:.15em;margin-bottom:3px;">COÛT / CONDITION</div>
-            <input class="spell-input" id="c_spell_kw1_${i}" type="text" placeholder="20 PC ou 20 PV MAX PAR TOUR"/>
+            <input class="spell-input" id="c_spell_kw1_${i}" type="text" placeholder="20 PV MAX PAR TOUR"/>
           </div>
         </div>
         <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red3);letter-spacing:.15em;margin-top:6px;margin-bottom:3px;">EFFET DÉVASTATEUR</div>
@@ -1395,13 +1402,13 @@ function updateAutoSpells(){
     if(s1desc) s1desc.textContent = `Restaure ${heal} PV à 1 allié (ou toi-même). Sans jet de dé. Bonus Méninge : +${men}.`;
   } else if (isRanged) {
     let dmg = Math.floor(4 + adr*3 + (lvl*0.5+0.5*lvl**1.6));
-    let cost = Math.floor(4 + (lvl*2 - 1))-5;
+    let cost = Math.floor(1.3*(4 + (lvl*2 - 1)))-5;
     if(s1num) s1num.textContent = "▶ SORT AUTO — TIR PRÉCIS ()";
     if(s1name) s1name.textContent = `Tir Précis (Niv. ${lvl}) [${cost} PV]`;
     if(s1desc) s1desc.textContent = `Dégâts fixes : ${dmg}. Jet d'Adresse ≥ 10 requis.`;
   } else {
-    let dmg = Math.floor(4 + phys + (lvl*0.2207+0.2874*lvl**2));
-    let cost = 2 + (lvl*3 - 1);
+    let dmg = Math.floor(4 + phys*3 + (lvl*0.3+0.5*lvl**2));
+    let cost = Math.floor(2 + (lvl*3 - 1));
     if(s1num) s1num.textContent = "▶ SORT AUTO — ATTAQUE PHYSIQUE";
     if(s1name) s1name.textContent = `Frappe Physique (Niv. ${lvl}) [${cost} PV]`;
     if(s1desc) s1desc.textContent = `Dégâts : ${dmg}. Jet de Force ≥ 10 requis. Cible : 1 Ennemi.`;
@@ -1433,13 +1440,12 @@ function updateAutoSpells(){
   if (isNavi) {
     document.getElementById('sort3-pending').style.display = 'none';
     document.getElementById('sort3-auto-content').style.display = 'block';
-    document.getElementById('sort3-auto-name').textContent = `🎧 Réseau d'Arcanes (Niv. ${lvl})`;
+    document.getElementById('sort3-auto-name').textContent = `🎧 Réseau d'Arcanes (Niv. ${lvl}) [${lvl + 1} PC]`;
     document.getElementById('sort3-auto-desc').textContent = `Accès à TOUS les sorts de Soutien d'Arcane non utilisés par les autres joueurs à la table. Coût en PC doublé.`;
   } else if (selectedArcana && selectedArcana.spell) {
     const sp = selectedArcana.spell;
     let costTxt = ` [${lvl + 1} PC]`;
-    if(selectedArcana.id === 'strength') costTxt = " [Passif]";
-    else if(selectedArcana.id === 'hanged') costTxt = " [Sacrifice PV]";
+    
     document.getElementById('sort3-pending').style.display = 'none';
     document.getElementById('sort3-auto-content').style.display = 'block';
     document.getElementById('sort3-auto-name').textContent = `${selectedArcana.icon} ${sp.name} (Niv. ${lvl})${costTxt}`;
@@ -1536,7 +1542,8 @@ buildCustomSpells();
 // ── SAUVEGARDE ET EXPORT (avec support Checkbox) ──
 const SAVE_KEY = 'persona5_fiche_v3';
 const FORM_FIELDS = [
-  'char-name','char-class','char-universe','char-bio','char-gold', 'char-deaths', 'char-palmares',
+  'pv-current', 'sp-current',
+  'char-name','char-class','char-universe','char-bio','char-gold', 'char-deaths', 'char-palmares', 'char-inventory',
   'competence','metier','phobie',
   'equip-melee-name','equip-melee-dmg','equip-ranged-name','equip-ranged-dmg', 'equip-ranged-ammo',
   'persona-name','persona-origin','persona-desc',
@@ -1692,8 +1699,8 @@ function populateRecto(){
     if(v===null){el.textContent='—';el.className='fa-val zero';} else{el.textContent=(v>=0?'+':'')+v;el.className='fa-val '+(v>0?'pos':v<0?'neg':'zero');}
   });
 
-  document.getElementById('fr-pv').textContent = document.getElementById('pv-display').textContent;
-  document.getElementById('fr-sp').textContent = document.getElementById('sp-display').textContent;
+  document.getElementById('fr-pv').textContent = document.getElementById('pv-current').value || document.getElementById('pv-display').textContent;
+  document.getElementById('fr-sp').textContent = document.getElementById('sp-current').value || document.getElementById('sp-display').textContent;
   buildPVBoxes('fr-pv-boxes', parseInt(document.getElementById('pv-display').textContent) || 10);
   
   document.getElementById('fr-level').textContent='NIV. '+currentLevel;
