@@ -999,86 +999,69 @@
         </div>
       </div>
     </div>
-  </div> <div id="page-summary" class="page">
-    <div style="display:flex;flex-direction:column;gap:16px; width:100%;">
-      
-      <div class="panel">
-        <div class="panel-title"><span class="pt-icon">📋</span><span class="pt-text">Dossier Phantom Thief</span><span class="pt-num">INFO</span></div>
-        <div class="panel-body" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;">
-          
-          <div style="background:var(--panel2); border:1px solid var(--border2); padding:16px;">
-            <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--red3);margin-bottom:4px;letter-spacing:0.2em;">IDENTITÉ</div>
-            <div id="sum-name" style="font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--white);letter-spacing:0.1em;line-height:1;word-break:break-word;">—</div>
-            <div id="sum-class" style="font-size:14px;color:var(--text3);font-family:'Barlow Condensed',sans-serif;font-style:italic;margin-bottom:12px;">—</div>
-            
-            <div style="display:flex;gap:20px; border-top:1px solid var(--border2); padding-top:12px;">
-              <div><div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text4);">NIVEAU</div><div id="sum-level" style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--white); text-shadow:2px 2px 0 rgba(0,0,0,.5);">1</div></div>
-              <div><div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text4);">PV MAX</div><div id="sum-pv" style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--red); text-shadow:2px 2px 0 rgba(230,0,18,.3);">—</div></div>
-              <div><div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text4);">PC MAX</div><div id="sum-sp" style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:#4466ff; text-shadow:2px 2px 0 rgba(68,102,255,.3);">—</div></div>
-            </div>
-          </div>
-
-          <div style="background:var(--panel2); border:1px solid var(--border2); padding:16px;">
-            <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gold);margin-bottom:8px;letter-spacing:0.2em;">TAROT & COMBAT</div>
-            <div style="margin-bottom:12px;">
-              <span class="fpack-badge arc" style="border-color:var(--gold);color:var(--gold);font-family:'Bebas Neue',sans-serif;font-size:10px;padding:2px 4px;border:1px solid;">ARCANE</span>
-              <span id="sum-arcana" style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--white);margin-left:6px;letter-spacing:0.1em;">—</span>
-              <div id="sum-arcana-bonus" style="font-size:13px;color:var(--text2);margin-top:4px;font-style:italic;line-height:1.4;">—</div>
-            </div>
-            <div style="border-top:1px solid var(--border2); padding-top:12px;">
-              <span class="fpack-badge arch" style="border-color:var(--text4);color:var(--white);font-family:'Bebas Neue',sans-serif;font-size:10px;padding:2px 4px;border:1px solid;">ARCHÉTYPE</span>
-              <span id="sum-archetype" style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--white);margin-left:6px;letter-spacing:0.1em;">—</span>
-              <div id="sum-archetype-bonus" style="font-size:13px;color:var(--text2);margin-top:4px;font-style:italic;line-height:1.4;">—</div>
-            </div>
-          </div>
-
+  <div id="page-summary" class="page">
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+    
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <div class="panel" style="padding:10px;">
+        <div style="font-family:'Bebas Neue'; font-size:24px;" id="sum-name">—</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:5px; font-family:'Bebas Neue'; color:var(--red); text-align:center;">
+          <div style="background:rgba(230,0,18,.1)">PV <span id="sum-pv">—</span></div>
+          <div style="background:rgba(68,102,255,.1); color:#4466ff;">PC <span id="sum-sp">—</span></div>
+          <div style="background:rgba(255,215,0,.1); color:var(--gold);">¥ <span id="sum-gold">—</span></div>
         </div>
       </div>
 
-      <div class="panel">
-        <div class="panel-title"><span class="pt-icon">📊</span><span class="pt-text">Statistiques Globales</span><span class="pt-num">STATS</span></div>
-        <div class="panel-body" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;">
-          
-          <div style="background:var(--panel2); border:1px solid var(--border2); padding:16px;">
-            <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--red3);margin-bottom:12px;letter-spacing:0.2em;">ATTRIBUTS D'ACTION</div>
-            <div class="fr-attrs" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-              <div class="fa"><div class="fa-icon">🥷</div><div class="fa-name">Physique</div><div class="fa-val" id="sum-phys">—</div></div>
-              <div class="fa"><div class="fa-icon">🎯</div><div class="fa-name">Adresse</div><div class="fa-val" id="sum-adr">—</div></div>
-              <div class="fa"><div class="fa-icon">🔮</div><div class="fa-name">Méninge</div><div class="fa-val" id="sum-men">—</div></div>
-<div class="fa"><div class="fa-icon">🍀</div><div class="fa-name">Chance</div><div class="fa-val" id="sum-soc">—</div></div>            </div>
-          </div>
-
-          <div style="background:var(--panel2); border:1px solid var(--border2); padding:16px;">
-            <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gold);margin-bottom:12px;letter-spacing:0.2em;">RÉPUTATION & QUOTIDIEN</div>
-            <div style="display:flex; flex-direction:column; gap:8px;">
-              <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:6px;">
-                <span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--text);letter-spacing:0.1em;">📖 CONNAISSANCE</span>
-                <span id="sum-con" style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);">0</span>
-              </div>
-              <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:6px;">
-                <span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--text);letter-spacing:0.1em;">🦁 COURAGE</span>
-                <span id="sum-cou" style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);">0</span>
-              </div>
-              <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:6px;">
-                <span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--text);letter-spacing:0.1em;">🎯 HABILETÉ</span>
-                <span id="sum-hab" style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);">0</span>
-              </div>
-              <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:6px;">
-                <span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--text);letter-spacing:0.1em;">🌸 GENTILLESSE</span>
-                <span id="sum-gen" style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);">0</span>
-              </div>
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--text);letter-spacing:0.1em;">✨ CHARME</span>
-                <span id="sum-cha" style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);">0</span>
-              </div>
-            </div>
-          </div>
-
+      <div class="panel" style="padding:10px;">
+        <div class="panel-title" style="margin:-10px -10px 5px -10px;"><span class="pt-text">ÉQUIPEMENT & ATTRIBUTS</span></div>
+        <div style="font-size:11px; margin-bottom:8px;">
+          <div>⚔️ <span id="sum-melee-name">—</span> (<span id="sum-melee-dmg">—</span>)</div>
+          <div>🔫 <span id="sum-ranged-name">—</span> (<span id="sum-ranged-dmg">—</span>)</div>
+        </div>
+        <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:4px; text-align:center;">
+          <div class="fa" style="padding:2px;"><div style="font-size:8px;">PHYS</div><div id="sum-phys">—</div></div>
+          <div class="fa" style="padding:2px;"><div style="font-size:8px;">ADR</div><div id="sum-adr">—</div></div>
+          <div class="fa" style="padding:2px;"><div style="font-size:8px;">MEN</div><div id="sum-men">—</div></div>
+          <div class="fa" style="padding:2px;"><div style="font-size:8px;">CHA</div><div id="sum-soc">—</div></div>
         </div>
       </div>
 
+      <div class="panel" style="padding:10px;">
+        <div class="panel-title" style="margin:-10px -10px 5px -10px;"><span class="pt-text">GRIMOIRE (SORTS)</span></div>
+        <div id="sum-spells-container" style="display:flex; flex-direction:column; gap:6px;"></div>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <div class="panel" style="padding:10px;">
+        <div class="panel-title" style="margin:-10px -10px 5px -10px;"><span class="pt-text">SOCIAL & PASSIFS</span></div>
+        <div style="display:grid; grid-template-columns: repeat(5, 1fr); gap:2px; text-align:center; margin-bottom:10px;">
+          <div><div style="font-size:8px;">CON</div><div id="sum-con" style="font-family:'Bebas Neue';">—</div></div>
+          <div><div style="font-size:8px;">COU</div><div id="sum-cou" style="font-family:'Bebas Neue';">—</div></div>
+          <div><div style="font-size:8px;">HAB</div><div id="sum-hab" style="font-family:'Bebas Neue';">—</div></div>
+          <div><div style="font-size:8px;">GEN</div><div id="sum-gen" style="font-family:'Bebas Neue';">—</div></div>
+          <div><div style="font-size:8px;">CHA</div><div id="sum-cha" style="font-family:'Bebas Neue';">—</div></div>
+        </div>
+        <div id="sum-social-links" style="font-size:11px;"></div>
+        <div style="font-size:10px; margin-top:8px; color:var(--text3); border-top:1px solid #333; padding-top:5px;">
+          <div><b style="color:var(--red);">+</b> <span id="sum-comp">—</span></div>
+          <div><b style="color:var(--red);">+</b> <span id="sum-club">—</span></div>
+          <div><b style="color:var(--blue);">−</b> <span id="sum-trauma">—</span></div>
+        </div>
+      </div>
+
+      <div class="panel" style="padding:10px;">
+        <div class="panel-title" style="margin:-10px -10px 5px -10px;"><span class="pt-text">PERSONA & ARCHÉTYPE</span></div>
+        <div style="font-family:'Bebas Neue'; font-size:16px;" id="sum-persona-name">—</div>
+        <div id="sum-arcana" style="font-size:10px; color:var(--gold);">—</div>
+        <div id="sum-archetype-info" style="font-size:10px; margin-top:5px; border-top:1px solid #333; padding-top:5px;">—</div>
+      </div>
     </div>
   </div>
+</div>
+</div>
+</div>
+</div>
 </div> <div class="export-row">
 
   <div class="save-row">
@@ -1542,55 +1525,127 @@ function switchTab(t) {
   tabs.forEach(el => el.classList.remove('active'));
   pages.forEach(el => el.classList.remove('active'));
 
-  if(t === 'recto') { tabs[0].classList.add('active'); document.getElementById('page-recto').classList.add('active'); }
-  if(t === 'verso') { tabs[1].classList.add('active'); document.getElementById('page-verso').classList.add('active'); }
-  if(t === 'summary') { 
+  if(t === 'recto') { 
+    tabs[0].classList.add('active'); 
+    document.getElementById('page-recto').classList.add('active'); 
+  } else if(t === 'verso') { 
+    tabs[1].classList.add('active'); 
+    document.getElementById('page-verso').classList.add('active'); 
+  } else if(t === 'summary') { 
     tabs[2].classList.add('active'); 
-    document.getElementById('page-summary').classList.add('active'); 
-    updateSummaryPage(); // Met à jour les infos quand on ouvre l'onglet
+    document.getElementById('page-summary').classList.add('active');
+    // Force la mise à jour des calculs avant d'afficher
+    updateAllDisplays(); 
+    updateSummaryPage(); 
   }
 }
 function updateSummaryPage() {
-  // Identité
-  document.getElementById('sum-name').textContent = document.getElementById('char-name').value || 'INCONNU';
-  document.getElementById('sum-class').textContent = document.getElementById('char-class').value || '—';
-  document.getElementById('sum-level').textContent = currentLevel;
-  document.getElementById('sum-pv').textContent = document.getElementById('pv-display').textContent;
-  document.getElementById('sum-sp').textContent = document.getElementById('sp-display').textContent;
+  try {
+    // Fonction sécurisée pour mettre à jour le texte
+    const update = (id, val) => { 
+      const el = document.getElementById(id); 
+      if(el) el.innerHTML = val || '—'; 
+    };
 
-  // Arcane & Archétype
-  if (selectedArcana) {
-    document.getElementById('sum-arcana').textContent = selectedArcana.icon + ' ' + selectedArcana.name;
-    document.getElementById('sum-arcana-bonus').innerHTML = selectedArcana.bonus;
-  } else {
-    document.getElementById('sum-arcana').textContent = '—';
-    document.getElementById('sum-arcana-bonus').textContent = '—';
+    // 1. Identité & Vital
+    update('sum-name', document.getElementById('char-name')?.value);
+    update('sum-pv', document.getElementById('pv-current')?.value || document.getElementById('pv-display')?.textContent);
+    update('sum-sp', document.getElementById('sp-current')?.value || document.getElementById('sp-display')?.textContent);
+    update('sum-gold', document.getElementById('char-gold')?.value);
+
+    // 2. Équipement
+    update('sum-melee-name', document.getElementById('equip-melee-name')?.value);
+    const meleeDmgVal = document.getElementById('equip-melee-dmg')?.value;
+    const meleeDmgTxt = meleeDmgVal == "1" ? "Niv DGT" : (meleeDmgVal == "2" ? "Niv+Force" : "Niv+2*Force");
+    update('sum-melee-dmg', meleeDmgTxt);
+    
+    update('sum-ranged-name', document.getElementById('equip-ranged-name')?.value);
+    update('sum-ranged-dmg', (document.getElementById('equip-ranged-ammo')?.value || '0') + ' Mun');
+
+    // 3. Stats Sociales
+    update('sum-con', document.getElementById('s-val-con')?.textContent);
+    update('sum-cou', document.getElementById('s-val-cou')?.textContent);
+    update('sum-hab', document.getElementById('s-val-hab')?.textContent);
+    update('sum-gen', document.getElementById('s-val-gen')?.textContent);
+    update('sum-cha', document.getElementById('s-val-cha')?.textContent);
+
+    // 4. Attributs (Combat)
+    const setAttr = (id, attrName) => {
+      const val = getEffectiveAttr(attrName);
+      const el = document.getElementById(id);
+      if(el) el.textContent = val === null ? '—' : (val >= 0 ? '+' + val : val);
+    };
+    setAttr('sum-phys', 'physique');
+    setAttr('sum-adr', 'adresse');
+    setAttr('sum-men', 'meninge');
+    setAttr('sum-soc', 'social');
+
+    // 5. Persona, Arcane & Archétype
+    update('sum-persona-name', document.getElementById('persona-name')?.value?.toUpperCase());
+    update('sum-arcana', selectedArcana ? selectedArcana.icon + " " + selectedArcana.name : '');
+    
+    const archEl = document.getElementById('sum-archetype-info');
+    if(archEl) {
+      if(selectedArchetype) {
+        archEl.innerHTML = `<b>${selectedArchetype.name}</b><br><span style="color:var(--red)">${selectedArchetype.bonus}</span><br><i style="color:var(--gold)">${selectedArchetype.baton}</i>`;
+      } else {
+        archEl.innerHTML = '—';
+      }
+    }
+
+    // 6. Confidents & Passifs
+    update('sum-comp', document.getElementById('competence')?.value);
+    update('sum-club', document.getElementById('metier')?.value);
+    update('sum-trauma', document.getElementById('phobie')?.value);
+
+    const slContainer = document.getElementById('sum-social-links');
+    if(slContainer) {
+      slContainer.innerHTML = '';
+      for(let i=1; i<=4; i++) {
+        let n = document.getElementById('sl-name-'+i)?.value;
+        let r = document.getElementById('sl-r-'+i)?.value;
+        if(n) slContainer.innerHTML += `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #222; padding:2px 0;"><span>${n}</span> <span style="color:var(--gold)">R${r == 10 ? 'MAX' : r}</span></div>`;
+      }
+    }
+
+    // 7. Grimoire (Sorts)
+    const sc = document.getElementById('sum-spells-container');
+    if(sc) {
+      sc.innerHTML = '';
+      const addSpell = (nom, desc, cout, degats) => {
+        if (!nom || nom === '—') return;
+        let details = [];
+        if (cout && cout !== '—') details.push(`<span style="color:#4466ff;">${cout}</span>`);
+        if (degats && degats !== '—') details.push(`<span style="color:var(--red); font-weight:bold;">${degats} DGT</span>`);
+        
+        sc.innerHTML += `<div style="border-bottom:1px solid #333; padding:4px 0;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--gold); font-size:12px; font-family:'Bebas Neue';">${nom}</span>
+            <span style="font-size:10px;">${details.join(' | ')}</span>
+          </div>
+          <div style="font-size:9px; color:#ccc; line-height:1.2;">${desc}</div>
+        </div>`;
+      };
+
+      // Sort Auto
+      addSpell(document.getElementById('sort1-auto-name')?.textContent, document.getElementById('sort1-auto-desc')?.textContent, "", "");
+      // Arcane
+      addSpell(document.getElementById('sort3-auto-name')?.textContent, document.getElementById('sort3-auto-desc')?.textContent, "", "");
+      // Faculté
+      addSpell(document.getElementById('s2-nom')?.value, document.getElementById('s2-effet')?.value, document.getElementById('s2-cout')?.textContent, document.getElementById('s2-degats')?.textContent);
+      
+      // Slots Custom
+      const reqLvls = [4, 5, 6, 7, 8, 9, 7];
+      for(let i=1; i<=7; i++){
+        if(currentLevel >= reqLvls[i-1]) {
+          let n = document.getElementById('c_spell_name_'+i)?.value;
+          if(n) addSpell(n, document.getElementById('c_spell_desc_'+i)?.value, "", "");
+        }
+      }
+    }
+  } catch (error) {
+    console.error("Erreur bloquante contournée dans updateSummaryPage: ", error);
   }
-
-  if (selectedArchetype) {
-    document.getElementById('sum-archetype').textContent = selectedArchetype.icon + ' ' + selectedArchetype.name;
-    document.getElementById('sum-archetype-bonus').innerHTML = 'Cond: ' + selectedArchetype.cond + ' → ' + selectedArchetype.bonus + '<br><span style="color:var(--gold);">' + selectedArchetype.baton + '</span>';  } else {
-    document.getElementById('sum-archetype').textContent = '—';
-    document.getElementById('sum-archetype-bonus').textContent = '—';
-  }
-
-  // Attributs avec les styles couleur (Blanc/Rouge/Bleu)
-  const setAttr = (id, val) => {
-    const el = document.getElementById(id);
-    if (val === null) { el.textContent = '—'; el.className = 'fa-val zero'; }
-    else { el.textContent = (val >= 0 ? '+' : '') + val; el.className = 'fa-val ' + (val > 0 ? 'pos' : val < 0 ? 'neg' : 'zero'); }
-  };
-  setAttr('sum-phys', getEffectiveAttr('physique'));
-  setAttr('sum-adr', getEffectiveAttr('adresse'));
-  setAttr('sum-men', getEffectiveAttr('meninge'));
-  setAttr('sum-soc', getEffectiveAttr('social'));
-
-  // Stats Sociales
-  document.getElementById('sum-con').textContent = document.getElementById('s-val-con').textContent;
-  document.getElementById('sum-cou').textContent = document.getElementById('s-val-cou').textContent;
-  document.getElementById('sum-hab').textContent = document.getElementById('s-val-hab').textContent;
-  document.getElementById('sum-gen').textContent = document.getElementById('s-val-gen').textContent;
-  document.getElementById('sum-cha').textContent = document.getElementById('s-val-cha').textContent;
 }
   document.getElementById('photo-input').addEventListener('change',function(e){
     const f=e.target.files[0];if(!f)return;
