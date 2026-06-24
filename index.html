@@ -649,8 +649,8 @@
             </div>
             <div class="attr-card" id="card-social">
               <div class="attr-icon">🎭</div>
-              <div class="attr-name">Social</div>
-              <div class="attr-hint">Confidants, négociation, bluff</div>
+              <div class="attr-name">Chance</div>
+              <div class="attr-hint">Coups critiques, butin, altérations</div>
               <div class="attr-slot">
                 <div class="attr-val zero" id="val-social">—</div>
                 <select class="attr-select" id="sel-social" onchange="assignAttr('social',this.value)"><option value="">—</option></select>
@@ -1045,8 +1045,7 @@
               <div class="fa"><div class="fa-icon">🥷</div><div class="fa-name">Physique</div><div class="fa-val" id="sum-phys">—</div></div>
               <div class="fa"><div class="fa-icon">🎯</div><div class="fa-name">Adresse</div><div class="fa-val" id="sum-adr">—</div></div>
               <div class="fa"><div class="fa-icon">🔮</div><div class="fa-name">Méninge</div><div class="fa-val" id="sum-men">—</div></div>
-              <div class="fa"><div class="fa-icon">🎭</div><div class="fa-name">Social</div><div class="fa-val" id="sum-soc">—</div></div>
-            </div>
+<div class="fa"><div class="fa-icon">🍀</div><div class="fa-name">Chance</div><div class="fa-val" id="sum-soc">—</div></div>            </div>
           </div>
 
           <div style="background:var(--panel2); border:1px solid var(--border2); padding:16px;">
@@ -1167,8 +1166,7 @@
           <div class="fa"><div class="fa-icon">🥷</div><div class="fa-name">Physique</div><div class="fa-val" id="fr-physique">—</div><div class="fa-mod">Combat · Encaisser</div></div>
           <div class="fa"><div class="fa-icon">🎯</div><div class="fa-name">Adresse</div><div class="fa-val" id="fr-adresse">—</div><div class="fa-mod">Tir · Discrétion</div></div>
           <div class="fa"><div class="fa-icon">🔮</div><div class="fa-name">Méninge</div><div class="fa-val" id="fr-meninge">—</div><div class="fa-mod">Magie · Stratégie</div></div>
-          <div class="fa"><div class="fa-icon">🎭</div><div class="fa-name">Social</div><div class="fa-val" id="fr-social">—</div><div class="fa-mod">Charisme · Bluff</div></div>
-        </div>
+<div class="fa"><div class="fa-icon">🍀</div><div class="fa-name">Chance</div><div class="fa-val" id="fr-social">—</div><div class="fa-mod">Critiques · Butin</div></div>        </div>
       </div>
       <div>
         <div class="fl-sec">Santé & Réserves</div>
@@ -1265,55 +1263,54 @@
   // ── DATA ──
   const ARCANES = [
     {id:'fool',       icon:'🃏', name:'Le Fou (0)',          soc: [-1, 3, -2, 1, 1], bonus:"Ceux qui embrassent l'inconnu et portent un potentiel infini.<br><br>Une fois par jour, au reveil, le joueur peut copier l'arcane d'un allié, ne change pas les stats sociales", spell:{name:'Métamorphose', cost: 2, desc:'Peut se changer en un objet qu\'il a emporté dans le metavers '}},
-    {id:'magician',   icon:'🧙', name:'Le Magicien (I)',     soc: [1, 0, 3, -2, 0], bonus:"Ceux qui forgent leur propre destin par l'action et la volonté.<br><br>Ton personnage peut crier à voix haute le résultat de sa prochaine action et gagne à +2 à son jet, s'il rate tout le monde le trouvera ridicule et s'en souviendra.", spell:{name:'L\'Illusionniste', cost: 4, desc:'Crée un clone holographique, un bruit factice ou un faux objet dans le Metaverse pour distraire les Ombres ou les tromper.'}},
+    {id:'magician',   icon:'🧙', name:'Le Magicien (I)',     soc: [1, 0, 3, -2, 0], bonus:"Ceux qui forgent leur propre destin par l'action et la volonté.<br><br>Ton personnage peut crier à voix haute le résultat prévu de sa prochaine action et gagne à +2 à son jet, s'il rate tout le monde le trouvera ridicule et s'en souviendra.", spell:{name:'L\'Illusionniste', cost: 4, desc:'Crée un clone holographique, un bruit factice ou un faux objet dans le Metaverse pour distraire les Ombres ou les tromper.'}},
     {id:'priestess',  icon:'🌙', name:'La Prêtresse (II)',   soc: [3, -1, -2, 2, 0], bonus:"Les âmes sages guidées par l'intuition et le savoir caché.<br><br>Après une conversation avec un PNJ tu peux demander au MJ si un évènement s'est déroulé durant cette conversation (Une main qui tremble, un tour de passe passe...), il devra y répondre.", spell:{name:'Phase', cost: 3, desc:'Tu touches un objet. Pendant quelques instants, tu forces cet objet à adopter l\'état physique de son équivalent dans le monde réel.'}},
-    {id:'empress',    icon:'👑', name:"L'Impératrice (III)", soc: [0, -2, -1, 3, 2], bonus:"Des figures protectrices rayonnant d'empathie et d'abondance.<br><br>Deux fois par semaine, des personnes viendront te demander un conseil ou un service, s'ils s'estiment aidés, il t'offriront quelque chose et te seront reconnaissant.", spell:{name:'On se connait ?', cost: 2, desc:'Peut cibler une ombre, celle-ci ne percevra pas le joueuer comme hostile'}},
+    {id:'empress',    icon:'👑', name:"L'Impératrice (III)", soc: [0, -2, -1, 3, 2], bonus:"Des figures protectrices rayonnant d'empathie et d'abondance.<br><br>S'il y a du monde autour de toi, tu peux formuler une demande ou une remarque à voix haute pour devenir le centre de l'attention. Tu gagnes un bonus de +3 à ton jet social car la pression publique fait suer le PNJ. En cas d'échec, la foule te trouve hautain et odieux, et la situation se retourne contre toi.", spell:{name:'On se connait ?', cost: 2, desc:'Peut cibler une ombre, celle-ci ne percevra pas le joueur comme hostile'}},
     {id:'emperor',    icon:'⚔️', name:"L'Empereur (IV)",     soc: [-1, 2, 1, -2, 2], bonus:"Des leaders nés cherchant à imposer l'ordre et leur authority.<br><br>Toute personne a un ressentiment envers toi, tu obtiens un bonus de +2 à -2 à tous tes jets en fonction de ta relation avec.", spell:{name:'Affaires démoniaques', cost: 5, desc:'Peut passer un contrat avec un Démon pour l\'invoquer quand bon lui semble'}},
     {id:'hierophant', icon:'📜', name:'Le Hiérophante (V)',  soc: [3, -1, -1, 1, 0], bonus:"Tu peux invoquer une tradition, un proverbe inventé ou non, sur un jet de connaissance superieur à 13 les gens te croient et suivront ce précepte pour la scène.", spell:{name:'Rappel au Règlement', cost: 3, desc:'Peut décréter qu\'une pièce suive une règle de l\'endroit réel qu\'elle copie'}},
-    {id:'lovers',     icon:'❤️', name:'Les Amoureux (VI)',   soc: [-1, 0, -2, 2, 3], bonus:"Ceux définis par leurs liens profonds et les choix du cœur.<br><br>Peut passer ses soirées avec son confident au téléphone et gagner un jalon de plus.", spell:{name:'Appel à un Ami', cost: 5, desc:'Appel un confident du monde réel pour lui demander un service comme modifier une pièce ou distraire une personne.'}},
+    {id:'lovers',     icon:'❤️', name:'Les Amoureux (VI)',   soc: [-1, 0, -2, 2, 3], bonus:"Ceux définis par leurs liens profonds et les choix du cœur.<br><br>Chaque soir, sur un get de charme réussi, tu peux appeler une personne de tes contacts même si tu ne l\'as pas vue aujourd\'hui, tu peux passer un créneau de confidant avec elle ou lui demander un service qui sera rendu la prochaine fois que vous vous voyez.", spell:{name:'Appel à un Ami', cost: 5, desc:'Tu peux appeler un amis à toi en dehors du etavers pour qu\'il modifie un élément du monde réel quoi pourrait avoir des répercussions sur son équivalent dans le métavers'}},
     {id:'chariot',    icon:'🏎️', name:'Le Chariot (VII)',    soc: [0, 3, 1, -1, -1], bonus:"Des fonceurs portés par une détermination inébranlable.<br><br>Tu ressens les situations autour de toi où tu ne devrais pas être (réunion, conversation..), sur un jet de courage reussi, tu t'incrustes et les gens acceptent ta présence.", spell:{name:'Momentum', cost: 4, desc:'En le touchant, tu peux stopper le mouvement d\'un objet de taille moyenne (humaine) ou inférieure'}},
-    {id:'justice',    icon:'⚖️', name:'La Justice (VIII)',   soc: [2, 1, -1, 1, -1], bonus:"Les idéalistes en quête constante de vérité absolue et d'équité.<br><br>Peut enquêter la nuit avant de dormir, le lendemain, aura la réponse à 1D3 questions.", spell:{name:'Replay', cost: 3, desc:'Les 24 dernières heures de la pièce que copie le palais apparaissent devant toi sous forme d\'hologrammes, tu peux faire pause, accélerer, rembobiner.'}},
-    {id:'hermit',     icon:'🔦', name:"L'Ermite (IX)",       soc: [3, -1, 1, 1, -2], bonus:"Des esprits solitaires trouvant la force dans l'introspection.<br><br>+2 à toutes les caractéristiques quand tu agis seul dans le lycée. Mais les gens te trouvent bizarre.", spell:{name:'Quarantaine', cost: 2, desc:'Tu coupes une pièce du reste du palais, rien ne peut y entrer et rien ne peut en sortir.'}},
-    {id:'fortune',    icon:'🎡', name:'La Roue (X)',         soc: [1, 0, 1, 0, 0], bonus:"Ceux qui acceptent et manipulent les caprices du destin.<br><br>1 fois par jour dans le lycée, tu peux relancer 1 dé (le tien, celui d'un allié, ou forcer un ennemi à relancer).", spell:{name:'Iversion des poles', cost: 4, desc:'Tu désignes un évènement qui vient de se produire, la prochaine fois qu\'il arrive, il entrainera des conséquences opposées'}},
-    {id:'strength',   icon:'🦁', name:'La Force (XI)',       soc: [-2, 3, 2, 0, -1], bonus:"Des personnes faisant preuve d'une résilience et d'un courage purs.<br><br>+2 aux jets lors d'une intimidation, les gens s'en souviendront.", spell:{name:'Focus', cost: 3, desc:'Un évènement impactant que tu vois se produire se stoppe jusqu\'à ton prochain tour.'}},
-    {id:'hanged',     icon:'🙃', name:'Le Pendu (XII)',      soc: [1, -1, 0, 2, 0], bonus:"Ceux qui acceptent le sacrifice pour changer de perspective.<br><br>+4 aux jets dans le lycée quand en position de faiblesse", spell:{name:'Renversement', cost: 2, desc:'Inverse la fonction d\'un objet touché par le lanceur.'}},
-    {id:'death',      icon:'💀', name:'La Mort (XIII)',      soc: [0, 2, 1, 0, -1], bonus:"Les initiateurs de fins inévitables et de grands renouveaux.<br><br>Commence chaque nouvelle journée avec un jeton aléatoire supplémentaire.", spell:{name:'Recarm', cost: 5, desc:'Un objet dans ton champ de vision prend la forme de la premiere puis de la dernière personne qui l\'a touché'}},
-    {id:'temperance', icon:'⚖️', name:'La Tempérance (XIV)', soc: [0, -1, 2, 2, -1], bonus:"Ceux qui apaisent les conflits et maintiennent l'équilibre des forces.<br><br>Jette gentillesse et courage, si un reussi tu peux te déclarer responsable d'une erreur commise et en assumer les conséquences. La personne sauvée t'en sera extrêmement redevable", spell:{name:'Vases Communicants', cost: 3, desc:'Relie deux cibles non vivante, les effets subis par l\'une le sont par l\'autres'}},
+    {id:'justice',    icon:'⚖️', name:'La Justice (VIII)',   soc: [2, 1, -1, 1, -1], bonus:"Les idéalistes en quête constante de vérité absolue et d'équité.<br><br>Une fois par jour, s'il y a au moins 2 PNJ face à toi tu peux interrompre l'un d'entre eux en criant 'OBJECTION' et sans jets de dès, en argumentant sur une incohérence de son discours, l'autre PNJ aura le role de juge et si l'argument est recevable les deux prendront ton coté et seront obligés de lâcher le morceau.", spell:{name:'Replay', cost: 3, desc:'Les 24 dernières heures de la pièce que copie le palais apparaissent devant toi sous forme d\'hologrammes, tu peux faire pause, accélerer, rembobiner.'}},
+    {id:'hermit',     icon:'🔦', name:"L'Ermite (IX)",       soc: [3, -1, 1, 1, -2], bonus:"Des esprits solitaires trouvant la force dans l'introspection.<br><br>Tu peux sacrifier un créneau de temps libre (Après-midi ou Soir) pour te préparer en solitaire en vue du prochain. Tu dois décrire précisément au MJ ce que tu y feras, l'ordre précis de tes actions sans en expliquer les conséquences. Lors de la scène prévue, tu bénéficies d'un Avantage sur tous tes jets de dés. Cependant, ce bonus s'évapore instantanément dès que tu échoues à un jet ou que tu agis différemment de la chaine d'action que tu avais énoncée. ", spell:{name:'Quarantaine', cost: 2, desc:'Tu coupes une pièce du reste du palais, rien ne peut y entrer et rien ne peut en sortir.'}},
+    {id:'fortune',    icon:'🎡', name:'La Roue (X)',         soc: [1, 0, 1, 0, 0], bonus:"Ceux qui acceptent et manipulent les caprices du destin.<br><br>Une fois par jour, sur un échec social, tends deux poings fermés au MJ (l'un contenant un objet) en lui disant de choisir une main. Ton personnage fait la même chose. S'il choisit la main pleine, ton échec se transforme en succès inespéré. S'il choisit la vide, l'échec est confirmé et le PNJ se braque face à cette pitrerie.", spell:{name:'Iversion des poles', cost: 4, desc:'Tu désignes un évènement qui vient de se produire, la prochaine fois qu\'il arrive, il entrainera des conséquences opposées'}},
+    {id:'strength',   icon:'🦁', name:'La Force (XI)',       soc: [-2, 3, 2, 0, -1], bonus:"Des personnes faisant preuve d'une résilience et d'un courage purs.<br><br>Tu possède un secret ridicule, si les gens le savent, tu gagnes un bonus de +2 en gentillesse et -1 en charme et courage sur tes jets les concernant, s'il ne le savent pas, tu gagnes +2 en courage et charme et -2 en gentillesse sur tes jets les concernant.", spell:{name:'Focus', cost: 3, desc:'Un évènement impactant que tu vois se produire se stoppe jusqu\'à ton prochain tour (Ne stoppe pas les êtres vivants).'}},
+    {id:'hanged',     icon:'🙃', name:'Le Pendu (XII)',      soc: [1, -1, 0, 2, 0], bonus:"Ceux qui acceptent le sacrifice pour changer de perspective.<br><br>Une fois par semaine, tu peux interrompre la parole d'un pnj en disant 'Et ta prochaine phrase sera...' et en complétant par un phrase cohérente, sur un jet de connaissance réussi, le pnj prononce effectivement ça et tu peux enchainer par des 'Ensuite....' tant que la chaine de réussite n'est pas brisée. En cas d'échec tu te couvres de ridicule", spell:{name:'Renversement', cost: 2, desc:'Inverse la fonction d\'un objet touché par le lanceur.'}},
+    {id:'death',      icon:'💀', name:'La Mort (XIII)',      soc: [0, 2, 1, 0, -1], bonus:"Les initiateurs de fins inévitables et de grands renouveaux.<br><br>Une fois par semaine, tu peux sacrifier volontairement et définitivement une de tes ressources (détruire un objet rare, brûler un Jeton de caractéristique, ou faire baisser un Rang de Confidant). En échange, tu peux annuler totalement la pénalité d'un échec (même critique !) d'un allié.", spell:{name:'Recarm', cost: 5, desc:'Un objet dans ton champ de vision prend la forme de la premiere puis de la dernière personne qui l\'a touché'}},
+    {id:'temperance', icon:'⚖️', name:'La Tempérance (XIV)', soc: [0, -1, 2, 2, -1], bonus:"Ceux qui apaisent les conflits et maintiennent l'équilibre des forces.<br><br>Jette gentillesse et courage, si au moins un est reussi tu peux te déclarer responsable d'une erreur commise et en assumer les conséquences. La personne sauvée t'en sera extrêmement redevable", spell:{name:'Vases Communicants', cost: 3, desc:'Relie deux cibles non vivante, les effets subis par l\'une le sont par l\'autres'}},
     {id:'devil',      icon:'😈', name:'Le Diable (XV)',      soc: [0, 1, 0, -2, 3], bonus:"Ceux qui manipulent les désirs inavouables et scellent des pactes absolus.<br><br>Rends un service. Sur un jet réussi, le PNJ t'est redevable et acceptera une demande de même importance sans jet de dès.", spell:{name:'Pacte', cost: 4, desc:'Propose un marché et met en jeu une ressource (PV/C/ARGENT) choisie et consentie par les deux partis, toute effraction au marché entraine une perte de la ressource au profit de l\'autre parti'}},
     {id:'tower',      icon:'🗼', name:'La Tour (XVI)',       soc: [2, 1, 2, -2, -1], bonus:"Ceux qui provoquent l'imprévu et font s'effondrer les fausses certitudes.<br><br>1 fois par jour, pose une question précise au MJ sur ton environnement sans jet de connaisance requis.", spell:{name:'Pessimiste', cost: 3, desc:'Tu peux voir quel évènement dramatique va arriver à la pièce dans laquelle tu es.'}},
     {id:'star',       icon:'⭐', name:"L'Étoile (XVII)",     soc: [0, -1, -1, 3, 1], bonus:"Les lueurs d'espoir qui offrent leur vulnérabilité et leur dévotion absolue.<br><br>1x/session, sur un jet de gentillesse reussi révèle un secret/faiblesse d'un PNJ.", spell:{name:'Traqueur', cost: 0, desc:'Marque un objet, à l\'avenir relancer cette compétence te permet de savoir où ce trouve cet objet et de ressentir tout dans un rayon de 3 metres autour de lui pendant 20 secondes.'}},
-    {id:'moon',       icon:'🌖', name:'La Lune (XVIII)',     soc: [1, -2, 2, -1, 2], bonus:"Ceux qui opèrent dans l'ombre pour soutenir le collectif.<br><br>Dans chaque situation à laquelle tu participes, jette 1d3, sur un 3 les gens ne remarquent pas ta présence à moins que tu te fasse remarquer intentionnellement.", spell:{name:'Faux Semblant', cost: 3, desc:'Modifie l\'apparence d\'un allié ou de toi-même pour ressembler trait pour trait à une ombre que tu touches'}},
+    {id:'moon',       icon:'🌖', name:'La Lune (XVIII)',     soc: [1, -2, 2, -1, 2], bonus:"Ceux qui opèrent dans l'ombre pour soutenir le collectif.<br><br>Une fois par semaine, tu peux déclarer au milieu d'une situation un flashback, un objet caché, une manière dont tu as préparé un pièce, et celui-ci s'appliquera sur un jet correspondant. En cas d'échec, le flashback restera disponible pour une autre scène et ton personnage cherchera l'objet persuadé qu'il était là. ", spell:{name:'Faux Semblant', cost: 3, desc:'Modifie l\'apparence d\'un allié ou de toi-même pour ressembler trait pour trait à une ombre que tu touches'}},
     {id:'sun',        icon:'☀️', name:'Le Soleil (XIX)',     soc: [-1, 1, -2, 1, 3], bonus:"Les esprits rayonnants qui dissipent les ombres par leur chaleur et leur vérité.<br><br>Une fois par jour, quand tu encourages, rassures ou motives un allié, il gagne un avantage à son prochain jet.", spell:{name:'Soleil Caniculaire', cost: 4, desc:'Personne en peut t\'ignorer, tout être vivant dans un rayon de 50 mètre entend ta prochaine phrase et voit ton prochain geste.'}},
     {id:'judgement',  icon:'🎺', name:'Le Jugement (XX)',    soc: [1, 3, -1, 0, -1], bonus:"Ceux qui pèsent les âmes et annoncent l'heure du renouveau ou de la sentence.<br><br>Tu prononces un jugement, une remaque ou un rumeur sur une personne ou un situation, sur un jet de charme réussi, les gens y croiront.", spell:{name:'Sursis de l\'Ange', cost: 4, desc:'Crée une zone de 10 metres de rayon dans laquelle personne ne peut [insérer un verbe d\'un mot]'}},
     {id:'world',      icon:'🌍', name:'Le Monde (XXI)',      soc: [1, 0, 0, 1, 1], bonus:"Les âmes accomplies qui incarnent l'harmonie absolue et la réalisation de soi.<br><br>Chaque lundi matin décrète publiquement sur internet un but à ta semaine, s'il est accompli tu remportes un montant décidé à l'avance de point dans uen stat sociale choisie, s'il est échoué, tu perds ces points.", spell:{name:'Bulle d\'Inexistence', cost: 5, desc:'Enferme un objet non vivant dans un cube de 20 cm d\'arrête, toute réplique de cet objet disparait du donjon jusqu\'au prochain tour du lanceur'}},
   ];
 
-  const ARCHETYPES = [
-    {id:'warrior',  icon:'⚔️', name:'Guerrier',  cond:'Quand tu attaques au CàC ou que tu charges', bonus:'+2 + NIV Dégats'},
-    {id:'tank',     icon:'🛡️', name:'Tank',      cond:'Quand tu encaisses une attaque',      bonus:'+2 + NIV Réduction de dégats'},
-    {id:'rogue',    icon:'🗡️', name:'Rogue',     cond:'Tant que tu n\'es pas détecté',       bonus:'+2 Chance de coup critiques'},
-    {id:'sniper',   icon:'🎯', name:'Sniper',    cond:'Quand tu tires à distance',           bonus:'+2 + NIV Dégats'},
-    {id:'mage',     icon:'🔮', name:'Mage',      cond:'Quand tu infliges un "Down"',         bonus:'+2 + NIV PC'},
-    {id:'support',  icon:'💊', name:'Support',   cond:'Quand tu soignes un allié',           bonus:'+2 + NIV Valeur de Soins'},
-    {id:'leader',   icon:'📣', name:'Leader',    cond:'Au début de ton tour',                bonus:'+2 + Niveau PC à un allié'},
-    {id:'phantom',  icon:'🎭', name:'Phantom',   cond:'Dépense Niveau*PC pour gagner ce tour : ', bonus:'+2 stat au choix'},
-    {id:'navi',     icon:'🎧', name:'Navi',      cond:'Pendant une réaction',                bonus:'+2 à tous les jets'},
-  ];
+const ARCHETYPES = [
+  {id:'warrior',  icon:'⚔️', name:'Guerrier',  cond:'Quand tu attaques au CàC ou que tu charges', bonus:'+2 + NIV Dégats', baton:'Synergie Relais : Ta prochaine attaque gagne Vol de Vie (soin de la moitié des dégâts infligés).'},
+  {id:'tank',     icon:'🛡️', name:'Tank',      cond:'Quand tu encaisses une attaque',      bonus:'+2 + NIV Réduction de dégats', baton:'Synergie Relais : Provoque automatiquement l\'ennemi attaqué et gagne un bouclier de (Niveau x2) PV.'},
+  {id:'rogue',    icon:'🗡️', name:'Rogue',     cond:'Tant que tu n\'es pas détecté',       bonus:'+2 Chance de coup critiques', baton:'Synergie Relais : Tu deviens furtif, ton attaque obtient un Avantage.'},
+  {id:'sniper',   icon:'🎯', name:'Sniper',    cond:'Quand tu tires à distance',           bonus:'+2 + NIV Dégats', baton:'Synergie Relais : Ton prochain tir ignore les résistances naturelles de la cible.'},
+  {id:'mage',     icon:'🔮', name:'Mage',      cond:'Quand tu infliges un "Down"',         bonus:'+2 + NIV PC', baton:'Synergie Relais : Si tu lances un sort il coute 0 PC.'},
+  {id:'support',  icon:'💊', name:'Support',   cond:'Quand tu soignes un allié',           bonus:'+2 + NIV Valeur de Soins', baton:'Synergie Relais : L\'allié qui te passe le relais et celui à qui tu le donne reçoivent un Soin gratuit de (Niveau + Méninges) PV.'},
+  {id:'leader',   icon:'📣', name:'Leader',    cond:'Au début de ton tour',                bonus:'+2 + Niveau PC à un allié', baton:'Synergie Relais : Tous tes alliés gagnent +2 à leur prochain jet d\'attaque ou de défense.'},
+  {id:'phantom',  icon:'🎭', name:'Phantom',   cond:'Dépense Niveau*PC pour gagner ce tour : ', bonus:'+2 stat au choix', baton:'Synergie Relais : Tu récupères 2+NIV PC'},
+  {id:'navi',     icon:'🎧', name:'Navi',      cond:'Pendant une réaction',                bonus:'+2 à tous les jets', baton:'Synergie Relais : Tu découvres une faiblesse ennemie et gagnes une Réaction gratuite ce round.'}
+];
 
   const ELEMENTS = [
-    {id:'fire',    icon:'🔥', name:'Feu',        desc:'Sorts de flammes, brûlures', weak:'Glace', resist:'Feu', immune:'—'},
-    {id:'ice',     icon:'❄️', name:'Glace',      desc:'Sorts de froid, gel', weak:'Feu', resist:'Glace', immune:'—'},
-    {id:'wind',    icon:'🌪️', name:'Vent',       desc:'Sorts d\'air', weak:'Foudre', resist:'Vent', immune:'—'},
-    {id:'thunder', icon:'⚡', name:'Foudre',     desc:'Sorts d\'électricité, paralysie', weak:'Vent', resist:'Foudre', immune:'—'},
-    {id:'psycho',  icon:'🔮', name:'Psy',        desc:'Sorts psychiques', weak:'Nuke', resist:'Psy', immune:'—'},
-    {id:'nuke',    icon:'☢️', name:'Nuke',       desc:'Sorts nucléaires', weak:'Psy', resist:'Nuke', immune:'—'},
-    {id:'bless',   icon:'✨', name:'Lumière',    desc:'Sorts divins, soin, insta-kill', weak:'Malédiction', resist:'Lumière', immune:'—'},
-    {id:'curse',   icon:'💀', name:'Malédiction',desc:'Sorts sombres, drain de vie, insta-kill', weak:'Lumière', resist:'Malédiction', immune:'—'},
+    {id:'fire',    icon:'🔥', name:'Feu',        desc:'Sorts de flammes, brûlures (Inflige 1/10 des PV restants en dégats par tour, nécessitte une action pour soigner)', weak:'Glace', resist:'Feu', immune:'—'},
+    {id:'ice',     icon:'❄️', name:'Glace',      desc:'Sorts de froid, gel (Stun pendant 1 tour, sur une attaque physique, mets down.)', weak:'Feu', resist:'Glace', immune:'—'},
+    {id:'wind',    icon:'🌪️', name:'Vent',       desc:'Sorts d\'air, désorientation (Pousse la cible dans la direction du sort et annule son prochain déplacement)', weak:'Foudre', resist:'Vent', immune:'—'},
+    {id:'thunder', icon:'⚡', name:'Foudre',     desc:'Sorts d\'électricité, paralysie (Emèche totu déplacement, peut être soigné avec une action)', weak:'Vent', resist:'Foudre', immune:'—'},
+    {id:'psycho',  icon:'🔮', name:'Psy',        desc:'Sorts psychiques, Apatie (Réduit les prochain dégats infligés par 2)', weak:'Nuke', resist:'Psy', immune:'—'},
+    {id:'nuke',    icon:'☢️', name:'Nuke',       desc:'Sorts nucléaires (Inflige brûlure, paralysie, gel ou désorientation aléatoirement)', weak:'Psy', resist:'Nuke', immune:'—'},
+    {id:'bless',   icon:'✨', name:'Lumière',    desc:'Sorts divins, aveuglement, (Réduits de 2 tous les jets de la cible, peut être soigné avec une action.)', weak:'Malédiction', resist:'Lumière', immune:'—'},
+    {id:'curse',   icon:'💀', name:'Malédiction',desc:'Sorts sombres, Obscurcissement (Crée une faiblesse au prochain élément qui le touche pour le prochain round)', weak:'Lumière', resist:'Malédiction', immune:'—'},
   ];
 
   const ATTRS = ['physique','adresse','meninge','social'];
-  const ATTR_LABELS = {physique:'🥷 Physique', adresse:'🎯 Adresse', meninge:'🔮 Méninge', social:'🎭 Social'};
-
+const ATTR_LABELS = {physique:'🥷 Physique', adresse:'🎯 Adresse', meninge:'🔮 Méninge', social:'🍀 Chance'};
   let selectedArcana = null, selectedArchetype = null, selectedElement = null;
   let rolls = [], assigned = {physique:null,adresse:null,meninge:null,social:null};
   let photoDataURL = null, personaPhotoDataURL = null;
@@ -1444,7 +1441,8 @@
       d.innerHTML = `<input type="radio" name="archetype" value="${a.id}">
         <div class="arch-name"><span class="a-icon">${a.icon}</span>${a.name}</div>
         <div class="arch-cond">CONDITION : ${a.cond}</div>
-        <div class="arch-bonus">→ <strong>+2 ${a.bonus.split('+2 ')[1] || 'Bonus'}</strong></div>`;
+        <div class="arch-bonus">→ <strong>+2 ${a.bonus.split('+2 ')[1] || 'Bonus'}</strong></div>
+        <div class="arch-bonus" style="color:var(--gold); margin-top:4px;">🔄 ${a.baton}</div>`;
       d.onclick = () => {
         document.querySelectorAll('.archetype-opt').forEach(x=>x.classList.remove('selected'));
         d.classList.add('selected');
@@ -1571,8 +1569,7 @@ function updateSummaryPage() {
 
   if (selectedArchetype) {
     document.getElementById('sum-archetype').textContent = selectedArchetype.icon + ' ' + selectedArchetype.name;
-    document.getElementById('sum-archetype-bonus').textContent = 'Cond: ' + selectedArchetype.cond + ' → ' + selectedArchetype.bonus;
-  } else {
+    document.getElementById('sum-archetype-bonus').innerHTML = 'Cond: ' + selectedArchetype.cond + ' → ' + selectedArchetype.bonus + '<br><span style="color:var(--gold);">' + selectedArchetype.baton + '</span>';  } else {
     document.getElementById('sum-archetype').textContent = '—';
     document.getElementById('sum-archetype-bonus').textContent = '—';
   }
@@ -2063,8 +2060,7 @@ if (calculatedLvl > maxAllowedLvl) calculatedLvl = maxAllowedLvl;
     if(palmares){document.getElementById('fr-palmares').textContent=palmares; palmaresBlock.style.display='block';} else{palmaresBlock.style.display='none';}
     
     if(selectedArcana){ document.getElementById('fr-arc-badge').textContent=selectedArcana.icon+' '+selectedArcana.name; document.getElementById('fr-arc-bonus').textContent=selectedArcana.bonus; }
-    if(selectedArchetype){ document.getElementById('fr-arch-badge').textContent=selectedArchetype.icon+' '+selectedArchetype.name; document.getElementById('fr-arch-bonus').textContent='Cond: '+selectedArchetype.cond+' → '+selectedArchetype.bonus; }
-
+    if(selectedArchetype){ document.getElementById('fr-arch-badge').textContent=selectedArchetype.icon+' '+selectedArchetype.name; document.getElementById('fr-arch-bonus').innerHTML='Cond: '+selectedArchetype.cond+' → '+selectedArchetype.bonus + '<br><span style="color:#ffd700;">' + selectedArchetype.baton + '</span>'; }
     document.getElementById('fr-equip-melee').textContent = `${document.getElementById('equip-melee-name').value || 'Arme de Mêlée'} (${document.getElementById('equip-melee-dmg').value} DGT)`;
     document.getElementById('fr-equip-ranged').textContent = `${document.getElementById('equip-ranged-name').value || 'Arme à feu'} (${document.getElementById('equip-ranged-dmg').value} DGT) [${document.getElementById('equip-ranged-ammo').value || '0'} Mun.]`;
 
