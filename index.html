@@ -793,54 +793,17 @@
         </div>
       </div>
      <div class="panel">
-      <div class="panel-title"><span class="pt-icon">🤝</span><span class="pt-text">Social Links — Confidents</span><span class="pt-num">09</span></div>
-      <div class="panel-body">
-        <p style="font-size:13px;color:var(--text2);margin-bottom:12px;font-style:italic;line-height:1.6;">Ajuste le curseur pour suivre ton niveau d'affinité avec tes alliés.</p>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          
-          <!-- Joueur 1 -->
-          <div style="background:rgba(0,0,0,0.4); border:1px solid var(--border2); padding:10px; border-left:3px solid var(--gold);">
-            <input type="text" id="sl-name-1" placeholder="Allié 1 (Nom / Arcane)..." style="width:100%; background:transparent; border:none; border-bottom:1px solid var(--border2); color:var(--text); font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:0.1em; outline:none; margin-bottom:8px;" onchange="scheduleSave()">
-            <div style="display:flex; align-items:center;">
-              <span style="font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--text3); letter-spacing:0.1em; width:45px;">RANG</span>
-              <input type="range" id="sl-r-1" class="sl-slider" min="0" max="10" value="0" oninput="document.getElementById('sl-val-1').textContent = (this.value == 10 ? 'MAX' : this.value);" onchange="scheduleSave()">
-              <span id="sl-val-1" style="font-family:'Bebas Neue',sans-serif; font-size:24px; color:var(--gold); width:35px; text-align:right; line-height:1;">0</span>
-            </div>
+        <div class="panel-title"><span class="pt-icon">🤝</span><span class="pt-text">Social Links — Confidents</span><span class="pt-num">09</span></div>
+        <div class="panel-body">
+          <p style="font-size:13px;color:var(--text2);margin-bottom:12px;font-style:italic;line-height:1.6;">Ajuste le curseur pour suivre ton niveau d'affinité avec tes alliés.</p>
+          <div id="sl-container" style="display:flex;flex-direction:column;gap:10px;">
+            <!-- Les confidents s'ajouteront ici dynamiquement -->
           </div>
-
-          <!-- Joueur 2 -->
-          <div style="background:rgba(0,0,0,0.4); border:1px solid var(--border2); padding:10px; border-left:3px solid var(--gold);">
-            <input type="text" id="sl-name-2" placeholder="Allié 2 (Nom / Arcane)..." style="width:100%; background:transparent; border:none; border-bottom:1px solid var(--border2); color:var(--text); font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:0.1em; outline:none; margin-bottom:8px;" onchange="scheduleSave()">
-            <div style="display:flex; align-items:center;">
-              <span style="font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--text3); letter-spacing:0.1em; width:45px;">RANG</span>
-              <input type="range" id="sl-r-2" class="sl-slider" min="0" max="10" value="0" oninput="document.getElementById('sl-val-2').textContent = (this.value == 10 ? 'MAX' : this.value);" onchange="scheduleSave()">
-              <span id="sl-val-2" style="font-family:'Bebas Neue',sans-serif; font-size:24px; color:var(--gold); width:35px; text-align:right; line-height:1;">0</span>
-            </div>
-          </div>
-
-          <!-- Joueur 3 -->
-          <div style="background:rgba(0,0,0,0.4); border:1px solid var(--border2); padding:10px; border-left:3px solid var(--gold);">
-            <input type="text" id="sl-name-3" placeholder="Allié 3 (Nom / Arcane)..." style="width:100%; background:transparent; border:none; border-bottom:1px solid var(--border2); color:var(--text); font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:0.1em; outline:none; margin-bottom:8px;" onchange="scheduleSave()">
-            <div style="display:flex; align-items:center;">
-              <span style="font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--text3); letter-spacing:0.1em; width:45px;">RANG</span>
-              <input type="range" id="sl-r-3" class="sl-slider" min="0" max="10" value="0" oninput="document.getElementById('sl-val-3').textContent = (this.value == 10 ? 'MAX' : this.value);" onchange="scheduleSave()">
-              <span id="sl-val-3" style="font-family:'Bebas Neue',sans-serif; font-size:24px; color:var(--gold); width:35px; text-align:right; line-height:1;">0</span>
-            </div>
-          </div>
-
-          <!-- Joueur 4 -->
-          <div style="background:rgba(0,0,0,0.4); border:1px solid var(--border2); padding:10px; border-left:3px solid var(--gold);">
-            <input type="text" id="sl-name-4" placeholder="Allié 4 (Nom / Arcane)..." style="width:100%; background:transparent; border:none; border-bottom:1px solid var(--border2); color:var(--text); font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:0.1em; outline:none; margin-bottom:8px;" onchange="scheduleSave()">
-            <div style="display:flex; align-items:center;">
-              <span style="font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--text3); letter-spacing:0.1em; width:45px;">RANG</span>
-              <input type="range" id="sl-r-4" class="sl-slider" min="0" max="10" value="0" oninput="document.getElementById('sl-val-4').textContent = (this.value == 10 ? 'MAX' : this.value);" onchange="scheduleSave()">
-              <span id="sl-val-4" style="font-family:'Bebas Neue',sans-serif; font-size:24px; color:var(--gold); width:35px; text-align:right; line-height:1;">0</span>
-            </div>
-          </div>
-
+          <button class="save-btn" onclick="addSocialLink()" style="margin-top:10px; width:100%; justify-content:center; background:rgba(255,170,0,.1);">
+            <span>+</span><span>AJOUTER UN CONFIDENT</span>
+          </button>
         </div>
       </div>
-    </div>
     </div>
   </div>
 
@@ -1245,8 +1208,8 @@
   <script>
   // ── DATA ──
   const ARCANES = [
-    {id:'fool',       icon:'🃏', name:'Le Fou (0)',          soc: [-1, 3, -2, 1, 1], bonus:"Ceux qui embrassent l'inconnu et portent un potentiel infini.<br><br>Une fois par jour, au reveil, le joueur peut copier l'arcane d'un allié, ne change pas les stats sociales", spell:{name:'Métamorphose', cost: 2, desc:'Peut se changer en un objet qu\'il a emporté dans le metavers '}},
-    {id:'magician',   icon:'🧙', name:'Le Magicien (I)',     soc: [1, 0, 3, -2, 0], bonus:"Ceux qui forgent leur propre destin par l'action et la volonté.<br><br>Ton personnage peut crier à voix haute le résultat prévu de sa prochaine action et gagne à +2 à son jet, s'il rate tout le monde le trouvera ridicule et s'en souviendra.", spell:{name:'L\'Illusionniste', cost: 4, desc:'Crée un clone holographique, un bruit factice ou un faux objet dans le Metaverse pour distraire les Ombres ou les tromper.'}},
+    {id:'fool',       icon:'🃏', name:'Le Fou (0)',          soc: [-1, 3, -2, 1, 1], bonus:"Ceux qui embrassent l'inconnu et portent un potentiel infini.<br><br>Une fois par jour, au réveil, le joueur peut copier l'arcane d'un allié, ne change pas les stats sociales", spell:{name:'Métamorphose', cost: 2, desc:'Peut se changer en un objet qu\'il a emporté dans le metavers '}},
+    {id:'magician',   icon:'🧙', name:'Le Magicien (I)',     soc: [1, 0, 3, -2, 0], bonus:"Ceux qui forgent leur propre destin par l'action et la volonté.<br><br>Ton personnage peut crier à voix haute le résultat prévu de sa prochaine action et gagne +2 à son jet, s'il rate tout le monde le trouvera ridicule et s'en souviendra.", spell:{name:'L\'Illusionniste', cost: 4, desc:'Crée un clone holographique, un bruit factice ou un faux objet dans le Metaverse pour distraire les Ombres ou les tromper.'}},
     {id:'priestess',  icon:'🌙', name:'La Prêtresse (II)',   soc: [3, -1, -2, 2, 0], bonus:"Les âmes sages guidées par l'intuition et le savoir caché.<br><br>Après une conversation avec un PNJ tu peux demander au MJ si un évènement s'est déroulé durant cette conversation (Une main qui tremble, un tour de passe passe...), il devra y répondre.", spell:{name:'Phase', cost: 3, desc:'Tu touches un objet. Pendant quelques instants, tu forces cet objet à adopter l\'état physique de son équivalent dans le monde réel.'}},
     {id:'empress',    icon:'👑', name:"L'Impératrice (III)", soc: [0, -2, -1, 3, 2], bonus:"Des figures protectrices rayonnant d'empathie et d'abondance.<br><br>S'il y a du monde autour de toi, tu peux formuler une demande ou une remarque à voix haute pour devenir le centre de l'attention. Tu gagnes un bonus de +3 à ton jet social car la pression publique fait suer le PNJ. En cas d'échec, la foule te trouve hautain et odieux, et la situation se retourne contre toi.", spell:{name:'On se connait ?', cost: 2, desc:'Peut cibler une ombre, celle-ci ne percevra pas le joueur comme hostile'}},
     {id:'emperor',    icon:'⚔️', name:"L'Empereur (IV)",     soc: [-1, 2, 1, -2, 2], bonus:"Des leaders nés cherchant à imposer l'ordre et leur authority.<br><br>Toute personne a un ressentiment envers toi, tu obtiens un bonus de +2 à -2 à tous tes jets en fonction de ta relation avec.", spell:{name:'Affaires démoniaques', cost: 5, desc:'Peut passer un contrat avec un Démon pour l\'invoquer quand bon lui semble'}},
@@ -1367,7 +1330,7 @@ const ATTR_LABELS = {physique:'🥷 Physique', adresse:'🎯 Adresse', meninge:'
             <input class="spell-input" id="c_spell_kw3_${i}" type="text" placeholder="Ex: À la fuite..."/></div>
           </div>
           <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--red3);letter-spacing:.15em;margin-top:6px;margin-bottom:3px;">EFFET / COÛT PC / DEGATS</div>
-          <textarea class="spell-desc" id="c_spell_desc_${i}" placeholder="Explication de l'effet combiné/coût = PC/5  /Dégats = Niv*5+MENINGES"></textarea>
+          <textarea class="spell-desc" id="c_spell_desc_${i}" placeholder="Dégats égaux à celui du sort de base. Coûts en PC divisés par 2"></textarea>
         `;
       } else if(type === 'ultime') {
         titlePrefix = 'Projection d\'égo';
@@ -1601,11 +1564,18 @@ function updateSummaryPage() {
     const slContainer = document.getElementById('sum-social-links');
     if(slContainer) {
       slContainer.innerHTML = '';
-      for(let i=1; i<=4; i++) {
-        let n = document.getElementById('sl-name-'+i)?.value;
-        let r = document.getElementById('sl-r-'+i)?.value;
-        if(n) slContainer.innerHTML += `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #222; padding:2px 0;"><span>${n}</span> <span style="color:var(--gold)">R${r == 10 ? 'MAX' : r}</span></div>`;
-      }
+      document.querySelectorAll('[id^="sl-block-"]').forEach(block => {
+        const id = block.id.replace('sl-block-', '');
+        let n = document.getElementById('sl-name-'+id)?.value;
+        let r = document.getElementById('sl-r-'+id)?.value;
+        let b = document.getElementById('sl-bonus-'+id)?.value;
+        if(n) {
+          slContainer.innerHTML += `<div style="border-bottom:1px solid #222; padding:2px 0;">
+            <div style="display:flex; justify-content:space-between;"><span>${n}</span> <span style="color:var(--gold)">R${r == 10 ? 'MAX' : r}</span></div>
+            ${b ? `<div style="font-size:10px; color:#ccc; font-style:italic;">${b}</div>` : ''}
+          </div>`;
+        }
+      });
     }
 
     // 7. Grimoire (Sorts)
@@ -1889,10 +1859,43 @@ function updateSummaryPage() {
   for(let i=1; i<=7; i++){
     FORM_FIELDS.push('c_spell_name_'+i, 'c_spell_desc_'+i, 'c_spell_kw1_'+i, 'c_spell_kw2_'+i, 'c_spell_kw3_'+i, 'c_spell_kw4_'+i);
   }
-// Sauvegarde automatique des Social Links (noms + 10 rangs x 4 joueurs)
-for(let i=1; i<=4; i++){
-  FORM_FIELDS.push('sl-name-'+i, 'sl-r-'+i);
-}
+let slCount = 0;
+
+  function addSocialLink(savedData = null) {
+    slCount++;
+    const id = slCount;
+    const container = document.getElementById('sl-container');
+    
+    const div = document.createElement('div');
+    div.id = 'sl-block-' + id;
+    div.style.cssText = "background:rgba(0,0,0,0.4); border:1px solid var(--border2); padding:10px; border-left:3px solid var(--gold); position:relative;";
+    
+    const nameVal = savedData ? savedData.name : '';
+    const rankVal = savedData ? savedData.rank : 0;
+    const bonusVal = savedData ? savedData.bonus : '';
+
+    div.innerHTML = `
+      <button onclick="removeSocialLink(${id})" style="position:absolute; top:8px; right:8px; background:transparent; border:none; color:#ff4455; cursor:pointer; font-size:14px; font-weight:bold; z-index:10;">✖</button>
+      <input type="text" id="sl-name-${id}" value="${nameVal}" placeholder="Allié (Nom / Arcane)..." style="width:calc(100% - 24px); background:transparent; border:none; border-bottom:1px solid var(--border2); color:var(--text); font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:0.1em; outline:none; margin-bottom:8px;" onchange="scheduleSave()">
+      <div style="display:flex; align-items:center;">
+        <span style="font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--text3); letter-spacing:0.1em; width:45px;">RANG</span>
+        <input type="range" id="sl-r-${id}" class="sl-slider" min="0" max="10" value="${rankVal}" oninput="document.getElementById('sl-val-${id}').textContent = (this.value == 10 ? 'MAX' : this.value);" onchange="scheduleSave()">
+        <span id="sl-val-${id}" style="font-family:'Bebas Neue',sans-serif; font-size:24px; color:var(--gold); width:35px; text-align:right; line-height:1;">${rankVal == 10 ? 'MAX' : rankVal}</span>
+      </div>
+      <textarea id="sl-bonus-${id}" placeholder="Bonus du rang actuel..." style="width:100%; margin-top:6px; background:rgba(0,0,0,.5); border:1px solid var(--border2); color:var(--text2); font-family:'Barlow Condensed',sans-serif; font-size:13px; font-style:italic; padding:6px 8px; resize:none; height:40px; outline:none;" onchange="scheduleSave()">${bonusVal}</textarea>
+    `;
+    container.appendChild(div);
+    if (!savedData && typeof scheduleSave === 'function') scheduleSave();
+  }
+
+  function removeSocialLink(id) {
+    const el = document.getElementById('sl-block-' + id);
+    if(el) {
+      el.remove();
+      if(typeof scheduleSave === 'function') scheduleSave();
+    }
+  }
+
   function collectState(){
     const formData = {};
     FORM_FIELDS.forEach(id => {
@@ -1902,12 +1905,27 @@ for(let i=1; i<=4; i++){
         else formData[id] = el.value;
       }
     });
+    
+    const slData = [];
+    document.querySelectorAll('[id^="sl-block-"]').forEach(block => {
+      const idMatch = block.id.match(/sl-block-(\d+)/);
+      if(idMatch) {
+        const id = idMatch[1];
+        slData.push({
+          name: document.getElementById('sl-name-' + id).value,
+          rank: document.getElementById('sl-r-' + id).value,
+          bonus: document.getElementById('sl-bonus-' + id).value
+        });
+      }
+    });
+
     return {
       version: 3, formData, rolls, assigned,
       arcanaId: selectedArcana ? selectedArcana.id : null,
       archetypeId: selectedArchetype ? selectedArchetype.id : null,
       elementId: selectedElement ? selectedElement.id : null,
       currentLevel, bonusPoints, photoDataURL, personaPhotoDataURL,
+      slData
     };
   }
 
@@ -1954,11 +1972,14 @@ for(let i=1; i<=4; i++){
 
     updateAllDisplays();
 
-    // Restaurer les sliders Social Links
-    for(let i=1; i<=4; i++){
-      const slider = document.getElementById('sl-r-'+i);
-      const val = document.getElementById('sl-val-'+i);
-      if(slider && val) val.textContent = (slider.value == 10 ? 'MAX' : slider.value);
+    // Restaurer les Confidents Dynamiques
+    const slContainer = document.getElementById('sl-container');
+    if (slContainer) slContainer.innerHTML = '';
+    slCount = 0;
+    if (data.slData && data.slData.length > 0) {
+      data.slData.forEach(sl => addSocialLink(sl));
+    } else {
+      addSocialLink(); // Met au moins un bloc vide par défaut
     }
 
     // Recalculer les stats sociales avec l'arcane restauré
