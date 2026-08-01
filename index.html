@@ -1014,6 +1014,96 @@
     85% { transform: translateX(-30px) scale(1); opacity: 1; } /* Glissement lent au milieu */
     100% { transform: translateX(-150px) scale(1.5); opacity: 0; }
   }
+/* === ULTIME RÉALISATION (Pop-up style) === */
+  .ultime-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .ultime-btn {
+    position: relative;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: var(--white);
+    padding: 10px 14px;
+    font-weight: 900;
+    font-style: italic;
+    text-transform: uppercase;
+    text-align: left;
+    font-size: 13px;
+    letter-spacing: -0.3px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .ultime-btn:hover {
+    border-color: var(--white);
+    background: rgba(0, 0, 0, 0.8);
+    transform: translateX(6px) skew(-2deg);
+    z-index: 10; /* Fait passer le bouton et sa carte au premier plan */
+  }
+
+  /* État activé */
+  .ultime-btn.active {
+    background: var(--red);
+    border-color: var(--white);
+    color: var(--white);
+    transform: translateX(10px) skew(-4deg);
+    box-shadow: 4px 4px 0 var(--black);
+  }
+
+  /* La carte d'information flottante (Invisible par défaut) */
+  .ultime-card {
+    position: absolute;
+    top: -10px;
+    left: 105%;
+    width: 260px;
+    background: var(--black);
+    border: 2px solid var(--white);
+    padding: 12px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 11px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-style: italic; /* L'italique accentue le style dynamique */
+    text-transform: none;
+    font-weight: 500;
+    line-height: 1.4;
+    box-shadow: 6px 6px 0 var(--red);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-10px);
+    transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+  }
+  
+  .ultime-card .red-txt {
+    color: var(--red);
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  /* Affichage de la carte au survol du bouton */
+  .ultime-btn:hover .ultime-card {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+  }
+
+  /* Adaptation pour les petits écrans : la carte flotte sous le bouton au lieu de sur le côté */
+  @media (max-width: 850px) {
+    .ultime-card {
+      left: 0;
+      top: 100%;
+      width: 100%;
+      box-shadow: 4px 4px 0 var(--red);
+      transform: translateY(-10px);
+    }
+    .ultime-btn:hover .ultime-card {
+      transform: translateY(4px);
+    }
+  }
 </style>
 </head>
 <body>
@@ -1215,17 +1305,34 @@
         <div class="grid2" id="historiquePanel"></div>
       </div>
 
-      <div class="grid2">
-        <div>
+      <div>
           <div class="shard"><span class="bg"></span><h2>Ultime Réalisation</h2></div>
-          <select id="ultimeSelect">
-            <option value="">— Choisir un bonus de rang 9 —</option>
-            <option>Défense impénétrable</option>
-            <option>Dégainage éclair</option>
-            <option>Versatile</option>
-            <option>Clarté Mentale</option>
-            <option>Expertise Absolue</option>
-          </select>
+          
+          <!-- Champ caché qui remplace le select pour que ta sauvegarde automatique continue de fonctionner sans bug -->
+          <input type="hidden" id="ultimeSelect" value="">
+          
+          <div class="ultime-wrap">
+            <button type="button" class="ultime-btn" data-val="Défense impénétrable" onclick="setUltime('Défense impénétrable')">
+              Défense impénétrable
+              <div class="ultime-card"><span class="red-txt">Défense impénétrable :</span> Votre résistance devient une immunité et vous gagnez une autre résistance.</div>
+            </button>
+            <button type="button" class="ultime-btn" data-val="Dégainage éclair" onclick="setUltime('Dégainage éclair')">
+              Dégainage éclair
+              <div class="ultime-card"><span class="red-txt">Dégainage éclair :</span> Vous ne jetez plus de dés pour « Invoquer votre persona » et obtenez toujours un 7.</div>
+            </button>
+            <button type="button" class="ultime-btn" data-val="Versatile" onclick="setUltime('Versatile')">
+              Versatile
+              <div class="ultime-card"><span class="red-txt">Versatile :</span> Vous obtenez un move de votre choix parmi tous les playbooks.</div>
+            </button>
+            <button type="button" class="ultime-btn" data-val="Clarté Mentale" onclick="setUltime('Clarté Mentale')">
+              Clarté Mentale
+              <div class="ultime-card"><span class="red-txt">Clarté Mentale :</span> Vous êtes définitivement immunisé contre un État Mental de votre choix.</div>
+            </button>
+            <button type="button" class="ultime-btn" data-val="Expertise Absolue" onclick="setUltime('Expertise Absolue')">
+              Expertise Absolue
+              <div class="ultime-card"><span class="red-txt">Expertise Absolue :</span> Choisissez l'une des sept Actions de base. Quand vous l'utilisez, lancez toujours 3d6 et gardez les deux meilleurs résultats.</div>
+            </button>
+          </div>
         </div>
         <div>
           <div class="shard"><span class="bg"></span><h2>Moment de Vérité</h2></div>
@@ -1749,6 +1856,25 @@ function renderEtats(){
 }
 
 /* ================= PROGRESSION ================= */
+function setUltime(val) {
+  const input = document.getElementById('ultimeSelect');
+  // Si on clique sur le bouton déjà actif, ça le décoche (permet d'annuler)
+  if(input.value === val) {
+    input.value = '';
+  } else {
+    input.value = val;
+  }
+  syncUltimeUI();
+  saveLocal(); // Force la sauvegarde du choix
+}
+
+function syncUltimeUI() {
+  const currentVal = document.getElementById('ultimeSelect').value;
+  // Allume en rouge le bouton sélectionné et éteint les autres
+  document.querySelectorAll('.ultime-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.val === currentVal);
+  });
+}
 function renderRealisation(){
   const row = document.getElementById('realisationRow');
   row.innerHTML = '';
@@ -2100,6 +2226,7 @@ function applyGameState(state) {
   renderConfidents();
   renderTeam();
   renderNotes();
+  syncUltimeUI();
 }
 
 /* --- AUTO-SAVE (MÉMOIRE DU NAVIGATEUR) --- */
