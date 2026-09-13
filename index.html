@@ -32,6 +32,8 @@
     --crop-z: 1; /* Zoom par défaut */
     --crop-x: 50%; /* Centré horizontalement */
     --crop-y: 0%; /* Collé en haut (visage) */
+    --pan-x: 0%;   /* nouveau */
+    --pan-y: -50%;  
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -59,7 +61,6 @@
     position:relative;
     background:var(--red);
     padding:26px 32px 18px 32px;
-    overflow:hidden;
     z-index:1;
   }
   .halftone{position:absolute;opacity:.2;pointer-events:none;z-index:2;}
@@ -112,13 +113,13 @@
 
   /* ===== PHOTOS PERSO / PERSONA ===== */
   .photo-frames{
-    display:flex;gap:14px;margin-top:10px;
+    display:flex;gap:8px;margin-top:0px;margin-bottom:0px;
   }
   .photo-frame{
-    position:relative;width:92px;height:112px;
+    position:relative;width:150px;height:170px;
     background:var(--black);
     border:3px solid var(--white);
-    box-shadow:4px 4px 0 rgba(0,0,0,.55);
+    box-shadow:8px 8px 0 rgba(0,0,0,.55);
     cursor:pointer;overflow:hidden;
     transition:transform .15s, box-shadow .15s;
   }
@@ -418,11 +419,20 @@
     width:24px;height:24px;border:2px solid var(--black);background:transparent;cursor:pointer;
     transform:skew(-10deg);
   }
-  .team-cran.filled{background:var(--black);}
-  .footer-flex input{
+    .team-cran.filled{background:var(--black);}
+    .footer-flex input{
     flex:1;min-width:140px;background:rgba(0,0,0,.2);border:none;border-bottom:2px solid rgba(0,0,0,.3);
     color:var(--black);font-weight:700;padding:6px 8px;outline:none;font-family:inherit;
   }
+  .cagnotte-wrapper{
+    display:flex;align-items:center;gap:6px;flex:1;min-width:140px;
+    background:rgba(0,0,0,.2);border:none;border-bottom:2px solid rgba(0,0,0,.3);padding:6px 8px;
+  }
+  .cagnotte-wrapper input{
+    flex:1;min-width:0;background:transparent;border:none;padding:0;
+    color:var(--black);font-weight:700;outline:none;font-family:inherit;
+  }
+  .cagnotte-icon{font-weight:900;font-size:16px;color:var(--black);}
   .footer-flex input::placeholder{color:rgba(0,0,0,.5);}
   .footer-flex input:focus{border-color:var(--black);}
 
@@ -926,8 +936,8 @@
     top: 50%;
     left: 50%;
     width: 200vw; 
-    height: 180px; /* Aligné exactement sur la hauteur de l'aperçu */
-    margin-top: -90px; /* Moitié de 180px pour centrer parfaitement */
+    height: 350px; /* Aligné exactement sur la hauteur de l'aperçu */
+    margin-top: -0px; /* Moitié de 180px pour centrer parfaitement */
     margin-left: -100vw; 
     background: var(--red);
     border-top: 8px solid var(--white);
@@ -949,8 +959,7 @@
     width: 100vw;
     max-width: 600px; /* Bloque l'étirement excessif pour correspondre à l'aperçu */
     height: 100%;
-    object-fit: cover; 
-    object-position: var(--crop-x) var(--crop-y); 
+    object-fit: contain;  
     opacity: 0;
   }
   
@@ -973,11 +982,10 @@
   }
 
   @keyframes imgSlideInside {
-    /* Le zoom de départ inclut un petit effet dynamique, mais se cale sur ton réglage */
-    0% { transform: scale(calc(var(--crop-z) * 1.2)) translateX(40px); opacity: 0; }
-    15% { transform: scale(var(--crop-z)) translateX(0); opacity: 1; }
-    85% { transform: scale(calc(var(--crop-z) * 1.05)) translateX(-20px); opacity: 1; }
-    100% { transform: scale(calc(var(--crop-z) * 1.1)) translateX(-40px); opacity: 0; }
+    0%   { transform: scale(calc(var(--crop-z) * 1.2)) translate(calc(var(--pan-x) + 40px), var(--pan-y)); opacity: 0; }
+    15%  { transform: scale(var(--crop-z)) translate(var(--pan-x), var(--pan-y)); opacity: 1; }
+    85%  { transform: scale(calc(var(--crop-z) * 1.05)) translate(calc(var(--pan-x) - 20px), var(--pan-y)); opacity: 1; }
+    100% { transform: scale(calc(var(--crop-z) * 1.1)) translate(calc(var(--pan-x) - 40px), var(--pan-y)); opacity: 0; }
   }
 /* === ULTIME RÉALISATION (Pop-up style) === */
   .ultime-wrap {
@@ -1354,16 +1362,16 @@
           <details class="base-move">
             <summary>Foncer dans le tas <span class="stat-badge">+Courage</span></summary>
             <div class="base-move-content">
-              <p>Quand vous vous jetez tête baissée dans l'action — pour ouvrir un combat par surprise, forcer un passage, ou entrer dans une conversation.</p>
+              <p>Quand vous vous <strong>jetez tête baissée dans l'action — pour ouvrir un combat par surprise</strong>, forcer un passage, ou entrer dans une conversation.</p>
               <ul>
                 <li><span class="red-txt">10+ :</span> Succès total, choisissez 2 effets.</li>
                 <li><span class="red-txt">7-9 :</span> Succès mitigé, choisissez 1 effet ; le MJ applique une complication.</li>
               </ul>
               <p><strong>Métavers :</strong></p>
               <ul>
-                <li>L'équipe ennemie commence son tour à terre.</li>
+                <li>L'équipe ennemie commence son tour à terre (Compte pour deux).</li>
                 <li>Les PJ participant au combat regagnent 1 PC.</li>
-                <li>Les ennemis sont pris de court et proposent une résolution pacifique.</li>
+                <li>Les ennemis sont pris de court et proposent une résolution pacifique avec un certain prix.</li>
                 <li>Vous récoltez un objet rare sur une Ombre.</li>
               </ul>
               <p><strong>IRL :</strong></p>
@@ -1381,7 +1389,7 @@
           <details class="base-move">
             <summary>Lire la situation <span class="stat-badge">+Connaissance</span></summary>
             <div class="base-move-content">
-              <p>Quand vous prenez un moment pour observer, analyser une situation ou étudier un adversaire.</p>
+              <p>Quand vous <strong>prenez un moment pour observer, analyser une situation ou étudier un adversaire.</strong></p>
               <ul>
                 <li><span class="red-txt">10+ :</span> Succès total, posez 2 questions au MJ.</li>
                 <li><span class="red-txt">7-9 :</span> Succès mitigé, posez 1 question, mais le MJ applique une complication (le temps presse, etc.).</li>
@@ -1390,7 +1398,7 @@
               <ul>
                 <li>Qu'est-ce que je peux utiliser ici pour ______ ?</li>
                 <li>Quelle est la plus grande menace ici ?</li>
-                <li>Qu'est-ce qui est le plus en danger ici ?</li>
+                <li>Quoi ou qui a le plus besoin d'aide ici ?</li>
                 <li>Qui ici est le plus vulnérable face à moi ?</li>
                 <li>Comment pourrions-nous en finir le plus vite possible ?</li>
               </ul>
@@ -1402,9 +1410,9 @@
           <details class="base-move">
             <summary>Convaincre / Charmer <span class="stat-badge">+Charme</span></summary>
             <div class="base-move-content">
-              <p>Quand vous tentez d'influencer, de séduire ou de manipuler quelqu'un.</p>
+              <p>Quand vous <strong>tentez d'influencer, de séduire ou de manipuler quelqu'un.</strong></p>
               <ul>
-                <li><span class="red-txt">10+ :</span> Succès total, choisissez 2 options.</li>
+                <li><span class="red-txt">10+ :</span> Succès total, choisissez 1 option.</li>
                 <li><span class="red-txt">7-9 :</span> Succès mitigé, choisissez 1 option + complication.</li>
               </ul>
               <p><strong>Métavers (Hold-Up) :</strong></p>
@@ -1416,7 +1424,7 @@
               </ul>
               <p><strong>IRL :</strong></p>
               <ul>
-                <li>Faveur : Accepte votre requête immédiate.</li>
+                <li>Faveur : Accepte votre requête immédiate si elle est raisonnable.</li>
                 <li>Confession : Lâche une info confidentielle.</li>
                 <li>Passe-droit : Vous obtenez sans payer le prix fort.</li>
                 <li>Impression durable : Renforce votre Lien.</li>
@@ -1429,13 +1437,10 @@
           <details class="base-move">
             <summary>Encaisser le choc <span class="stat-badge">+Courage</span></summary>
             <div class="base-move-content">
-              <p>Quand vous subissez une attaque inévitable. Le MJ annonce la case de blessure menacée.</p>
-              <ul>
-                <li><span class="red-txt">10+ :</span> Aucune case cochée, décrivez votre encaissement.</li>
-                <li><span class="red-txt">7-9 :</span> Case annoncée cochée + complication du MJ.</li>
-                <li><span class="red-txt">6- :</span> Case cochée et le MJ enchaîne avec une Action.</li>
-              </ul>
-              <p><em>Rappel : si "Mortellement blessé" est coché, vous êtes Brisé.</em></p>
+              <p>Quand tu <strong>encaisses un coup puissant</strong>, jette +le nombre d'états émotionnels dont tu souffres.</p>
+              <p><span class="red-txt">Sur un 10+,</span> Vous ne cochez aucune case, et vous choisissez comment vous encaissez (décrivez la scène).</p>
+              <p><span class="red-txt">Sur un 7-9,</span> Vous cochez la case annoncée par le MJ mais vous ne subissez pas de complication.</p>
+              <p><span class="red-txt">Sur un -6,</span> Vous cochez la case annoncée par le MJ, qui précise une complication (déséquilibre, statut léger, position compromise).</p>
             </div>
           </details>
 
@@ -1464,12 +1469,12 @@
           <details class="base-move">
             <summary>S'infiltrer <span class="stat-badge">+Habileté</span></summary>
             <div class="base-move-content">
-              <p>Quand vous cherchez à agir sans vous faire repérer.</p>
+              <p>Quand vous <strong>tentez d'agir sans vous faire repérer</strong>, jetez +Habileté.</p>
               <ul>
-                <li><span class="red-txt">10+ :</span> Passé sans être vu.</li>
-                <li><span class="red-txt">7-9 :</span> Vous passez, mais choisissez 1 : laissez une trace, faites vite, ou abandonnez un objet.</li>
-                <li><span class="red-txt">6- :</span> Vous êtes repérés (Action du MJ).</li>
-              </ul>
+                <li><span class="red-txt">10+ :</span> Vous passez sans être vus ou suspectés.</li>
+                <li><span class="red-txt">7-9 :</span> vous passez, mais choisissez 1 : vous laissez une trace visible de votre passage/identité, Vous engagez le combat en position neutre, ou vous devez abandonner quelque chose sur place.</li>
+                <li><span class="red-txt">7-9 :</span> vous êtes repérés : le MJ fait son Action.</li>
+              <ul>
             </div>
           </details>
 
@@ -1477,19 +1482,19 @@
           <details class="base-move">
             <summary>Soutenir un allié <span class="stat-badge">+Gentillesse</span></summary>
             <div class="base-move-content">
-              <p>Quand vous aidez ou réconfortez un allié.</p>
+              <p>Quand vous <strong>aidez ou réconfortez un allié</strong>, jetez +Gentillesse.</p>
               <ul>
-                <li><span class="red-txt">10+ :</span> Choisissez 1 effet ci-dessous.</li>
-                <li><span class="red-txt">7-9 :</span> Choisissez 1 effet, mais vous vous exposez.</li>
-                <li><span class="red-txt">6- :</span> Échec. Le MJ en profite sur vous ou l'allié.</li>
+                <li><span class="red-txt">10+ :</span> Succès total, choisissez 1 effet.</li>
+                <li><span class="red-txt">7-9 :</span> Succès mitigé, choisissez 1 effet ; le MJ applique une complication.</li>
               </ul>
-              <p><strong>Effets au choix :</strong></p>
+              <p><strong>Effets :</strong></p>
               <ul>
-                <li>Allié gagne +2 à son prochain jet.</li>
-                <li>Soigne un état mental coché.</li>
-                <li>Soigne une case de blessure.</li>
-                <li>Relève un allié mortellement blessé (Brisé).</li>
+                <li>Votre allié gagne +2 à son prochain jet (s'il est un PJ). </li>
+                <li>Vous dissipez un État Mental qui pèse sur lui (peur, colère, désespoir...). </li>
+                <li>Vous lui transférez 1 Point de Cœur (PC) de votre propre réserve pour qu'il puisse l'utiliser.</li>
+                <li>Vous dissipez une blessure d’un allié.</li>
               </ul>
+              <p><span class="red-txt">6- :</span> <strong>Échec.</strong> Le MJ en profite sur vous ou sur l'allié.</p>
             </div>
           </details>
         </div>
@@ -1572,44 +1577,26 @@
     
     <div class="team-block" style="position: relative;">
       <div id="allOutAlert" class="all-out-alert">★ ALL-OUT ATTACK DISPONIBLE ★</div>
-      <!-- Le mot "Team" a été retiré ici -->
+      <span class="team-label">Team</span>
       <div class="team-crans" id="teamCrans"></div>
     </div>
     
-    <input placeholder="La Cagnotte...">
+    <span class="team-label">Cagnotte</span>
+    <div class="cagnotte-wrapper">
+      <input type="text" placeholder="Montant...">
+      <span class="cagnotte-icon">¥</span>
+    </div>
     
     <div class="consumables-wrapper">
-      <span class="team-label">Sac (Max 3)</span>
-      
+      <span class="team-label">Points D'Inventaires</span>      
       <!-- Emplacement 1 -->
       <div class="consumable-slot">
-        <input type="text" placeholder="Objet 1...">
-        <div class="qty-ctrl">
-          <button class="qty-btn" onclick="this.nextElementSibling.stepDown()">−</button>
-          <input type="number" class="qty-val" value="0" min="0" max="99">
-          <button class="qty-btn" onclick="this.previousElementSibling.stepUp()">+</button>
-        </div>
+      <div class="qty-ctrl">
+        <button class="qty-btn" onclick="this.nextElementSibling.stepDown()">−</button>
+        <input type="number" class="qty-val" value="0" min="0" max="99">
+        <button class="qty-btn" onclick="this.previousElementSibling.stepUp()">+</button>
       </div>
-      
-      <!-- Emplacement 2 -->
-      <div class="consumable-slot">
-        <input type="text" placeholder="Objet 2...">
-        <div class="qty-ctrl">
-          <button class="qty-btn" onclick="this.nextElementSibling.stepDown()">−</button>
-          <input type="number" class="qty-val" value="0" min="0" max="99">
-          <button class="qty-btn" onclick="this.previousElementSibling.stepUp()">+</button>
-        </div>
-      </div>
-      
-      <!-- Emplacement 3 -->
-      <div class="consumable-slot">
-        <input type="text" placeholder="Objet 3...">
-        <div class="qty-ctrl">
-          <button class="qty-btn" onclick="this.nextElementSibling.stepDown()">−</button>
-          <input type="number" class="qty-val" value="0" min="0" max="99">
-          <button class="qty-btn" onclick="this.previousElementSibling.stepUp()">+</button>
-        </div>
-      </div>
+    </div>
     </div>
     
   </div>
@@ -1640,14 +1627,13 @@
 
   <!-- Aperçu du Cut-in (Statique pour le réglage) -->
   <div style="position: relative; width: 100%; max-width: 600px; height: 180px; background: var(--red); border-top: 6px solid var(--white); border-bottom: 6px solid var(--white); overflow: hidden; display: flex; align-items: flex-start; justify-content: center; box-shadow: 0 10px 40px rgba(224,36,43,0.3); transform: skew(-5deg);">
-      <img id="crop-preview-img" src="" style="width: 100%; height: 100%; object-fit: cover; object-position: var(--crop-x) var(--crop-y); transform: scale(var(--crop-z));">
-  </div>
+    <img id="crop-preview-img" src="" style="width: 100%; height: 100%; object-fit: contain; transform: scale(var(--crop-z)) translate(var(--pan-x), var(--pan-y));">  </div>
 
   <!-- Les Sliders (Curseurs) -->
   <div class="panel stack" style="margin-top: 30px; width: 340px; display: flex; flex-direction: column; gap: 12px;">
       <div class="field">
           <label>Zoom (Taille)</label>
-          <input type="range" id="cropZoom" min="0.5" max="2.5" step="0.05" value="1" oninput="updateCropPreview()">
+          <input type="range" id="cropZoom" min="0.5" max="5" step="0.05" value="1" oninput="updateCropPreview()">
       </div>
       <div class="field">
           <label>Position Horizontale (↔)</label>
@@ -1677,11 +1663,11 @@ const statValues = {connaissance:0, courage:0, habilete:0, charme:0, gentillesse
 const statFrozen  = {connaissance:false, courage:false, habilete:false, charme:false, gentillesse:false};
 
 const ETATS = [
-  {key:'effraye', label:'Effrayé', defaultEffet:'-2 pour Foncer dans le tas ou Encaisser le choc', svg:'<path d="M12 2a7 7 0 0 0-7 7v9l2-2 2 2 2-2 2 2 2-2 2 2V9a7 7 0 0 0-7-7z"/><circle cx="9" cy="9" r="1" fill="black"/><circle cx="15" cy="9" r="1" fill="black"/>'},
-  {key:'enrage', label:'Enragé', defaultEffet:"-2 pour Lire la situation ou Soutenir un allié", svg:'<path d="M12 2c1 3-2 4-2 7 0 2 1 3 2 3s2-1 2-3c0-1-.5-2-.5-2 2 1 3 3 3 5a4.5 4.5 0 0 1-9 0c0-5 3-7 4.5-10z"/>'},
-  {key:'desespere', label:'Désespéré', defaultEffet:'-2 pour Invoquer son Persona', svg:'<circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.3" fill="black"/><circle cx="15" cy="10" r="1.3" fill="black"/><path d="M8 16h8" stroke="black" stroke-width="1.3" fill="none"/>'},
-  {key:'incertain', label:'Incertain', defaultEffet:'-2 pour Convaincre ou charmer', svg:'<path d="M9.1 9a3 3 0 1 1 4.9 2.3c-.9.7-1.5 1.2-1.5 2.4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="17.5" r="1" />'},
-  {key:'coupable', label:'Coupable', defaultEffet:"-2 pour S'infiltrer", svg:'<circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.3" fill="black"/><circle cx="15" cy="10" r="1.3" fill="black"/><path d="M8 16c1.5-1.5 6.5-1.5 8 0" stroke="black" stroke-width="1.3" fill="none"/>'},
+  {key:'effraye', label:'Effrayé', defaultEffet:'-2 en Courage', svg:'<path d="M12 2a7 7 0 0 0-7 7v9l2-2 2 2 2-2 2 2 2-2 2 2V9a7 7 0 0 0-7-7z"/><circle cx="9" cy="9" r="1" fill="black"/><circle cx="15" cy="9" r="1" fill="black"/>'},
+  {key:'enrage', label:'Enragé', defaultEffet:"-2 en Gentillesse", svg:'<path d="M12 2c1 3-2 4-2 7 0 2 1 3 2 3s2-1 2-3c0-1-.5-2-.5-2 2 1 3 3 3 5a4.5 4.5 0 0 1-9 0c0-5 3-7 4.5-10z"/>'},
+  {key:'desespere', label:'Désespéré', defaultEffet:'-2 en Connaissance', svg:'<circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.3" fill="black"/><circle cx="15" cy="10" r="1.3" fill="black"/><path d="M8 16h8" stroke="black" stroke-width="1.3" fill="none"/>'},
+  {key:'incertain', label:'Incertain', defaultEffet:'-2 en Charme', svg:'<path d="M9.1 9a3 3 0 1 1 4.9 2.3c-.9.7-1.5 1.2-1.5 2.4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="17.5" r="1" />'},
+  {key:'coupable', label:'Coupable', defaultEffet:"-2 en Habileté", svg:'<circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.3" fill="black"/><circle cx="15" cy="10" r="1.3" fill="black"/><path d="M8 16c1.5-1.5 6.5-1.5 8 0" stroke="black" stroke-width="1.3" fill="none"/>'},
 ];
 const etatValues = {effraye:false, enrage:false, desespere:false, incertain:false, coupable:false};
 const etatEffects = {};
@@ -1745,13 +1731,14 @@ function openCropper() {
 
 function updateCropPreview() {
   const z = document.getElementById('cropZoom').value;
-  const x = document.getElementById('cropX').value + '%';
-  const y = document.getElementById('cropY').value + '%';
-  
-  // Change les variables CSS en temps réel pour l'aperçu dynamique
+  const xVal = document.getElementById('cropX').value;
+  const yVal = document.getElementById('cropY').value;
+
   document.documentElement.style.setProperty('--crop-z', z);
-  document.documentElement.style.setProperty('--crop-x', x);
-  document.documentElement.style.setProperty('--crop-y', y);
+  document.documentElement.style.setProperty('--crop-x', xVal + '%');
+  document.documentElement.style.setProperty('--crop-y', yVal + '%');
+  document.documentElement.style.setProperty('--pan-x', (xVal - 50) + '%');
+  document.documentElement.style.setProperty('--pan-y', (yVal - 50) + '%');
 }
 
 function closeCropper(save) {
@@ -1772,6 +1759,8 @@ function applyCropVars() {
   document.documentElement.style.setProperty('--crop-z', photoCrop.z);
   document.documentElement.style.setProperty('--crop-x', photoCrop.x + '%');
   document.documentElement.style.setProperty('--crop-y', photoCrop.y + '%');
+  document.documentElement.style.setProperty('--pan-x', (photoCrop.x - 50) + '%');
+  document.documentElement.style.setProperty('--pan-y', (photoCrop.y - 50) + '%');
 }
 
 
@@ -2007,10 +1996,9 @@ function toggleRealisation(i){
 function renderHistorique(){
   const panel = document.getElementById('historiquePanel');
   panel.innerHTML = `
-    ${counterRowHTML('Moves playbook', 'movesPlaybook', 3)}
+    ${counterRowHTML('Moves playbook', 'movesPlaybook', 4)}
     ${counterRowHTML('Move autre playbook', 'moveAutre', 1)}
     ${counterRowHTML('+1 Stat', 'statBonus', 2)}
-    ${counterRowHTML('+1 PC Max', 'pcMaxBonus', 1)}
     <button class="toggle-btn ${historique.momentVeriteDebloque ? 'active':''}" onclick="toggleMVDebloque()">
       Moment de vérité débloqué <span>${historique.momentVeriteDebloque ? '✓' : '—'}</span>
     </button>
