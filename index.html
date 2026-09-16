@@ -1303,7 +1303,9 @@
     <div class="stack">
       <div>
         <div class="shard"><span class="bg"></span><h2>Jauge de Réalisation</h2></div>
-        <div class="realisation-row" id="realisationRow"></div>
+        <p style="color:rgba(255,255,255,.4);font-size:12px;font-weight:700;text-transform:uppercase;margin:6px 0 4px;">Condition de réalisation</p>
+        <textarea rows="2" placeholder="Quelle est la condition de réalisation ?"></textarea>
+        <div class="realisation-row" id="realisationRow" style="margin-top:10px;"></div>
       </div>
 
       <div>
@@ -1320,23 +1322,23 @@
           <div class="ultime-wrap">
             <button type="button" class="ultime-btn" data-val="Défense impénétrable" onclick="setUltime('Défense impénétrable')">
               Défense impénétrable
-              <div class="ultime-card"><span class="red-txt">Défense impénétrable :</span> Votre résistance devient une immunité et vous gagnez une autre résistance.</div>
+              <div class="ultime-card"><span class="red-txt">Défense impénétrable :</span> Votre résistance devient une absorbtion ou un renvoi et vous gagnez une autre résistance.</div>
             </button>
             <button type="button" class="ultime-btn" data-val="Dégainage éclair" onclick="setUltime('Dégainage éclair')">
               Dégainage éclair
-              <div class="ultime-card"><span class="red-txt">Dégainage éclair :</span> Vous ne jetez plus de dés pour « Invoquer votre persona » et obtenez toujours un 7.</div>
+              <div class="ultime-card"><span class="red-txt">Dégainage éclair :</span> Vous ne posez plus de carte pour « Invoquer votre persona » et obtenez toujours un 10 si ous payez 1 PC.</div>
             </button>
             <button type="button" class="ultime-btn" data-val="Versatile" onclick="setUltime('Versatile')">
               Versatile
-              <div class="ultime-card"><span class="red-txt">Versatile :</span> Vous obtenez un move de votre choix parmi tous les playbooks.</div>
+              <div class="ultime-card"><span class="red-txt">Versatile :</span> Vous obtenez 2 moves de votre choix parmi tous les playbooks de PJ utilisés dans cette partie.</div>
             </button>
             <button type="button" class="ultime-btn" data-val="Clarté Mentale" onclick="setUltime('Clarté Mentale')">
               Clarté Mentale
-              <div class="ultime-card"><span class="red-txt">Clarté Mentale :</span> Vous êtes définitivement immunisé contre un État Mental de votre choix.</div>
+              <div class="ultime-card"><span class="red-txt">Clarté Mentale :</span> Vous êtes définitivement immunisé contre 2 États Mentaux de votre choix.</div>
             </button>
             <button type="button" class="ultime-btn" data-val="Expertise Absolue" onclick="setUltime('Expertise Absolue')">
               Expertise Absolue
-              <div class="ultime-card"><span class="red-txt">Expertise Absolue :</span> Choisissez l'une des sept Actions de base. Quand vous l'utilisez, lancez toujours 3d6 et gardez les deux meilleurs résultats.</div>
+              <div class="ultime-card"><span class="red-txt">Expertise Absolue :</span> Choisissez l'une des sept Actions de base. Gagnez avantage sur celle-ci.</div>
             </button>
           </div>
         </div>
@@ -1504,7 +1506,10 @@
       <div class="stack">
         <div>
           <div class="shard"><span class="bg"></span><h2>Moves de Playbook</h2></div>
-          <textarea rows="8" placeholder="Liste tes moves de playbook ici..."></textarea>
+          <p style="color:rgba(255,255,255,.4);font-size:12px;font-weight:700;text-transform:uppercase;margin:6px 0 4px;">Moves IRL</p>
+          <textarea rows="4" placeholder="Liste tes moves de playbook IRL ici..."></textarea>
+          <p style="color:rgba(255,255,255,.4);font-size:12px;font-weight:700;text-transform:uppercase;margin:12px 0 4px;">Moves Metavers</p>
+          <textarea rows="4" placeholder="Liste tes moves de playbook Metavers ici..."></textarea>
         </div>
         <div>
           <div class="shard"><span class="bg"></span><h2>Emplacements Équipés</h2></div>
@@ -1996,7 +2001,8 @@ function toggleRealisation(i){
 function renderHistorique(){
   const panel = document.getElementById('historiquePanel');
   panel.innerHTML = `
-    ${counterRowHTML('Moves playbook', 'movesPlaybook', 4)}
+    ${counterRowHTML('Moves playbook IRL', 'movesPlaybook', 3)}
+    ${counterRowHTML('Moves playbook Metavers', 'movesPlaybook', 3)}
     ${counterRowHTML('Move autre playbook', 'moveAutre', 1)}
     ${counterRowHTML('+1 Stat', 'statBonus', 2)}
     <button class="toggle-btn ${historique.momentVeriteDebloque ? 'active':''}" onclick="toggleMVDebloque()">
@@ -2036,7 +2042,13 @@ function addConfident(){
   const input = document.getElementById('newConfidantName');
   const name = input.value.trim();
   if(!name) return;
-  confidents.push({name, level:1});
+  confidents.push({
+    id: 'cf_' + Date.now() + '_' + Math.random().toString(36).slice(2,7),
+    name,
+    level: 1,
+    moves: ['', ''],
+    notes: ''
+  });
   input.value = '';
   renderConfidents();
 }
@@ -2050,12 +2062,27 @@ function setConfidantLevel(idx, level){
 }
 function renderConfidents(){
   const list = document.getElementById('confidentsList');
+
+  // Rétrocompatibilité : complète les confidents venant d'une vieille sauvegarde
+  confidents.forEach(cf => {
+    if(!cf.id) cf.id = 'cf_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
+    if(!cf.moves) cf.moves = ['', ''];
+    if(cf.notes === undefined) cf.notes = '';
+  });
+
+  // Mémorise quelles cartes sont ouvertes avant de tout redessiner
+  const openIds = new Set(
+    Array.from(list.querySelectorAll('details.confident-card'))
+      .filter(d => d.open)
+      .map(d => d.dataset.id)
+  );
+
   if(confidents.length === 0){
     list.innerHTML = '<p class="empty-msg">Aucun lien noué pour le moment.</p>';
     return;
   }
   list.innerHTML = confidents.map((cf, idx)=>`
-    <details class="confident-card base-move" style="padding:0; margin-bottom:12px;">
+    <details class="confident-card base-move" data-id="${cf.id}" style="padding:0; margin-bottom:12px;">
       <summary style="padding:12px;">
         <div style="display:flex; flex-direction:column; gap:8px; width:100%; padding-right:12px;">
           <div class="confident-top" style="margin:0;">
@@ -2076,13 +2103,39 @@ function renderConfidents(){
         </div>
       </summary>
       <div class="base-move-content" style="padding:12px; border-top:1px solid rgba(255,255,255,.1);">
-        <p class="confident-bonus" style="margin:0;">Rang ${cf.level} — ${CONFIDANT_BONUS[cf.level]}</p>
+        <p class="confident-bonus" style="margin:0 0 10px;">Rang ${cf.level} — ${CONFIDANT_BONUS[cf.level]}</p>
+
+        <div class="field" style="margin-bottom:8px;">
+  <label>Move de Confident 1</label>
+  <textarea class="note-textarea" rows="1" placeholder="Nom du move..." onclick="event.stopPropagation();" oninput="updateConfidentMove('${cf.id}', 0, this.value)">${cf.moves[0]}</textarea>
+</div>
+<div class="field" style="margin-bottom:8px;">
+  <label>Move de Confident 2</label>
+  <textarea class="note-textarea" rows="1" placeholder="Nom du move..." onclick="event.stopPropagation();" oninput="updateConfidentMove('${cf.id}', 1, this.value)">${cf.moves[1]}</textarea>
+</div>
+        <div class="field">
+          <label>Notes</label>
+          <textarea class="note-textarea" rows="3" placeholder="Notes sur ce confident..." onclick="event.stopPropagation();" oninput="updateConfidentNotes('${cf.id}', this.value)">${cf.notes}</textarea>
+        </div>
       </div>
     </details>
   `).join('');
-  
-  // On applique l'animation d'ouverture/fermeture fluide générée par ton code
+
+  // Rouvre les cartes qui étaient ouvertes avant le redessin
+  list.querySelectorAll('details.confident-card').forEach(d => {
+    if(openIds.has(d.dataset.id)) d.open = true;
+  });
+
   initSmoothAccordions();
+}
+
+function updateConfidentMove(id, i, value){
+  const cf = confidents.find(c => c.id === id);
+  if(cf) cf.moves[i] = value;
+}
+function updateConfidentNotes(id, value){
+  const cf = confidents.find(c => c.id === id);
+  if(cf) cf.notes = value;
 }
 
 /* ================= GROUPE ================= */
