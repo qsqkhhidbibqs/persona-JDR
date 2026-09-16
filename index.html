@@ -292,6 +292,37 @@
   .stat-controls button:hover:not(:disabled){background:var(--red);border-color:var(--red);}
   .stat-controls button:disabled{opacity:.2;cursor:not-allowed;}
   .stat-value{width:36px;text-align:center;font-weight:900;font-style:italic;font-size:20px;}
+  .roll-btn{
+    width:26px;height:26px;background:transparent;border:2px solid rgba(255,255,255,.35);color:var(--white);
+    font-size:13px;cursor:pointer;border-radius:4px;display:flex;align-items:center;justify-content:center;
+    margin-left:4px;
+  }
+  .roll-btn:hover{background:var(--red);border-color:var(--red);}
+
+  /* résultat de jet */
+  .roll-stat-name{
+    font-size:13px;font-weight:900;text-transform:uppercase;font-style:italic;letter-spacing:.5px;
+    color:rgba(255,255,255,.6);margin:0 0 12px;text-align:center;
+  }
+  .roll-dice{display:flex;gap:10px;justify-content:center;margin-bottom:12px;}
+  .roll-die{
+    width:44px;height:44px;background:var(--black);border:2px solid var(--white);color:var(--white);
+    display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;
+  }
+  .roll-breakdown{
+    text-align:center;font-size:12px;color:rgba(255,255,255,.6);margin-bottom:14px;font-style:italic;
+  }
+  .roll-penalty{color:var(--red);font-weight:900;}
+  .roll-total{
+    text-align:center;font-size:48px;font-weight:900;font-style:italic;line-height:1;margin-bottom:6px;
+  }
+  .roll-tier{
+    text-align:center;font-size:13px;font-weight:900;text-transform:uppercase;font-style:italic;
+    letter-spacing:.5px;padding:6px 0;
+  }
+  .tier-full{color:#4ade80;}
+  .tier-mixed{color:#FBC02D;}
+  .tier-fail{color:var(--red);}
 
   /* etats mentaux */
   .etats-wrap{display:flex;flex-wrap:wrap;gap:8px;}
@@ -307,11 +338,10 @@
   .etat-label{font-size:11px;font-weight:900;text-transform:uppercase;font-style:italic;letter-spacing:-.2px;}
   .etat-effet{
     margin-top:2px;width:100%;text-align:center;font-size:10px;font-weight:700;font-style:italic;
-    color:rgba(255,255,255,.45);cursor:text;outline:none;line-height:1.25;
+    color:rgba(255,255,255,.45);line-height:1.25;
     border-top:1px solid rgba(255,255,255,.15);padding-top:5px;
   }
   .etat-btn.active .etat-effet{color:rgba(255,255,255,.85);border-top-color:rgba(255,255,255,.35);}
-  .etat-effet:focus{color:var(--white);}
 
   /* progression */
   .realisation-row{display:flex;gap:8px;}
@@ -606,8 +636,10 @@
   .theme-panel {
     position: fixed;
     top: 50%;
-    left: -50px; /* Caché par défaut, côté gauche */
-    transform: translateY(-50%);
+    left: 0;
+    /* Caché par défaut : on se décale de 100% de SA PROPRE largeur, donc ça
+       marche quel que soit le contenu du panneau (plus de valeur en dur) */
+    transform: translateY(-50%) translateX(-100%);
     background: rgba(0, 0, 0, 0.9);
     border: 2px solid rgba(255, 255, 255, 0.2);
     border-left: none;
@@ -616,11 +648,11 @@
     flex-direction: column;
     gap: 12px;
     z-index: 1000;
-    transition: left 0.22s ease-out;
+    transition: transform 0.22s ease-out;
     border-radius: 0 8px 8px 0;
   }
   .theme-panel.open {
-    left: 0; /* S'ouvre */
+    transform: translateY(-50%) translateX(0); /* S'ouvre entièrement */
   }
   
   /* Le bouton flèche pour ouvrir/fermer */
@@ -652,6 +684,11 @@
   }
 
   /* Les pastilles de couleurs */
+  .theme-color-row{display:flex;align-items:center;gap:8px;}
+  .theme-color-label{
+    font-size:11px;font-weight:900;font-style:italic;text-transform:uppercase;letter-spacing:.2px;
+    color:rgba(255,255,255,.7);white-space:nowrap;
+  }
   .theme-btn {
     position: relative;
     width: 24px;
@@ -1114,12 +1151,39 @@
 <div class="theme-panel" id="themePanel">
   <button type="button" class="theme-toggle" id="themeToggleBtn" onclick="toggleThemePanel()">▶</button>
   
-  <button type="button" class="theme-btn" data-color="#69359C" style="background: #69359C;" title="Persona 1 (Violet)" onclick="setTheme('#69359C'); saveLocal();"></button>
-  <button type="button" class="theme-btn" data-color="#E64A19" style="background: #E64A19;" title="Persona 2 (Orange)" onclick="setTheme('#E64A19'); saveLocal();"></button>
-  <button type="button" class="theme-btn" data-color="#0088D4" style="background: #0088D4;" title="Persona 3 (Bleu)" onclick="setTheme('#0088D4'); saveLocal();"></button>
-  <button type="button" class="theme-btn" data-color="#FBC02D" style="background: #FBC02D;" title="Persona 4 (Jaune)" onclick="setTheme('#FBC02D'); saveLocal();"></button>
-  <button type="button" class="theme-btn" data-color="#e0242b" style="background: #e0242b;" title="Persona 5 (Rouge)" onclick="setTheme('#e0242b'); saveLocal();"></button>
+  <div class="theme-color-row">
+    <button type="button" class="theme-btn" data-color="#69359C" style="background: #69359C;" title="Persona 1 (Violet)" onclick="setTheme('#69359C'); saveLocal();"></button>
+    <span class="theme-color-label">Persona 1</span>
+  </div>
+  <div class="theme-color-row">
+    <button type="button" class="theme-btn" data-color="#E64A19" style="background: #E64A19;" title="Persona 2 (Orange)" onclick="setTheme('#E64A19'); saveLocal();"></button>
+    <span class="theme-color-label">Persona 2</span>
+  </div>
+  <div class="theme-color-row">
+    <button type="button" class="theme-btn" data-color="#0088D4" style="background: #0088D4;" title="Persona 3 (Bleu)" onclick="setTheme('#0088D4'); saveLocal();"></button>
+    <span class="theme-color-label">Persona 3</span>
+  </div>
+  <div class="theme-color-row">
+    <button type="button" class="theme-btn" data-color="#FBC02D" style="background: #FBC02D;" title="Persona 4 (Jaune)" onclick="setTheme('#FBC02D'); saveLocal();"></button>
+    <span class="theme-color-label">Persona 4</span>
+  </div>
+  <div class="theme-color-row">
+    <button type="button" class="theme-btn" data-color="#e0242b" style="background: #e0242b;" title="Persona 5 (Rouge)" onclick="setTheme('#e0242b'); saveLocal();"></button>
+    <span class="theme-color-label">Persona 5</span>
+  </div>
   
+  <div class="sys-divider"></div>
+
+  <div style="display:flex; flex-direction:column; gap:6px; width:150px;">
+    <span style="font-size:9px; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,.5);">Personnage</span>
+    <select id="charSlotSelect" autocomplete="off" onchange="switchCharSlot(this.value)" style="width:100%; background:var(--black); color:var(--white); border:1px solid rgba(255,255,255,.3); border-radius:4px; padding:4px; font-family:inherit; font-size:11px;"></select>
+    <div style="display:flex; gap:4px;">
+      <button class="sys-btn" title="Nouveau personnage" onclick="createCharSlot()">➕</button>
+      <button class="sys-btn" title="Renommer ce personnage" onclick="renameCharSlot()">✎</button>
+      <button class="sys-btn" title="Supprimer ce personnage" onclick="deleteCharSlot()">🗑</button>
+    </div>
+  </div>
+
   <div class="sys-divider"></div>
   
   <button class="sys-btn" title="Sauvegarder (Export JSON)" onclick="exportJSON()">💾</button>
@@ -1655,6 +1719,14 @@
   </div>
 </div>
 
+<!-- === MODAL : RÉSULTAT DE JET === -->
+<div id="rollModal" class="modal-overlay" style="flex-direction: column;">
+  <div class="panel" style="width: 280px; box-shadow: 0 0 40px rgba(0,0,0,1);">
+    <div id="rollResultContent"></div>
+    <button class="mv-btn" style="margin-top:10px;" onclick="closeRollModal()">Fermer</button>
+  </div>
+</div>
+
 <script>
 /* ================= ETAT GLOBAL ================= */
 const STATS = [
@@ -1668,15 +1740,22 @@ const statValues = {connaissance:0, courage:0, habilete:0, charme:0, gentillesse
 const statFrozen  = {connaissance:false, courage:false, habilete:false, charme:false, gentillesse:false};
 
 const ETATS = [
-  {key:'effraye', label:'Effrayé', defaultEffet:'-2 en Courage', svg:'<path d="M12 2a7 7 0 0 0-7 7v9l2-2 2 2 2-2 2 2 2-2 2 2V9a7 7 0 0 0-7-7z"/><circle cx="9" cy="9" r="1" fill="black"/><circle cx="15" cy="9" r="1" fill="black"/>'},
-  {key:'enrage', label:'Enragé', defaultEffet:"-2 en Gentillesse", svg:'<path d="M12 2c1 3-2 4-2 7 0 2 1 3 2 3s2-1 2-3c0-1-.5-2-.5-2 2 1 3 3 3 5a4.5 4.5 0 0 1-9 0c0-5 3-7 4.5-10z"/>'},
-  {key:'desespere', label:'Désespéré', defaultEffet:'-2 en Connaissance', svg:'<circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.3" fill="black"/><circle cx="15" cy="10" r="1.3" fill="black"/><path d="M8 16h8" stroke="black" stroke-width="1.3" fill="none"/>'},
-  {key:'incertain', label:'Incertain', defaultEffet:'-2 en Charme', svg:'<path d="M9.1 9a3 3 0 1 1 4.9 2.3c-.9.7-1.5 1.2-1.5 2.4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="17.5" r="1" />'},
-  {key:'coupable', label:'Coupable', defaultEffet:"-2 en Habileté", svg:'<circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.3" fill="black"/><circle cx="15" cy="10" r="1.3" fill="black"/><path d="M8 16c1.5-1.5 6.5-1.5 8 0" stroke="black" stroke-width="1.3" fill="none"/>'},
+  {key:'effraye', label:'Effrayé', statKey:'courage', svg:'<path d="M12 2a7 7 0 0 0-7 7v9l2-2 2 2 2-2 2 2 2-2 2 2V9a7 7 0 0 0-7-7z"/><circle cx="9" cy="9" r="1" fill="black"/><circle cx="15" cy="9" r="1" fill="black"/>'},
+  {key:'enrage', label:'Enragé', statKey:'gentillesse', svg:'<path d="M12 2c1 3-2 4-2 7 0 2 1 3 2 3s2-1 2-3c0-1-.5-2-.5-2 2 1 3 3 3 5a4.5 4.5 0 0 1-9 0c0-5 3-7 4.5-10z"/>'},
+  {key:'desespere', label:'Désespéré', statKey:'habilete', svg:'<circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.3" fill="black"/><circle cx="15" cy="10" r="1.3" fill="black"/><path d="M8 16h8" stroke="black" stroke-width="1.3" fill="none"/>'},
+  {key:'incertain', label:'Incertain', statKey:'connaissance', svg:'<path d="M9.1 9a3 3 0 1 1 4.9 2.3c-.9.7-1.5 1.2-1.5 2.4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="17.5" r="1" />'},
+  {key:'coupable', label:'Coupable', statKey:'charme', svg:'<circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.3" fill="black"/><circle cx="15" cy="10" r="1.3" fill="black"/><path d="M8 16c1.5-1.5 6.5-1.5 8 0" stroke="black" stroke-width="1.3" fill="none"/>'},
 ];
 const etatValues = {effraye:false, enrage:false, desespere:false, incertain:false, coupable:false};
-const etatEffects = {};
-ETATS.forEach(e => etatEffects[e.key] = e.defaultEffet);
+function statLabel(key){
+  const s = STATS.find(s => s.key === key);
+  return s ? s.label : key;
+}
+function etatPenaltyFor(statKey){
+  const e = ETATS.find(e => e.statKey === statKey);
+  return (e && etatValues[e.key]) ? -2 : 0;
+}
+
 
 const blessureValues = {blesse:false, gravement:false, mortellement:false};
 let pc = {current:4, max:4};
@@ -1921,6 +2000,7 @@ function renderStats(){
         <button ${statFrozen[s.key]?'disabled':''} onclick="changeStat('${s.key}', -1)">−</button>
         <span class="stat-value" id="statval-${s.key}" style="color:${colorForValue(statValues[s.key])}">${formatValue(statValues[s.key])}</span>
         <button ${statFrozen[s.key]?'disabled':''} onclick="changeStat('${s.key}', 1)">+</button>
+        <button class="roll-btn" title="Lancer 2d6 + ${s.label}" onclick="rollStat('${s.key}')">🎲</button>
       </div>
     `;
     panel.appendChild(row);
@@ -1939,6 +2019,41 @@ function toggleFreeze(key){
   renderStats();
 }
 
+/* ================= LANCERS DE DÉS AUTOMATIQUES ================= */
+function rollStat(key){
+  const d1 = 1 + Math.floor(Math.random() * 6);
+  const d2 = 1 + Math.floor(Math.random() * 6);
+  const mod = statValues[key];
+  const penalty = etatPenaltyFor(key); // -2 si l'état mental lié à cette stat est actif, sinon 0
+  const total = d1 + d2 + mod + penalty;
+  const label = statLabel(key);
+
+  const activeEtat = ETATS.find(e => e.statKey === key && etatValues[e.key]);
+
+  let tierText, tierClass;
+  if (total >= 10) { tierText = 'Réussite totale (10+)'; tierClass = 'tier-full'; }
+  else if (total >= 7) { tierText = 'Réussite partielle (7-9)'; tierClass = 'tier-mixed'; }
+  else { tierText = 'Échec (6-)'; tierClass = 'tier-fail'; }
+
+  const modText = `${mod >= 0 ? '+' : ''}${mod} en ${label}`;
+  const penaltyText = activeEtat ? ` <span class="roll-penalty">− 2 (${activeEtat.label})</span>` : '';
+
+  document.getElementById('rollResultContent').innerHTML = `
+    <p class="roll-stat-name">Jet de ${label}</p>
+    <div class="roll-dice">
+      <span class="roll-die">${d1}</span>
+      <span class="roll-die">${d2}</span>
+    </div>
+    <div class="roll-breakdown">2d6 (${d1} + ${d2}) ${modText}${penaltyText}</div>
+    <div class="roll-total ${tierClass}">${total}</div>
+    <div class="roll-tier ${tierClass}">${tierText}</div>
+  `;
+  document.getElementById('rollModal').classList.add('active');
+}
+function closeRollModal(){
+  document.getElementById('rollModal').classList.remove('active');
+}
+
 /* ================= ETATS MENTAUX ================= */
 function renderEtats(){
   const panel = document.getElementById('etatsPanel');
@@ -1948,21 +2063,19 @@ function renderEtats(){
     btn.className = 'etat-btn' + (etatValues[e.key] ? ' active' : '');
     btn.setAttribute('role','button');
     btn.setAttribute('tabindex','0');
-    btn.onclick = (ev)=>{
-      if(ev.target.closest('.etat-effet')) return; // ne pas togger si on édite le texte d'effet
+    btn.onclick = ()=>{
       etatValues[e.key] = !etatValues[e.key]; renderEtats();
     };
     btn.onkeydown = (ev)=>{
-      if((ev.key==='Enter'||ev.key===' ') && !ev.target.closest('.etat-effet')){
+      if(ev.key==='Enter'||ev.key===' '){
         ev.preventDefault(); etatValues[e.key] = !etatValues[e.key]; renderEtats();
       }
     };
     btn.innerHTML = `
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">${e.svg}</svg>
       <span class="etat-label">${e.label}</span>
-      <div class="etat-effet" contenteditable="true" spellcheck="false" data-key="${e.key}" onclick="event.stopPropagation()" onmousedown="event.stopPropagation()" oninput="etatEffects['${e.key}']=this.textContent"></div>
+      <div class="etat-effet">${e.label} : -2 en ${statLabel(e.statKey)}</div>
     `;
-    btn.querySelector('.etat-effet').textContent = etatEffects[e.key];
     panel.appendChild(btn);
   });
 }
@@ -2309,7 +2422,7 @@ function getGameState() {
 
   return {
     themeColor: document.documentElement.style.getPropertyValue('--red') || '#e0242b',
-    jsState: { pc, blessureValues, statValues, statFrozen, etatValues, etatEffects, realisationCases, historique, momentVerite, confidents, team, notes, photoCrop },
+    jsState: { pc, blessureValues, statValues, statFrozen, etatValues, realisationCases, historique, momentVerite, confidents, team, notes, photoCrop },
     
     domValues,
     
@@ -2333,7 +2446,6 @@ function applyGameState(state) {
     Object.assign(statValues, state.jsState.statValues);
     Object.assign(statFrozen, state.jsState.statFrozen);
     Object.assign(etatValues, state.jsState.etatValues);
-    if (state.jsState.etatEffects) Object.assign(etatEffects, state.jsState.etatEffects);
     if (state.jsState.realisationCases) realisationCases = state.jsState.realisationCases;
     Object.assign(historique, state.jsState.historique);
     if (state.jsState.momentVerite) momentVerite = state.jsState.momentVerite;
@@ -2416,18 +2528,122 @@ function applyGameState(state) {
   syncUltimeUI();
 }
 
+/* --- MULTI-PERSONNAGES --- */
+const SLOTS_KEY = 'personaSheetSlotsV2';
+
+function loadSlotsStore(){
+  try {
+    const raw = localStorage.getItem(SLOTS_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && parsed.slots && parsed.activeId) return parsed;
+    }
+  } catch(e) { console.error("Erreur de lecture des personnages", e); }
+  return null;
+}
+
+function saveSlotsStore(){
+  localStorage.setItem(SLOTS_KEY, JSON.stringify(slotsStore));
+}
+
+function initSlotsStore(){
+  const existing = loadSlotsStore();
+  if (existing) return existing;
+
+  // Migration douce depuis l'ancienne sauvegarde mono-personnage,
+  // pour ne jamais perdre une fiche déjà en cours.
+  let legacyState = null;
+  try {
+    const legacyRaw = localStorage.getItem('personaSheetSave');
+    if (legacyRaw) legacyState = JSON.parse(legacyRaw);
+  } catch(e) { console.error("Erreur de migration de l'ancienne sauvegarde", e); }
+
+  const firstId = 'char_' + Date.now();
+  const store = {
+    activeId: firstId,
+    slots: {
+      [firstId]: { name: legacyState && legacyState.h1Name ? legacyState.h1Name : 'Personnage 1', state: legacyState }
+    }
+  };
+  localStorage.setItem(SLOTS_KEY, JSON.stringify(store));
+  return store;
+}
+
+let slotsStore = initSlotsStore();
+
+function renderSlotSelect(){
+  const sel = document.getElementById('charSlotSelect');
+  if (!sel) return;
+  sel.innerHTML = Object.entries(slotsStore.slots)
+    .map(([id, slot]) => `<option value="${id}" ${id === slotsStore.activeId ? 'selected' : ''}>${slot.name}</option>`)
+    .join('');
+  // Certains navigateurs restaurent la valeur précédente d'un <select> après un
+  // rechargement de page, en écrasant l'attribut "selected" ci-dessus.
+  // On force donc explicitement la bonne valeur pour être sûr que l'affichage
+  // corresponde toujours au personnage réellement actif.
+  sel.value = slotsStore.activeId;
+}
+
+function switchCharSlot(id){
+  if (!slotsStore.slots[id] || id === slotsStore.activeId) return;
+  // On sauvegarde le personnage courant avant de changer, pour ne rien perdre
+  slotsStore.slots[slotsStore.activeId].state = getGameState();
+  slotsStore.activeId = id;
+  saveSlotsStore();
+  location.reload();
+}
+
+function createCharSlot(){
+  const name = prompt("Nom du nouveau personnage :", "Nouveau personnage");
+  if (!name || !name.trim()) return;
+  slotsStore.slots[slotsStore.activeId].state = getGameState();
+
+  const id = 'char_' + Date.now();
+  slotsStore.slots[id] = { name: name.trim(), state: null };
+  slotsStore.activeId = id;
+  saveSlotsStore();
+  location.reload(); // Repart d'une fiche vierge, garantie identique à une fiche neuve
+}
+
+function renameCharSlot(){
+  const slot = slotsStore.slots[slotsStore.activeId];
+  const name = prompt("Renommer ce personnage :", slot.name);
+  if (!name || !name.trim()) return;
+  slot.name = name.trim();
+  saveSlotsStore();
+  renderSlotSelect();
+}
+
+function deleteCharSlot(){
+  const ids = Object.keys(slotsStore.slots);
+  if (ids.length <= 1) {
+    alert("Impossible de supprimer le dernier personnage.");
+    return;
+  }
+  const slot = slotsStore.slots[slotsStore.activeId];
+  if (!confirm(`Supprimer définitivement "${slot.name}" ? Cette action est irréversible.`)) return;
+
+  delete slotsStore.slots[slotsStore.activeId];
+  slotsStore.activeId = Object.keys(slotsStore.slots)[0];
+  saveSlotsStore();
+  location.reload();
+}
+
 /* --- AUTO-SAVE (MÉMOIRE DU NAVIGATEUR) --- */
 function saveLocal() {
-  localStorage.setItem('personaSheetSave', JSON.stringify(getGameState()));
+  if (!slotsStore.slots[slotsStore.activeId]) return;
+  slotsStore.slots[slotsStore.activeId].state = getGameState();
+  saveSlotsStore();
 }
 // Sauvegarde automatique en arrière-plan toutes les 2 secondes
 setInterval(saveLocal, 2000);
 
-// Charger la sauvegarde au démarrage de la page
+// Charger la sauvegarde du personnage actif au démarrage de la page
 window.addEventListener('DOMContentLoaded', () => {
-  const saved = localStorage.getItem('personaSheetSave');
-  if (saved) {
-    try { applyGameState(JSON.parse(saved)); } 
+  renderSlotSelect();
+  const activeSlot = slotsStore.slots[slotsStore.activeId];
+  if (activeSlot && activeSlot.state) {
+    try { applyGameState(activeSlot.state); } 
     catch (e) { console.error("Erreur de chargement", e); }
   }
 });
