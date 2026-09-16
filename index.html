@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bureau Nocturne — Fiche de Personnage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
 /* === MODALS INTERACTIVES === */
 /* === MODALS INTERACTIVES === */
@@ -24,6 +27,123 @@
   opacity: 1;
   pointer-events: auto; /* Autorise les clics quand c'est ouvert ! */
 }
+
+/* === MINI-JEU : CASSE DU MUSÉE (style rétro / mini-jeux FNAF) === */
+.heist-panel{
+  background:#0a0208;
+  border:4px solid var(--red);
+  box-shadow:0 0 0 4px #000, 0 0 50px rgba(224,36,43,.5);
+  padding:18px 20px 22px;
+  width:min(92vw, 400px);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  font-family:'Press Start 2P', 'Courier New', monospace;
+  position:relative;
+  image-rendering:pixelated;
+}
+.heist-title{
+  color:var(--red);font-size:13px;text-align:center;letter-spacing:1px;
+  text-shadow:2px 2px 0 #000;line-height:1.6;
+}
+.heist-close{
+  position:absolute;top:8px;right:8px;width:26px;height:26px;
+  background:#000;border:2px solid var(--white);color:var(--white);
+  font-family:'Press Start 2P','Courier New',monospace;font-size:11px;
+  cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;
+}
+.heist-close:hover{background:var(--red);}
+.heist-hud{
+  width:100%;display:flex;justify-content:space-between;align-items:center;
+  font-size:8px;color:#ffb2b6;letter-spacing:.5px;
+}
+.heist-hud.blackout{color:var(--red);animation:heistFlicker .35s steps(2) infinite;}
+@keyframes heistFlicker{0%,100%{opacity:1;}50%{opacity:.4;}}
+.heist-suspicion{
+  width:100%;height:9px;background:#180a10;border:2px solid #3a2230;
+  position:relative;overflow:hidden;margin-top:2px;
+}
+.heist-suspicion i{
+  display:block;height:100%;width:0%;
+  background:repeating-linear-gradient(90deg,#ffb02e 0 4px,#ff8c1a 4px 8px);
+  transition:width .12s linear;
+}
+.heist-suspicion.hot i{background:repeating-linear-gradient(90deg,var(--red) 0 4px,#8c0f14 4px 8px);}
+.heist-suspicion.hot{animation:heistFlicker .35s steps(2) infinite;}
+.heist-hud.alarm{color:var(--red);}
+.heist-throwing .heist-canvas-wrap{box-shadow:0 0 0 3px #ffb02e, inset 0 0 20px rgba(0,0,0,.9);}
+.heist-canvas-wrap{
+  position:relative;
+  border:3px solid #3a2230;box-shadow:inset 0 0 20px rgba(0,0,0,.9);
+  background:#000;border-radius:10px;overflow:hidden;
+}
+.modal-overlay.active .heist-canvas-wrap{
+  animation:heistPowerOn .45s ease-out;
+}
+@keyframes heistPowerOn{
+  0%{transform:scaleY(.03);filter:brightness(3);opacity:.2;}
+  40%{transform:scaleY(1.06);filter:brightness(1.6);opacity:1;}
+  100%{transform:scaleY(1);filter:brightness(1);opacity:1;}
+}
+.crt-overlay{
+  position:absolute;inset:0;pointer-events:none;z-index:5;
+  background:
+    repeating-linear-gradient(rgba(0,0,0,0) 0px, rgba(0,0,0,0) 1px, rgba(0,0,0,.42) 2px, rgba(0,0,0,.42) 3px),
+    repeating-linear-gradient(90deg, rgba(255,0,60,.10) 0px, rgba(0,255,190,.08) 1px, rgba(40,90,255,.10) 2px, rgba(0,0,0,0) 3px),
+    radial-gradient(ellipse at center, rgba(0,0,0,0) 48%, rgba(0,0,0,.75) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+  opacity:.9;
+  animation:crtFlicker 5s infinite steps(60);
+}
+/* barre de balayage qui descend lentement */
+.crt-overlay::before{
+  content:'';position:absolute;left:0;right:0;height:22%;
+  background:linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,.10) 45%, rgba(255,255,255,.16) 55%, rgba(255,255,255,0) 100%);
+  animation:crtRoll 7s linear infinite;
+  pointer-events:none;
+}
+/* reflet de dalle bombée */
+.crt-overlay::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(115deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 38%),
+    radial-gradient(120% 80% at 50% -20%, rgba(255,255,255,.14) 0%, rgba(255,255,255,0) 60%);
+}
+@keyframes crtRoll{
+  0%{transform:translateY(-30%);}
+  100%{transform:translateY(430%);}
+}
+@keyframes crtFlicker{
+  0%,97%,100%{opacity:.9;}
+  98%{opacity:.55;}
+  99%{opacity:1;}
+}
+@keyframes crtGlow{
+  0%,100%{filter:saturate(1.3) contrast(1.10) brightness(1.04);}
+  50%{filter:saturate(1.35) contrast(1.14) brightness(1.09);}
+}
+#heistCanvas{
+  image-rendering:pixelated;image-rendering:crisp-edges;
+  display:block;width:300px;height:300px;
+  transform:perspective(700px) rotateX(1.2deg) scale(1.025);
+  animation:crtGlow 3.5s ease-in-out infinite;
+}
+.heist-message{
+  min-height:34px;color:var(--white);font-size:9px;text-align:center;line-height:1.6;
+  letter-spacing:.5px;
+}
+.heist-message.win{color:#7CFC00;}
+.heist-message.lose{color:var(--red);animation:pulse .5s infinite;}
+.heist-message.warn{color:#ffb02e;animation:pulse .5s infinite;}
+.heist-controls{
+  font-size:7px;color:rgba(255,255,255,.4);text-align:center;letter-spacing:.5px;line-height:1.6;
+}
+.heist-actions{display:flex;gap:8px;margin-top:2px;}
+.heist-actions button{
+  font-family:'Press Start 2P','Courier New',monospace;font-size:9px;
+  padding:8px 12px;border:2px solid var(--white);background:#000;color:var(--white);
+  cursor:pointer;
+}
+.heist-actions button:hover{background:var(--red);border-color:var(--white);}
   :root{
     --red:#e0242b;
     --black:#0a0a0a;
@@ -728,6 +848,7 @@
   .sys-btn {
     width: 24px;
     height: 24px;
+    flex: 0 0 24px;
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 4px;
@@ -1174,6 +1295,13 @@
   
   <div class="sys-divider"></div>
 
+  <label class="theme-color-row" style="cursor:pointer; gap:8px; width:150px;" title="Active ou coupe le mini-jeu du casse">
+    <input type="checkbox" class="heist-toggle" onchange="setHeistEnabled(this.checked)" style="accent-color:var(--red); width:14px; height:14px; cursor:pointer;">
+    <span class="theme-color-label">Mini-jeu casse</span>
+  </label>
+
+  <div class="sys-divider"></div>
+
   <div style="display:flex; flex-direction:column; gap:6px; width:150px;">
     <span style="font-size:9px; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,.5);">Personnage</span>
     <select id="charSlotSelect" autocomplete="off" onchange="switchCharSlot(this.value)" style="width:100%; background:var(--black); color:var(--white); border:1px solid rgba(255,255,255,.3); border-radius:4px; padding:4px; font-family:inherit; font-size:11px;"></select>
@@ -1186,8 +1314,14 @@
 
   <div class="sys-divider"></div>
   
-  <button class="sys-btn" title="Sauvegarder (Export JSON)" onclick="exportJSON()">💾</button>
-  <button class="sys-btn" title="Charger (Import JSON)" onclick="triggerImport()">📂</button>
+  <div class="theme-color-row" style="width:150px;">
+    <button class="sys-btn" title="Sauvegarder (Export JSON)" onclick="exportJSON()">💾</button>
+    <span class="theme-color-label">Sauvegarder données</span>
+  </div>
+  <div class="theme-color-row" style="width:150px;">
+    <button class="sys-btn" title="Charger (Import JSON)" onclick="triggerImport()">📂</button>
+    <span class="theme-color-label">Importer données</span>
+  </div>
   <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(event)">
 </div>
 
@@ -1652,7 +1786,7 @@
     
     <span class="team-label">Cagnotte</span>
     <div class="cagnotte-wrapper">
-      <input data-sid="sid_017" type="text" placeholder="Montant...">
+      <input data-sid="sid_017" type="text" placeholder="Montant..." oninput="checkMontantForHeist(this.value)">
       <span class="cagnotte-icon">¥</span>
     </div>
     
@@ -1724,6 +1858,38 @@
   <div class="panel" style="width: 280px; box-shadow: 0 0 40px rgba(0,0,0,1);">
     <div id="rollResultContent"></div>
     <button class="mv-btn" style="margin-top:10px;" onclick="closeRollModal()">Fermer</button>
+  </div>
+</div>
+
+<!-- === MODAL : MINI-JEU CASSE DU MUSÉE === -->
+<div id="heistGameModal" class="modal-overlay">
+  <div class="heist-panel">
+    <button class="heist-close" onclick="closeHeistGame()">✕</button>
+    <div class="heist-title">☠ CASSE&nbsp;DU&nbsp;MUSÉE ☠<br>récupère le bijou &amp; ressors</div>
+    <div class="heist-hud" id="heistHud">
+      <span id="heistLightStatus">💡 LUMIÈRE</span>
+      <span id="heistJewelStatus">💎 non pris</span>
+    </div>
+    <div class="heist-hud" style="margin-top:-4px;">
+      <span id="heistCoverStatus">👣 à découvert</span>
+      <span id="heistCoinStatus">🪙 x2</span>
+    </div>
+    <div class="heist-hud" style="margin-top:-4px;">
+      <span id="heistTimer">⏱ 0.0s</span>
+      <span id="heistRotateStatus">⚙ pivot 17s</span>
+      <span id="heistBest">🏆 --</span>
+    </div>
+    <div class="heist-suspicion" id="heistSuspicionBar"><i id="heistSuspicionFill"></i></div>
+    <div class="heist-canvas-wrap">
+      <canvas id="heistCanvas" width="300" height="300"></canvas>
+      <div class="crt-overlay"></div>
+    </div>
+    <div class="heist-message" id="heistMessage">Fléches / WASD pour bouger.</div>
+    <div class="heist-actions" id="heistActions" style="display:none;">
+      <button onclick="restartHeist()">Rejouer</button>
+      <button onclick="closeHeistGame()">Fermer</button>
+    </div>
+    <div class="heist-controls">↑ ↓ ← → / WASD bouger — <b>E</b> Hold Up (dans le dos d'un garde) — <b>F</b> + direction : lancer une pièce (leurre).<br>Tes pas laissent des traces que les gardes suivent. La salle pivote à 90°. Prendre le bijou déclenche l'alarme : 35s pour ressortir.</div>
   </div>
 </div>
 
@@ -1933,6 +2099,7 @@ function switchTab(tab){
   const btn = document.querySelector(`.tab-btn[data-tab="${tab}"]`);
   btn.classList.add('active');
   btn.innerHTML = btn.textContent + '<span class="tab-underline"></span>';
+  maybeOpenHeistOnTab();
 }
 
 /* ================= HEADER ================= */
@@ -2281,6 +2448,12 @@ function renderTeam(){
       if(team === 4 && previousTeam < 4) {
         triggerCutIn();
       }
+
+      // Easter egg : 1 chance sur 100 de déclencher la casse du musée
+      // quand la jauge de Team AUGMENTE.
+      if(team > previousTeam && Math.floor(Math.random()*100) === 0) {
+        setTimeout(openHeistGame, (team === 4 && previousTeam < 4) ? 1600 : 300);
+      }
     };
     wrap.appendChild(cran);
   }
@@ -2288,6 +2461,933 @@ function renderTeam(){
   const alertEl = document.getElementById('allOutAlert');
   if(alertEl) {
     alertEl.classList.toggle('active', team === 4);
+  }
+}
+
+/* ================= MINI-JEU : CASSE DU MUSÉE ================= */
+const HEIST_GRID = 10;
+const HEIST_VISION_RANGE = 5;
+const HEIST_DIR_VECTORS = { up:{dx:0,dy:-1}, down:{dx:0,dy:1}, left:{dx:-1,dy:0}, right:{dx:1,dy:0} };
+const HEIST_REVERSE_FACING = { up:'down', down:'up', left:'right', right:'left' };
+let heistState = null;
+
+// --- petits sprites pixel-art (matrices 8x8) ---
+const HEIST_PLAYER_SPRITE = [
+"..1111..",
+".111111.",
+".100001.",
+".122221.",
+".133331.",
+"..1111..",
+".14.141.",
+".14.141."
+];
+const HEIST_PLAYER_COLORS = { '1':'#141018', '0':'#e8e8e8', '2':'#5a5a6e', '3':'#2c2836', '4':'#0a0a0a' };
+
+const HEIST_GUARD_SPRITE = [
+"..1111..",
+".111111.",
+".100001.",
+".122221.",
+".133331.",
+"..1111..",
+".14.141.",
+".14.141."
+];
+const HEIST_GUARD_COLORS = { '1':'#1c2a4a', '0':'#f0e6d2', '2':'#2e4a7a', '3':'#16213a', '4':'#0a0a0a' };
+
+const HEIST_JEWEL_SPRITE = [
+"...11...",
+"..1221..",
+".122221.",
+"12222221",
+".133331.",
+"..1331..",
+"...11...",
+"........"
+];
+const HEIST_JEWEL_COLORS = { '1':'#7a0d13', '2':'#ff5b63', '3':'#ffb2b6' };
+
+const HEIST_LOOT_SPRITE = [
+"........",
+"...11...",
+"..1221..",
+".122221.",
+"..1221..",
+"...11...",
+"........",
+"........"
+];
+const HEIST_LOOT_COLORS = { '1':'#0d5c2b', '2':'#3ddc74' };
+
+const HEIST_LASER_SPRITE = [
+"1......1",
+".1....1.",
+"..1..1..",
+"...11...",
+"...11...",
+"..1..1..",
+".1....1.",
+"1......1"
+];
+const HEIST_LASER_COLORS = { '1':'#ff2a2a' };
+
+// meubles : 0 = piédestal/vitrine, 1 = banc, 2 = plante
+const HEIST_FURNITURE_SPRITES = [
+  { matrix: ["..1111..",".122221.",".123321.",".122221.","..1111..","..3333..",".333333.",".333333."], colors:{'1':'#4a3826','2':'#d9b84e','3':'#6b5738'} },
+  { matrix: ["........","........","11111111","22222222","22222222","11111111",".1....1.",".1....1."], colors:{'1':'#3a2418','2':'#5c3a22'} },
+  { matrix: ["...11...","..1111..",".111111.","..1111..","...22...","..2222..","..2222..","...22..."], colors:{'1':'#1f5c2e','2':'#8a5a34'} },
+];
+
+function heistDrawSprite(ctx, matrix, colors, gx, gy, cellSize, glow){
+  const n = matrix.length;
+  const px = cellSize / n;
+  ctx.shadowBlur = glow ? 8 : 0;
+  ctx.shadowColor = glow || 'transparent';
+  for(let row=0; row<n; row++){
+    const line = matrix[row];
+    for(let col=0; col<line.length; col++){
+      const ch = line[col];
+      if(ch === '.') continue;
+      ctx.fillStyle = colors[ch] || '#fff';
+      ctx.fillRect(Math.floor(gx*cellSize + col*px), Math.floor(gy*cellSize + row*px), Math.ceil(px), Math.ceil(px));
+    }
+  }
+  ctx.shadowBlur = 0;
+}
+
+/* ===== NOUVELLES MÉCANIQUES ===== */
+const HEIST_ROTATE_DELAY   = 17000; // la salle pivote toutes les ~17s
+const HEIST_ROTATE_WARN    = 2200;  // préavis avant rotation
+const HEIST_FOOTPRINT_LIFE = 5200;  // durée de vie d'une empreinte
+const HEIST_STUN_TIME      = 9000;  // durée d'un Hold Up
+const HEIST_EXFIL_TIME     = 35000; // compte à rebours après le vol
+const HEIST_COIN_RANGE     = 3;     // portée du lancer de pièce
+const HEIST_COIN_NOISE     = 5;     // rayon d'audition de la pièce
+const HEIST_ROTATE_FACING  = { up:'right', right:'down', down:'left', left:'up' };
+
+/* ===== ACTIVATION / DÉSACTIVATION DU MINI-JEU ===== */
+const HEIST_TAB_CHANCE = 0.1; // 1 chance sur 10 en changeant d'onglet
+
+function heistIsEnabled(){
+  try { return localStorage.getItem('heistGameDisabled') !== '1'; }
+  catch(e){ return true; }
+}
+
+function setHeistEnabled(on){
+  try { localStorage.setItem('heistGameDisabled', on ? '0' : '1'); } catch(e){}
+  if(!on) closeHeistGame();
+  syncHeistToggle();
+}
+
+function syncHeistToggle(){
+  const box = document.querySelector('.heist-toggle');
+  if(box) box.checked = heistIsEnabled();
+}
+
+function maybeOpenHeistOnTab(){
+  if(!heistIsEnabled()) return;
+  if(document.getElementById('heistGameModal')?.classList.contains('active')) return;
+  if(Math.random() < HEIST_TAB_CHANCE) setTimeout(openHeistGame, 400);
+}
+
+function checkMontantForHeist(value){
+  if(value && value.trim().toLowerCase() === 'more'){
+    openHeistGame();
+  }
+}
+
+function openHeistGame(){
+  if(!heistIsEnabled()) return;
+  const modal = document.getElementById('heistGameModal');
+  if(!modal) return;
+  modal.classList.add('active');
+  initHeistGame();
+}
+
+function heistClearTimers(){
+  if(!heistState) return;
+  clearTimeout(heistState.cycleTimeoutId);
+  clearTimeout(heistState.rotateTimeoutId);
+  clearInterval(heistState.guardIntervalId);
+  clearInterval(heistState.timerIntervalId);
+}
+
+function closeHeistGame(){
+  const modal = document.getElementById('heistGameModal');
+  if(modal) modal.classList.remove('active');
+  heistClearTimers();
+  document.removeEventListener('keydown', heistKeyHandler);
+}
+
+function heistPathExists(from, to, size, furniture){
+  const blocked = new Set(furniture.map(f => f.x + ',' + f.y));
+  const visited = new Set([from.x + ',' + from.y]);
+  const queue = [from];
+  while(queue.length){
+    const cur = queue.shift();
+    if(cur.x === to.x && cur.y === to.y) return true;
+    const neighbors = [{x:cur.x+1,y:cur.y},{x:cur.x-1,y:cur.y},{x:cur.x,y:cur.y+1},{x:cur.x,y:cur.y-1}];
+    for(const n of neighbors){
+      if(n.x < 0 || n.x >= size || n.y < 0 || n.y >= size) continue;
+      const key = n.x + ',' + n.y;
+      if(visited.has(key) || blocked.has(key)) continue;
+      visited.add(key);
+      queue.push(n);
+    }
+  }
+  return false;
+}
+
+function heistShowBest(){
+  const el = document.getElementById('heistBest');
+  if(!el) return;
+  const stored = parseFloat(localStorage.getItem('heistBestTime'));
+  el.textContent = stored ? '🏆 ' + stored.toFixed(1) + 's' : '🏆 --';
+}
+
+function initHeistGame(){
+  const size = HEIST_GRID;
+  const start = { x:0, y:size-1 };
+  const jewelPos = { x:size-1, y:0 };
+  const inSafeZone = (x,y) => (Math.abs(x-start.x)+Math.abs(y-start.y) < 2) || (Math.abs(x-jewelPos.x)+Math.abs(y-jewelPos.y) < 2);
+
+  // meubles : générés en vérifiant qu'un chemin reste toujours possible
+  let furniture = [];
+  let ok = false, attempt = 0;
+  while(!ok && attempt < 40){
+    attempt++;
+    furniture = [];
+    let guardCount = 0;
+    while(furniture.length < 11 && guardCount < 400){
+      guardCount++;
+      const x = Math.floor(Math.random()*size), y = Math.floor(Math.random()*size);
+      if(inSafeZone(x,y)) continue;
+      if(furniture.some(f => f.x===x && f.y===y)) continue;
+      furniture.push({ x, y, type: Math.floor(Math.random()*HEIST_FURNITURE_SPRITES.length) });
+    }
+    ok = heistPathExists(start, jewelPos, size, furniture) && heistPathExists(jewelPos, start, size, furniture);
+  }
+
+  // lasers (dangereux pendant le black-out, et en permanence une fois l'alarme lancée)
+  const lasers = [];
+  {
+    let guardCount = 0;
+    while(lasers.length < 10 && guardCount < 500){
+      guardCount++;
+      const x = Math.floor(Math.random()*size), y = Math.floor(Math.random()*size);
+      if(inSafeZone(x,y)) continue;
+      if(furniture.some(f => f.x===x && f.y===y)) continue;
+      if(lasers.some(l => l.x===x && l.y===y)) continue;
+      lasers.push({x,y});
+    }
+  }
+
+  // petit butin optionnel (donne aussi une pièce à lancer)
+  const loot = [];
+  {
+    let guardCount = 0;
+    while(loot.length < 3 && guardCount < 300){
+      guardCount++;
+      const x = Math.floor(Math.random()*size), y = Math.floor(Math.random()*size);
+      if(inSafeZone(x,y)) continue;
+      if(furniture.some(f => f.x===x && f.y===y)) continue;
+      if(lasers.some(l => l.x===x && l.y===y)) continue;
+      if(loot.some(l => l.x===x && l.y===y)) continue;
+      loot.push({x, y, taken:false});
+    }
+  }
+
+  // gardes : placés librement, ils se baladeront et pourront se tourner
+  const guards = [];
+  {
+    const dirsAll = ['up','down','left','right'];
+    let guardTries = 0;
+    while(guards.length < 2 && guardTries < 400){
+      guardTries++;
+      const x = Math.floor(Math.random()*size), y = Math.floor(Math.random()*size);
+      if(inSafeZone(x,y)) continue;
+      if(furniture.some(f => f.x===x && f.y===y)) continue;
+      if(lasers.some(l => l.x===x && l.y===y)) continue;
+      if(loot.some(l => l.x===x && l.y===y)) continue;
+      if(guards.some(g => g.x===x && g.y===y)) continue;
+      guards.push({ x, y, facing: dirsAll[Math.floor(Math.random()*4)], stunUntil:0, target:null, suspicious:false });
+    }
+  }
+
+  heistState = {
+    player: { ...start }, start, jewelPos, furniture, lasers, loot, guards,
+    hasJewel: false, lightsOn: true, gameOver: false,
+    suspicion: 0,                 // jauge de repérage (0-100)
+    footprints: [],               // traces de pas
+    coins: 2, throwMode: false, coinFx: null,   // leurres sonores
+    holdUps: 0,
+    alarm: false, exfilDeadline: 0,             // exfiltration
+    rotateAt: Date.now() + HEIST_ROTATE_DELAY, rotateWarned: false, rotateFx: 0,
+    startTime: Date.now(),
+    cycleTimeoutId: null, guardIntervalId: null, timerIntervalId: null, rotateTimeoutId: null,
+  };
+
+  document.removeEventListener('keydown', heistKeyHandler);
+  document.addEventListener('keydown', heistKeyHandler);
+
+  const actions = document.getElementById('heistActions');
+  if(actions) actions.style.display = 'none';
+  const panel = document.querySelector('.heist-panel');
+  if(panel) panel.classList.remove('heist-throwing');
+
+  setHeistMessage('E = Hold Up dans le dos · F + direction = pièce · la salle pivote !', '');
+  heistShowBest();
+  scheduleHeistLightCycle();
+  heistScheduleRotation();
+  heistState.guardIntervalId = setInterval(moveGuards, 500);
+  heistState.timerIntervalId = setInterval(heistTick, 120);
+  drawHeist();
+}
+
+/* --- boucle légère : timers, empreintes qui s'effacent, compte à rebours --- */
+function heistTick(){
+  if(!heistState || heistState.gameOver) return;
+  const now = Date.now();
+  heistState.footprints = heistState.footprints.filter(f => now - f.t < HEIST_FOOTPRINT_LIFE);
+  if(heistState.coinFx && now - heistState.coinFx.t > 1800) heistState.coinFx = null;
+  if(heistState.alarm && now > heistState.exfilDeadline){
+    heistLose('time');
+    return;
+  }
+  heistUpdateTimerDisplay();
+  drawHeist();
+}
+
+function heistUpdateTimerDisplay(){
+  if(!heistState || heistState.gameOver) return;
+  const el = document.getElementById('heistTimer');
+  if(!el) return;
+  if(heistState.alarm){
+    const left = Math.max(0, (heistState.exfilDeadline - Date.now())/1000);
+    el.textContent = '🚨 ' + left.toFixed(1) + 's';
+  } else {
+    el.textContent = '⏱ ' + ((Date.now()-heistState.startTime)/1000).toFixed(1) + 's';
+  }
+}
+
+/* ===== MÉCANIQUE 4 : LA SALLE PIVOTE ===== */
+function heistScheduleRotation(){
+  if(!heistState || heistState.gameOver) return;
+  heistState.rotateAt = Date.now() + HEIST_ROTATE_DELAY;
+  heistState.rotateWarned = false;
+  heistState.rotateTimeoutId = setTimeout(() => {
+    if(!heistState || heistState.gameOver) return;
+    heistState.rotateWarned = true;
+    setHeistMessage('⚙ LA SALLE PIVOTE ! Accroche-toi...', 'warn');
+    heistState.rotateTimeoutId = setTimeout(heistRotateRoom, HEIST_ROTATE_WARN);
+  }, HEIST_ROTATE_DELAY - HEIST_ROTATE_WARN);
+}
+
+function heistRotatePoint(p){
+  return { x: HEIST_GRID - 1 - p.y, y: p.x };
+}
+
+function heistRotateRoom(){
+  if(!heistState || heistState.gameOver) return;
+  const s = heistState;
+  const rot = o => { const r = heistRotatePoint(o); o.x = r.x; o.y = r.y; };
+  rot(s.player); rot(s.start); rot(s.jewelPos);
+  s.furniture.forEach(rot); s.lasers.forEach(rot); s.loot.forEach(rot);
+  s.footprints.forEach(rot);
+  if(s.coinFx) rot(s.coinFx);
+  s.guards.forEach(g => {
+    rot(g);
+    g.facing = HEIST_ROTATE_FACING[g.facing];
+    if(g.target) rot(g.target);
+  });
+  s.rotateFx = Date.now();
+  setHeistMessage('⚙ Salle pivotée à 90° — réoriente-toi vite !', '');
+  heistUpdateDetection();
+  if(s.gameOver) return;
+  drawHeist();
+  heistScheduleRotation();
+}
+
+function scheduleHeistLightCycle(){
+  if(!heistState || heistState.gameOver) return;
+  heistState.lightsOn = true;
+  drawHeist();
+  heistUpdateDetection();
+  if(heistState.gameOver) return;
+  const litDuration = 2600 + Math.random()*1800;
+  heistState.cycleTimeoutId = setTimeout(() => {
+    if(!heistState || heistState.gameOver) return;
+    heistState.lightsOn = false;
+    drawHeist();
+    if(heistState.lasers.some(l => l.x === heistState.player.x && l.y === heistState.player.y)){
+      heistLose('laser');
+      return;
+    }
+    const darkDuration = 1100 + Math.random()*500;
+    heistState.cycleTimeoutId = setTimeout(scheduleHeistLightCycle, darkDuration);
+  }, litDuration);
+}
+
+function heistLasersActive(){
+  return !heistState.lightsOn || heistState.alarm;
+}
+
+function heistIsCover(x, y){
+  if(!heistState) return false;
+  const adj = [{x:x+1,y},{x:x-1,y},{x,y:y+1},{x,y:y-1}];
+  return adj.some(p => heistState.furniture.some(f => f.x===p.x && f.y===p.y));
+}
+
+function heistGuardStunned(g){
+  return g.stunUntil && Date.now() < g.stunUntil;
+}
+
+function heistGuardSees(g){
+  if(heistGuardStunned(g)) return false;
+  const d = HEIST_DIR_VECTORS[g.facing];
+  let cx = g.x, cy = g.y;
+  for(let step=1; step<=HEIST_VISION_RANGE; step++){
+    cx += d.dx; cy += d.dy;
+    if(cx < 0 || cx >= HEIST_GRID || cy < 0 || cy >= HEIST_GRID) break;
+    if(heistState.furniture.some(f => f.x===cx && f.y===cy)) break;
+    if(cx === heistState.player.x && cy === heistState.player.y) return true;
+  }
+  return false;
+}
+
+function heistAnyGuardSees(){
+  const p = heistState.player;
+  if(heistIsCover(p.x, p.y)) return false;
+  return heistState.guards.some(heistGuardSees);
+}
+
+/* ===== MÉCANIQUE 5 : JAUGE DE SUSPICION ===== */
+function heistAddSuspicion(amount, msg){
+  heistState.suspicion = Math.min(100, heistState.suspicion + amount);
+  if(heistState.suspicion >= 100){
+    heistLose('guard');
+    return;
+  }
+  if(msg) setHeistMessage(msg + ' (' + Math.round(heistState.suspicion) + '%)', 'warn');
+}
+
+function heistUpdateDetection(){
+  if(!heistState || heistState.gameOver) return;
+  if(heistState.guards.some(g => !heistGuardStunned(g) && g.x === heistState.player.x && g.y === heistState.player.y)){
+    heistLose('guard');
+    return;
+  }
+  const visible = (heistState.lightsOn || heistState.alarm) && heistAnyGuardSees();
+  if(visible){
+    heistAddSuspicion(heistState.alarm ? 50 : 38, '⚠ Un garde te fixe ! Planque-toi');
+  } else {
+    heistState.suspicion = Math.max(0, heistState.suspicion - 5);
+  }
+}
+
+function heistGuardCanMove(g, dir){
+  const d = HEIST_DIR_VECTORS[dir];
+  const nx = g.x + d.dx, ny = g.y + d.dy;
+  if(nx < 0 || nx >= HEIST_GRID || ny < 0 || ny >= HEIST_GRID) return false;
+  if(heistState.furniture.some(f => f.x===nx && f.y===ny)) return false;
+  if(heistState.guards.some(og => og !== g && og.x===nx && og.y===ny)) return false;
+  return true;
+}
+
+function heistDirToPlayer(g){
+  const p = heistState.player;
+  const dx = p.x - g.x, dy = p.y - g.y;
+  if(Math.abs(dx) > Math.abs(dy)) return dx > 0 ? 'right' : 'left';
+  if(dy !== 0) return dy > 0 ? 'down' : 'up';
+  return g.facing;
+}
+
+function heistStepToward(g, tx, ty){
+  const dx = tx - g.x, dy = ty - g.y;
+  const dirs = [];
+  if(Math.abs(dx) >= Math.abs(dy)){
+    if(dx) dirs.push(dx > 0 ? 'right' : 'left');
+    if(dy) dirs.push(dy > 0 ? 'down' : 'up');
+  } else {
+    if(dy) dirs.push(dy > 0 ? 'down' : 'up');
+    if(dx) dirs.push(dx > 0 ? 'right' : 'left');
+  }
+  for(const dir of dirs){
+    if(heistGuardCanMove(g, dir)){
+      const d = HEIST_DIR_VECTORS[dir];
+      g.x += d.dx; g.y += d.dy; g.facing = dir;
+      return true;
+    }
+  }
+  if(dirs.length) g.facing = dirs[0];
+  return false;
+}
+
+function heistGuardTick(g){
+  if(heistGuardStunned(g)) return;
+  const now = Date.now();
+  const p = heistState.player;
+  const dist = Math.max(Math.abs(p.x-g.x), Math.abs(p.y-g.y));
+
+  // alarme : les gardes verrouillent la sortie
+  if(heistState.alarm && !g.target && Math.random() < 0.55){
+    g.target = { ...heistState.start };
+    g.suspicious = true;
+  }
+
+  /* ===== MÉCANIQUE 3 : il renifle tes empreintes fraîches ===== */
+  if(!g.target){
+    const near = heistState.footprints.filter(f =>
+      now - f.t < HEIST_FOOTPRINT_LIFE && Math.abs(f.x-g.x)+Math.abs(f.y-g.y) <= 1);
+    if(near.length){
+      const fresh = near.reduce((a,b) => a.t > b.t ? a : b);
+      g.target = { x: fresh.x, y: fresh.y };
+      g.suspicious = true;
+      // il suit la piste vers la trace la plus récente du secteur
+      const trail = heistState.footprints.filter(f => now - f.t < HEIST_FOOTPRINT_LIFE);
+      if(trail.length){
+        const last = trail.reduce((a,b) => a.t > b.t ? a : b);
+        if(Math.abs(last.x-g.x)+Math.abs(last.y-g.y) <= 4) g.target = { x:last.x, y:last.y };
+      }
+    }
+  }
+
+  // il entend des pas tout proches
+  if(dist <= 1 && Math.random() < 0.5){
+    g.facing = heistDirToPlayer(g);
+    return;
+  }
+
+  if(g.target){
+    if(g.target.x === g.x && g.target.y === g.y){
+      g.target = null; g.suspicious = false;
+      g.facing = ['up','down','left','right'][Math.floor(Math.random()*4)];
+      return;
+    }
+    if(heistStepToward(g, g.target.x, g.target.y)) return;
+    g.target = null; g.suspicious = false;
+  }
+
+  const roll = Math.random();
+  if(roll < 0.15){
+    const others = ['up','down','left','right'].filter(d => d !== g.facing);
+    g.facing = others[Math.floor(Math.random()*others.length)];
+    return;
+  }
+
+  let dir = g.facing;
+  const keepGoing = heistGuardCanMove(g, dir) && Math.random() < 0.7;
+  if(!keepGoing){
+    const validDirs = ['up','down','left','right'].filter(d => heistGuardCanMove(g, d));
+    if(validDirs.length === 0) return;
+    const reverse = HEIST_REVERSE_FACING[g.facing];
+    const preferred = validDirs.filter(d => d !== reverse);
+    const pool = preferred.length ? preferred : validDirs;
+    dir = pool[Math.floor(Math.random()*pool.length)];
+  }
+
+  if(heistGuardCanMove(g, dir)){
+    const d = HEIST_DIR_VECTORS[dir];
+    g.x += d.dx; g.y += d.dy;
+    g.facing = dir;
+  }
+}
+
+function moveGuards(){
+  if(!heistState || heistState.gameOver) return;
+  heistState.guards.forEach(heistGuardTick);
+  heistUpdateDetection();
+  if(!heistState.gameOver) drawHeist();
+}
+
+/* ===== MÉCANIQUE 1 : HOLD UP (neutralisation dans le dos) ===== */
+function heistHoldUp(){
+  const p = heistState.player;
+  const now = Date.now();
+  const adj = heistState.guards.filter(g => Math.abs(g.x-p.x)+Math.abs(g.y-p.y) === 1);
+  if(!adj.length){
+    setHeistMessage('🤜 Aucun garde à portée de bras.', '');
+    return;
+  }
+  const target = adj.find(g => !heistGuardStunned(g));
+  if(!target){
+    setHeistMessage('😵 Il est déjà au tapis.', '');
+    return;
+  }
+  const dirGuardToPlayer = heistDirToPlayer(target);
+  if(dirGuardToPlayer === HEIST_REVERSE_FACING[target.facing]){
+    target.stunUntil = now + HEIST_STUN_TIME;
+    target.target = null;
+    target.suspicious = false;
+    heistState.holdUps++;
+    heistState.suspicion = Math.max(0, heistState.suspicion - 25);
+    setHeistMessage('🎭 HOLD UP ! Garde hors-jeu ' + (HEIST_STUN_TIME/1000) + 's.', 'win');
+  } else {
+    target.facing = dirGuardToPlayer;
+    heistAddSuspicion(55, '💢 Raté ! Il se retourne sur toi');
+  }
+  drawHeist();
+}
+
+/* ===== MÉCANIQUE 2 : LANCER DE PIÈCE (leurre sonore) ===== */
+function heistThrowCoin(dir){
+  const d = HEIST_DIR_VECTORS[dir];
+  let cx = heistState.player.x, cy = heistState.player.y;
+  for(let i=0; i<HEIST_COIN_RANGE; i++){
+    const nx = cx + d.dx, ny = cy + d.dy;
+    if(nx < 0 || nx >= HEIST_GRID || ny < 0 || ny >= HEIST_GRID) break;
+    if(heistState.furniture.some(f => f.x===nx && f.y===ny)) break;
+    cx = nx; cy = ny;
+  }
+  if(cx === heistState.player.x && cy === heistState.player.y){
+    setHeistMessage('🪙 Pas de place pour lancer par là.', '');
+    return;
+  }
+  heistState.coins--;
+  heistState.coinFx = { x:cx, y:cy, t:Date.now() };
+  let heard = 0;
+  heistState.guards.forEach(g => {
+    if(heistGuardStunned(g)) return;
+    if(Math.abs(g.x-cx)+Math.abs(g.y-cy) <= HEIST_COIN_NOISE){
+      g.target = { x:cx, y:cy };
+      g.suspicious = true;
+      g.facing = (Math.abs(cx-g.x) >= Math.abs(cy-g.y))
+        ? (cx > g.x ? 'right' : (cx < g.x ? 'left' : g.facing))
+        : (cy > g.y ? 'down' : 'up');
+      heard++;
+    }
+  });
+  setHeistMessage(heard
+    ? '🪙 CLING ! ' + heard + ' garde(s) partent vers le bruit.'
+    : '🪙 CLING !... personne n\'a entendu.', '');
+  drawHeist();
+}
+
+function heistKeyHandler(e){
+  if(!heistState || heistState.gameOver) return;
+
+  const k = e.key;
+  if(k === 'e' || k === 'E'){
+    e.preventDefault();
+    heistHoldUp();
+    return;
+  }
+  if(k === 'f' || k === 'F'){
+    e.preventDefault();
+    if(heistState.coins <= 0){
+      setHeistMessage('🪙 Plus aucune pièce.', '');
+      return;
+    }
+    heistState.throwMode = !heistState.throwMode;
+    const panel = document.querySelector('.heist-panel');
+    if(panel) panel.classList.toggle('heist-throwing', heistState.throwMode);
+    setHeistMessage(heistState.throwMode
+      ? '🪙 Choisis une direction pour lancer la pièce.'
+      : 'Lancer annulé.', '');
+    return;
+  }
+
+  let dx = 0, dy = 0, dirName = null;
+  switch(k){
+    case 'ArrowUp': case 'w': case 'W': dy = -1; dirName = 'up'; break;
+    case 'ArrowDown': case 's': case 'S': dy = 1; dirName = 'down'; break;
+    case 'ArrowLeft': case 'a': case 'A': dx = -1; dirName = 'left'; break;
+    case 'ArrowRight': case 'd': case 'D': dx = 1; dirName = 'right'; break;
+    default: return;
+  }
+  e.preventDefault();
+
+  if(heistState.throwMode){
+    heistState.throwMode = false;
+    const panel = document.querySelector('.heist-panel');
+    if(panel) panel.classList.remove('heist-throwing');
+    heistThrowCoin(dirName);
+    return;
+  }
+
+  const nx = heistState.player.x + dx;
+  const ny = heistState.player.y + dy;
+  if(nx < 0 || nx >= HEIST_GRID || ny < 0 || ny >= HEIST_GRID) return;
+
+  if(heistState.furniture.some(f => f.x === nx && f.y === ny)){
+    setHeistMessage('🪑 Bloqué par un meuble.', '');
+    return;
+  }
+
+  // ===== MÉCANIQUE 3 : chaque pas laisse une trace =====
+  heistState.footprints.push({ x: heistState.player.x, y: heistState.player.y, t: Date.now() });
+  if(heistState.footprints.length > 40) heistState.footprints.shift();
+
+  heistState.player = { x: nx, y: ny };
+
+  const lootHit = heistState.loot.find(l => !l.taken && l.x === nx && l.y === ny);
+  if(lootHit){
+    lootHit.taken = true;
+    heistState.coins++;
+    const inv = document.querySelector('input[data-sid="sid_018"]');
+    if(inv){ inv.value = (parseInt(inv.value, 10) || 0) + 1; saveLocal(); }
+    setHeistMessage("✨ Butin ! +1 Point d'Inventaire et +1 pièce à lancer.", '');
+  }
+
+  if(!heistState.hasJewel && nx === heistState.jewelPos.x && ny === heistState.jewelPos.y){
+    heistState.hasJewel = true;
+    heistTriggerAlarm();
+  }
+
+  if(heistState.hasJewel && nx === heistState.start.x && ny === heistState.start.y){
+    heistWin();
+    return;
+  }
+
+  heistUpdateDetection();
+  if(heistState.gameOver) return;
+
+  if(heistLasersActive() && heistState.lasers.some(l => l.x === nx && l.y === ny)){
+    heistLose('laser');
+    return;
+  }
+
+  drawHeist();
+}
+
+/* ===== MÉCANIQUE 5 (suite) : ALARME & EXFILTRATION ===== */
+function heistTriggerAlarm(){
+  heistState.alarm = true;
+  heistState.exfilDeadline = Date.now() + HEIST_EXFIL_TIME;
+  heistState.suspicion = Math.min(heistState.suspicion + 20, 95);
+  clearInterval(heistState.guardIntervalId);
+  heistState.guardIntervalId = setInterval(moveGuards, 330);
+  heistState.guards.forEach(g => { g.target = { ...heistState.start }; g.suspicious = true; });
+  setHeistMessage('💎 BIJOU VOLÉ — ALARME ! Lasers actifs, 35s pour sortir !', 'warn');
+}
+
+function heistWin(){
+  heistState.gameOver = true;
+  heistClearTimers();
+  document.removeEventListener('keydown', heistKeyHandler);
+
+  const elapsed = (Date.now() - heistState.startTime) / 1000;
+  const best = parseFloat(localStorage.getItem('heistBestTime'));
+  let msg = '✔ CASSE RÉUSSIE en ' + elapsed.toFixed(1) + 's !';
+  if(heistState.holdUps) msg += ' ' + heistState.holdUps + ' Hold Up.';
+  if(!best || elapsed < best){
+    localStorage.setItem('heistBestTime', elapsed.toFixed(2));
+    msg += ' 🏆 Nouveau record !';
+  } else {
+    msg += ' (Record : ' + best.toFixed(1) + 's)';
+  }
+  setHeistMessage(msg, 'win');
+  heistShowBest();
+  drawHeist();
+
+  const inv = document.querySelector('input[data-sid="sid_018"]');
+  const bonus = 1 + (heistState.holdUps > 0 ? 1 : 0);
+  if(inv){ inv.value = (parseInt(inv.value, 10) || 0) + bonus; saveLocal(); }
+  const actions = document.getElementById('heistActions');
+  if(actions) actions.style.display = 'flex';
+}
+
+function heistLose(reason){
+  heistState.gameOver = true;
+  heistClearTimers();
+  document.removeEventListener('keydown', heistKeyHandler);
+  const msg = reason === 'guard' ? '✖ REPÉRÉ PAR UN GARDE !'
+            : reason === 'time'  ? '✖ TROP LENT — LA POLICE BOUCLE LE MUSÉE !'
+            : '✖ ALARME DES LASERS DÉCLENCHÉE !';
+  setHeistMessage(msg, 'lose');
+  drawHeist();
+  const actions = document.getElementById('heistActions');
+  if(actions) actions.style.display = 'flex';
+}
+
+function setHeistMessage(msg, cls){
+  const el = document.getElementById('heistMessage');
+  if(!el) return;
+  el.textContent = msg;
+  el.className = 'heist-message' + (cls ? ' ' + cls : '');
+}
+
+function restartHeist(){
+  initHeistGame();
+}
+
+function heistDrawGuardVision(ctx, g, cell){
+  if(heistGuardStunned(g)) return;
+  ctx.save();
+  ctx.globalAlpha = 0.16;
+  ctx.fillStyle = heistState.alarm ? '#ff6b6b' : '#ffee58';
+  const d = HEIST_DIR_VECTORS[g.facing];
+  let cx = g.x, cy = g.y;
+  for(let step=1; step<=HEIST_VISION_RANGE; step++){
+    cx += d.dx; cy += d.dy;
+    if(cx < 0 || cx >= HEIST_GRID || cy < 0 || cy >= HEIST_GRID) break;
+    if(heistState.furniture.some(f => f.x===cx && f.y===cy)) break;
+    ctx.fillRect(cx*cell, cy*cell, cell, cell);
+  }
+  ctx.restore();
+}
+
+function drawHeist(){
+  const canvas = document.getElementById('heistCanvas');
+  if(!canvas || !heistState) return;
+  const ctx = canvas.getContext('2d');
+  const size = HEIST_GRID;
+  const cell = canvas.width / size;
+  const now = Date.now();
+
+  ctx.setTransform(1,0,0,1,0,0);
+
+  // secousse au moment de la rotation
+  const spin = heistState.rotateFx ? Math.max(0, 260 - (now - heistState.rotateFx)) : 0;
+  if(spin > 0){
+    const a = (spin/260) * 0.25;
+    ctx.translate(canvas.width/2, canvas.height/2);
+    ctx.rotate(-a);
+    ctx.translate(-canvas.width/2, -canvas.height/2);
+  }
+
+  ctx.fillStyle = heistState.lightsOn ? '#141018' : '#020103';
+  ctx.fillRect(-40, -40, canvas.width+80, canvas.height+80);
+
+  for(let y=0; y<size; y++){
+    for(let x=0; x<size; x++){
+      const isDark = (x+y) % 2 === 0;
+      ctx.fillStyle = heistState.lightsOn
+        ? (isDark ? '#241b28' : '#2c212f')
+        : (isDark ? '#050308' : '#08050c');
+      ctx.fillRect(x*cell, y*cell, cell, cell);
+    }
+  }
+
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+  ctx.lineWidth = 1;
+  for(let i=0; i<=size; i++){
+    ctx.beginPath(); ctx.moveTo(i*cell, 0); ctx.lineTo(i*cell, canvas.height); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, i*cell); ctx.lineTo(canvas.width, i*cell); ctx.stroke();
+  }
+
+  // sortie
+  ctx.fillStyle = 'rgba(224,36,43,0.35)';
+  ctx.fillRect(heistState.start.x*cell, heistState.start.y*cell, cell, cell);
+  ctx.strokeStyle = '#e0242b';
+  ctx.strokeRect(heistState.start.x*cell+2, heistState.start.y*cell+2, cell-4, cell-4);
+
+  // empreintes de pas : s'estompent avec le temps
+  heistState.footprints.forEach(f => {
+    const age = now - f.t;
+    if(age > HEIST_FOOTPRINT_LIFE) return;
+    const alpha = 0.55 * (1 - age/HEIST_FOOTPRINT_LIFE);
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = '#cfe8ff';
+    const s2 = Math.max(2, cell*0.16);
+    ctx.fillRect(f.x*cell + cell*0.28, f.y*cell + cell*0.34, s2, s2);
+    ctx.fillRect(f.x*cell + cell*0.56, f.y*cell + cell*0.56, s2, s2);
+    ctx.restore();
+  });
+
+  // cônes de vision des gardes (visibles en lumière, ou lampes torches sous alarme)
+  if(heistState.lightsOn || heistState.alarm){
+    heistState.guards.forEach(g => heistDrawGuardVision(ctx, g, cell));
+  }
+
+  // meubles
+  heistState.furniture.forEach(f => {
+    const spr = HEIST_FURNITURE_SPRITES[f.type];
+    heistDrawSprite(ctx, spr.matrix, spr.colors, f.x, f.y, cell, null);
+  });
+
+  // butin
+  heistState.loot.forEach(l => {
+    if(!l.taken) heistDrawSprite(ctx, HEIST_LOOT_SPRITE, HEIST_LOOT_COLORS, l.x, l.y, cell, '#3ddc74');
+  });
+
+  if(!heistState.hasJewel){
+    heistDrawSprite(ctx, HEIST_JEWEL_SPRITE, HEIST_JEWEL_COLORS, heistState.jewelPos.x, heistState.jewelPos.y, cell, '#ff5b63');
+  }
+
+  // lasers
+  if(heistLasersActive()){
+    heistState.lasers.forEach(l => {
+      heistDrawSprite(ctx, HEIST_LASER_SPRITE, HEIST_LASER_COLORS, l.x, l.y, cell, '#ff2a2a');
+    });
+  }
+
+  // pièce lancée
+  if(heistState.coinFx){
+    const c = heistState.coinFx;
+    const age = now - c.t;
+    ctx.save();
+    ctx.globalAlpha = Math.max(0.15, 1 - age/1800);
+    ctx.fillStyle = '#ffd24a';
+    ctx.beginPath();
+    ctx.arc(c.x*cell + cell/2, c.y*cell + cell/2, Math.max(2, cell*0.16), 0, Math.PI*2);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255,210,74,.65)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(c.x*cell + cell/2, c.y*cell + cell/2, Math.min(cell*3, cell*0.4 + age/22), 0, Math.PI*2);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // gardes
+  heistState.guards.forEach(g => {
+    const stunned = heistGuardStunned(g);
+    ctx.save();
+    if(stunned) ctx.globalAlpha = 0.4;
+    heistDrawSprite(ctx, HEIST_GUARD_SPRITE, HEIST_GUARD_COLORS, g.x, g.y, cell, null);
+    ctx.restore();
+    ctx.save();
+    ctx.font = 'bold ' + Math.floor(cell*0.55) + 'px monospace';
+    ctx.textAlign = 'center';
+    if(stunned){
+      ctx.fillStyle = '#7fd7ff';
+      ctx.fillText('z', g.x*cell + cell/2, g.y*cell + cell*0.35);
+    } else if(g.suspicious){
+      ctx.fillStyle = '#ffb02e';
+      ctx.fillText('!', g.x*cell + cell/2, g.y*cell + cell*0.35);
+    }
+    ctx.restore();
+  });
+
+  heistDrawSprite(ctx, HEIST_PLAYER_SPRITE, HEIST_PLAYER_COLORS, heistState.player.x, heistState.player.y, cell, null);
+
+  // vignette rouge quand l'alarme hurle
+  if(heistState.alarm && !heistState.gameOver){
+    const pulse = 0.18 + 0.12*Math.sin(now/120);
+    ctx.save();
+    ctx.globalAlpha = pulse;
+    ctx.strokeStyle = '#e0242b';
+    ctx.lineWidth = 10;
+    ctx.strokeRect(0, 0, canvas.width, canvas.height);
+    ctx.restore();
+  }
+
+  ctx.setTransform(1,0,0,1,0,0);
+
+  const lightStatus = document.getElementById('heistLightStatus');
+  if(lightStatus) lightStatus.textContent = heistState.alarm ? '🚨 ALARME' : (heistState.lightsOn ? '💡 LUMIÈRE' : '⚡ BLACK-OUT !');
+  const jewelStatus = document.getElementById('heistJewelStatus');
+  if(jewelStatus) jewelStatus.textContent = heistState.hasJewel ? '💎 en poche' : '💎 non pris';
+  const coverStatus = document.getElementById('heistCoverStatus');
+  if(coverStatus) coverStatus.textContent = heistIsCover(heistState.player.x, heistState.player.y) ? '🛑 en couverture' : '👣 à découvert';
+  const coinStatus = document.getElementById('heistCoinStatus');
+  if(coinStatus) coinStatus.textContent = (heistState.throwMode ? '🎯 direction ?' : '🪙 x' + heistState.coins);
+  const rotateStatus = document.getElementById('heistRotateStatus');
+  if(rotateStatus){
+    const left = Math.max(0, (heistState.rotateAt - now)/1000);
+    rotateStatus.textContent = heistState.rotateWarned ? '⚙ PIVOT !' : '⚙ ' + left.toFixed(0) + 's';
+  }
+  const fill = document.getElementById('heistSuspicionFill');
+  if(fill) fill.style.width = heistState.suspicion + '%';
+  const bar = document.getElementById('heistSuspicionBar');
+  if(bar) bar.classList.toggle('hot', heistState.suspicion >= 60);
+  const hud = document.getElementById('heistHud');
+  if(hud){
+    hud.classList.toggle('blackout', !heistState.lightsOn && !heistState.alarm);
+    hud.classList.toggle('alarm', heistState.alarm);
   }
 }
 
@@ -2326,6 +3426,7 @@ renderConfidents();
 renderTeam();
 initSmoothAccordions();
 initSmoothAccordions();
+syncHeistToggle();
 
 // Applique le thème par défaut (Persona 5 / Rouge) au chargement, sans écraser une sauvegarde existante
 setTheme(getComputedStyle(document.documentElement).getPropertyValue('--red').trim() || '#e0242b');
