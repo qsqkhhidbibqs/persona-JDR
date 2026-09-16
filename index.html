@@ -1240,15 +1240,15 @@
           </div>
           <div class="field span2">
             <label>Passé / Background</label>
-            <textarea rows="2" placeholder="D'où viens-tu ? Quel est ton passé ?"></textarea>
+            <textarea data-sid="sid_001" rows="2" placeholder="D'où viens-tu ? Quel est ton passé ?"></textarea>
           </div>
           <div class="field">
             <label>Rêves / Aspirations</label>
-            <textarea rows="2" placeholder="Que souhaites-tu accomplir ?"></textarea>
+            <textarea data-sid="sid_002" rows="2" placeholder="Que souhaites-tu accomplir ?"></textarea>
           </div>
           <div class="field">
             <label>Peurs / Doutes</label>
-            <textarea rows="2" placeholder="Qu'est-ce qui te terrifie ou te fait douter ?"></textarea>
+            <textarea data-sid="sid_003" rows="2" placeholder="Qu'est-ce qui te terrifie ou te fait douter ?"></textarea>
           </div>
         </div>
       </div>
@@ -1263,11 +1263,11 @@
           </div>
           <div class="field">
             <label>Élément de prédilection</label>
-            <input placeholder="Feu, Glace, Malédiction...">
+            <input data-sid="sid_004" placeholder="Feu, Glace, Malédiction...">
           </div>
           <div class="field span2">
             <label>Description / Apparence</label>
-            <textarea rows="2" placeholder="À quoi ressemble ton Persona ?"></textarea>
+            <textarea data-sid="sid_005" rows="2" placeholder="À quoi ressemble ton Persona ?"></textarea>
           </div>
         </div>
       </div>
@@ -1276,8 +1276,8 @@
       <div>
         <div class="shard"><span class="bg"></span><h2>Profil Élémentaire</h2></div>
         <div class="grid2">
-          <div class="field"><label>Résistances</label><input placeholder="Ce qui te fait peu de dégâts..."></div>
-          <div class="field"><label>Faiblesses</label><input placeholder="Ce qui te met à terre..."></div>
+          <div class="field"><label>Résistances</label><input data-sid="sid_006" placeholder="Ce qui te fait peu de dégâts..."></div>
+          <div class="field"><label>Faiblesses</label><input data-sid="sid_007" placeholder="Ce qui te met à terre..."></div>
         </div>
       </div>
 
@@ -1304,7 +1304,7 @@
       <div>
         <div class="shard"><span class="bg"></span><h2>Jauge de Réalisation</h2></div>
         <p style="color:rgba(255,255,255,.4);font-size:12px;font-weight:700;text-transform:uppercase;margin:6px 0 4px;">Condition de réalisation</p>
-        <textarea rows="2" placeholder="Quelle est la condition de réalisation ?"></textarea>
+        <textarea data-sid="sid_008" rows="2" placeholder="Quelle est la condition de réalisation ?"></textarea>
         <div class="realisation-row" id="realisationRow" style="margin-top:10px;"></div>
       </div>
 
@@ -1507,9 +1507,9 @@
         <div>
           <div class="shard"><span class="bg"></span><h2>Moves de Playbook</h2></div>
           <p style="color:rgba(255,255,255,.4);font-size:12px;font-weight:700;text-transform:uppercase;margin:6px 0 4px;">Moves IRL</p>
-          <textarea rows="4" placeholder="Liste tes moves de playbook IRL ici..."></textarea>
+          <textarea data-sid="sid_009" rows="4" placeholder="Liste tes moves de playbook IRL ici..."></textarea>
           <p style="color:rgba(255,255,255,.4);font-size:12px;font-weight:700;text-transform:uppercase;margin:12px 0 4px;">Moves Metavers</p>
-          <textarea rows="4" placeholder="Liste tes moves de playbook Metavers ici..."></textarea>
+          <textarea data-sid="sid_010" rows="4" placeholder="Liste tes moves de playbook Metavers ici..."></textarea>
         </div>
         <div>
           <div class="shard"><span class="bg"></span><h2>Emplacements Équipés</h2></div>
@@ -1519,8 +1519,8 @@
             <details class="base-move">
               <summary>
                 <span style="font-size:10px; color:rgba(255,255,255,.5); font-weight:900; text-transform:uppercase;">Std I</span>
-                <input placeholder="Nom du move..." onclick="event.stopPropagation();" style="flex:1; background:transparent; border:none; border-bottom:1px solid rgba(255,255,255,.2); color:var(--white); font-weight:900; font-size:13px; font-style:italic; font-family:inherit; outline:none; margin: 0 8px;">
-                <input placeholder="+Stat" class="stat-badge" onclick="event.stopPropagation();" style="width:55px; border:none; outline:none; text-align:center; font-weight:900; font-family:inherit;">
+                <input data-sid="sid_011" placeholder="Nom du move..." onclick="event.stopPropagation();" style="flex:1; background:transparent; border:none; border-bottom:1px solid rgba(255,255,255,.2); color:var(--white); font-weight:900; font-size:13px; font-style:italic; font-family:inherit; outline:none; margin: 0 8px;">
+                <input data-sid="sid_012" placeholder="+Stat" class="stat-badge" onclick="event.stopPropagation();" style="width:55px; border:none; outline:none; text-align:center; font-weight:900; font-family:inherit;">
                 
                 <!-- Le bouton Étoile -->
                 <button class="avantage-star" title="Avantage" onclick="event.stopPropagation(); this.classList.toggle('active');">
@@ -1530,7 +1530,7 @@
                 </button>
               </summary>
               <div class="base-move-content" style="padding:0; border-top:1px solid rgba(255,255,255,.1);">
-                <textarea rows="4" placeholder="Décris l'effet du move emprunté ici..." style="width:100%; background:transparent; border:none; color:rgba(255,255,255,.7); padding:12px; outline:none; font-family:inherit; font-size:12px; resize:vertical; line-height:1.4;"></textarea>
+                <textarea data-sid="sid_013" rows="4" placeholder="Décris l'effet du move emprunté ici..." style="width:100%; background:transparent; border:none; color:rgba(255,255,255,.7); padding:12px; outline:none; font-family:inherit; font-size:12px; resize:vertical; line-height:1.4;"></textarea>
               </div>
             </details>
 
@@ -1538,8 +1538,8 @@
             <details class="base-move">
               <summary>
                 <span style="font-size:10px; color:rgba(255,255,255,.5); font-weight:900; text-transform:uppercase;">Std II</span>
-                <input placeholder="Nom du move..." onclick="event.stopPropagation();" style="flex:1; background:transparent; border:none; border-bottom:1px solid rgba(255,255,255,.2); color:var(--white); font-weight:900; font-size:13px; font-style:italic; font-family:inherit; outline:none; margin: 0 8px;">
-                <input placeholder="+Stat" class="stat-badge" onclick="event.stopPropagation();" style="width:55px; border:none; outline:none; text-align:center; font-weight:900; font-family:inherit;">
+                <input data-sid="sid_014" placeholder="Nom du move..." onclick="event.stopPropagation();" style="flex:1; background:transparent; border:none; border-bottom:1px solid rgba(255,255,255,.2); color:var(--white); font-weight:900; font-size:13px; font-style:italic; font-family:inherit; outline:none; margin: 0 8px;">
+                <input data-sid="sid_015" placeholder="+Stat" class="stat-badge" onclick="event.stopPropagation();" style="width:55px; border:none; outline:none; text-align:center; font-weight:900; font-family:inherit;">
                 
                 <!-- Le bouton Étoile -->
                 <button class="avantage-star" title="Avantage" onclick="event.stopPropagation(); this.classList.toggle('active');">
@@ -1549,7 +1549,7 @@
                 </button>
               </summary>
               <div class="base-move-content" style="padding:0; border-top:1px solid rgba(255,255,255,.1);">
-                <textarea rows="4" placeholder="Décris l'effet du move emprunté ici..." style="width:100%; background:transparent; border:none; color:rgba(255,255,255,.7); padding:12px; outline:none; font-family:inherit; font-size:12px; resize:vertical; line-height:1.4;"></textarea>
+                <textarea data-sid="sid_016" rows="4" placeholder="Décris l'effet du move emprunté ici..." style="width:100%; background:transparent; border:none; color:rgba(255,255,255,.7); padding:12px; outline:none; font-family:inherit; font-size:12px; resize:vertical; line-height:1.4;"></textarea>
               </div>
             </details>
           </div>
@@ -1588,7 +1588,7 @@
     
     <span class="team-label">Cagnotte</span>
     <div class="cagnotte-wrapper">
-      <input type="text" placeholder="Montant...">
+      <input data-sid="sid_017" type="text" placeholder="Montant...">
       <span class="cagnotte-icon">¥</span>
     </div>
     
@@ -1598,7 +1598,7 @@
       <div class="consumable-slot">
       <div class="qty-ctrl">
         <button class="qty-btn" onclick="this.nextElementSibling.stepDown()">−</button>
-        <input type="number" class="qty-val" value="0" min="0" max="99">
+        <input data-sid="sid_018" type="number" class="qty-val" value="0" min="0" max="99">
         <button class="qty-btn" onclick="this.previousElementSibling.stepUp()">+</button>
       </div>
     </div>
@@ -1773,41 +1773,52 @@ function addNote(){
   const input = document.getElementById('newNoteTitle');
   const title = input.value.trim();
   if(!title) return;
-  notes.push({title: title, content: ''});
+  notes.push({
+    id: 'note_' + Date.now() + '_' + Math.random().toString(36).slice(2,7),
+    title: title,
+    content: ''
+  });
   input.value = '';
   renderNotes();
   saveLocal(); // Force la sauvegarde
 }
 
-function removeNote(idx){
-  notes.splice(idx,1);
+function removeNote(id){
+  notes = notes.filter(n => n.id !== id);
   renderNotes();
   saveLocal();
 }
 
-function updateNote(idx, content){
-  notes[idx].content = content;
+function updateNote(id, content){
+  const note = notes.find(n => n.id === id);
+  if(note) note.content = content;
   // Pas besoin de forcer le saveLocal, l'autosave s'en chargera
 }
 
 function renderNotes(){
   const list = document.getElementById('notesList');
+
+  // Rétrocompatibilité : donne un id stable aux notes venant d'une vieille sauvegarde sans id
+  notes.forEach(note => {
+    if(!note.id) note.id = 'note_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
+  });
+
   if(notes.length === 0){
     list.innerHTML = '<p class="empty-msg">Aucun dossier pour le moment.</p>';
     return;
   }
-  list.innerHTML = notes.map((note, idx) => `
-    <details class="note-card base-move" style="padding:0; margin-bottom:12px;">
+  list.innerHTML = notes.map((note) => `
+    <details class="note-card base-move" data-id="${note.id}" style="padding:0; margin-bottom:12px;">
       <summary style="padding:12px;">
         <div style="display:flex; align-items:center; justify-content:space-between; width:100%; padding-right:12px;">
           <span class="note-title" style="margin:0;">${note.title}</span>
-          <button class="del-btn" onclick="event.preventDefault(); removeNote(${idx})" title="Supprimer le dossier">
+          <button class="del-btn" onclick="event.preventDefault(); removeNote('${note.id}')" title="Supprimer le dossier">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m-9 0v14a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V6"/></svg>
           </button>
         </div>
       </summary>
       <div class="base-move-content" style="padding:0;">
-        <textarea class="note-textarea" placeholder="Contenu du dossier..." style="border:none; border-top:1px solid rgba(255,255,255,.1);" onclick="event.stopPropagation();" oninput="updateNote(${idx}, this.value)">${note.content}</textarea>
+        <textarea class="note-textarea" placeholder="Contenu du dossier..." style="border:none; border-top:1px solid rgba(255,255,255,.1);" onclick="event.stopPropagation();" oninput="updateNote('${note.id}', this.value)">${note.content}</textarea>
       </div>
     </details>
   `).join('');
@@ -2052,12 +2063,13 @@ function addConfident(){
   input.value = '';
   renderConfidents();
 }
-function removeConfident(idx){
-  confidents.splice(idx,1);
+function removeConfident(id){
+  confidents = confidents.filter(c => c.id !== id);
   renderConfidents();
 }
-function setConfidantLevel(idx, level){
-  confidents[idx].level = level;
+function setConfidantLevel(id, level){
+  const cf = confidents.find(c => c.id === id);
+  if(cf) cf.level = level;
   renderConfidents();
 }
 function renderConfidents(){
@@ -2081,19 +2093,19 @@ function renderConfidents(){
     list.innerHTML = '<p class="empty-msg">Aucun lien noué pour le moment.</p>';
     return;
   }
-  list.innerHTML = confidents.map((cf, idx)=>`
+  list.innerHTML = confidents.map((cf)=>`
     <details class="confident-card base-move" data-id="${cf.id}" style="padding:0; margin-bottom:12px;">
       <summary style="padding:12px;">
         <div style="display:flex; flex-direction:column; gap:8px; width:100%; padding-right:12px;">
           <div class="confident-top" style="margin:0;">
             <span class="confident-name">${cf.name}</span>
-            <button class="del-btn" onclick="event.preventDefault(); removeConfident(${idx})" title="Supprimer le confident">
+            <button class="del-btn" onclick="event.preventDefault(); removeConfident('${cf.id}')" title="Supprimer le confident">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m-9 0v14a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V6"/></svg>
             </button>
           </div>
           <div class="stars" style="margin:0;">
             ${[1,2,3,4,5].map(lvl=>`
-              <button onclick="event.preventDefault(); setConfidantLevel(${idx}, ${lvl})">
+              <button onclick="event.preventDefault(); setConfidantLevel('${cf.id}', ${lvl})">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="${lvl<=cf.level?'var(--red)':'none'}" stroke="${lvl<=cf.level?'var(--red)':'rgba(255,255,255,.2)'}" stroke-width="1.5">
                   <polygon points="12,2 15,9 22,9.5 16.5,14.2 18.5,21.5 12,17.3 5.5,21.5 7.5,14.2 2,9.5 9,9"/>
                 </svg>
@@ -2282,16 +2294,24 @@ function setTheme(colorHex) {
 /* ================= SAUVEGARDE & IMPORT/EXPORT ================= */
 function getGameState() {
   // On récupère TOUS les champs, SAUF ceux générés dans les Notes et les Confidents
-  // Cela empêche tout décalage, peu importe combien de dossiers tu crées !
+  // (ceux-là sont sauvegardés séparément via leur propre id, dans jsState.notes / jsState.confidents)
   const staticFields = Array.from(document.querySelectorAll('input:not([type="file"]), textarea, select'))
     .filter(el => !el.closest('#notesList') && !el.closest('#confidentsList'));
+
+  // Sauvegarde par IDENTIFIANT précis (id natif ou data-sid gravé dans le HTML),
+  // jamais par position/ordre : impossible que ça décale, même si des champs sont
+  // ajoutés/retirés ailleurs dans la fiche entre deux sauvegardes.
+  const domValues = {};
+  staticFields.forEach(el => {
+    const sid = el.id || el.dataset.sid;
+    if (sid) domValues[sid] = el.value;
+  });
 
   return {
     themeColor: document.documentElement.style.getPropertyValue('--red') || '#e0242b',
     jsState: { pc, blessureValues, statValues, statFrozen, etatValues, etatEffects, realisationCases, historique, momentVerite, confidents, team, notes, photoCrop },
     
-    // Sauvegarde robuste basée uniquement sur la structure fixe
-    domValues: staticFields.map(el => el.value),
+    domValues,
     
     starStates: Array.from(document.querySelectorAll('.avantage-star')).map(el => el.classList.contains('active')),
     h1Name: document.getElementById('displayName').textContent,
@@ -2326,24 +2346,27 @@ function applyGameState(state) {
     }
   }
 
-  // Restauration robuste : on recible uniquement les champs fixes
+  // Restauration par IDENTIFIANT précis : chaque champ reprend sa propre valeur,
+  // quel que soit l'ordre dans lequel il apparaît dans le DOM. Plus aucun décalage possible.
   if (state.domValues) {
     const staticFields = Array.from(document.querySelectorAll('input:not([type="file"]), textarea, select'))
       .filter(el => !el.closest('#notesList') && !el.closest('#confidentsList'));
-      
-    // Si tu charges une vieille sauvegarde corrompue, on corrige le décalage (auto-réparation)
-    const offset = Math.max(0, state.domValues.length - staticFields.length);
-    
-    staticFields.forEach((el, i) => { 
-      // On contourne les notes excédentaires des anciennes sauvegardes buguées
-      let valIndex = i;
-      if (offset > 0 && i >= staticFields.length - 7) { 
-        valIndex += offset; // On décale pour retomber sur le footer (cagnotte/objets)
-      }
-      if (state.domValues[valIndex] !== undefined) {
-        el.value = state.domValues[valIndex];
-      }
-    });
+
+    if (Array.isArray(state.domValues)) {
+      // Compatibilité avec une ancienne sauvegarde (tableau ordonné, sujette au décalage) :
+      // on l'applique une dernière fois telle quelle, au mieux.
+      staticFields.forEach((el, i) => {
+        if (state.domValues[i] !== undefined) el.value = state.domValues[i];
+      });
+    } else {
+      // Nouveau format : dictionnaire {id: valeur}
+      staticFields.forEach(el => {
+        const sid = el.id || el.dataset.sid;
+        if (sid && state.domValues[sid] !== undefined) {
+          el.value = state.domValues[sid];
+        }
+      });
+    }
   }
 
   if (state.starStates) {
