@@ -224,6 +224,7 @@
       filter:drop-shadow(3px 3px 0 rgba(0,0,0,0.9));
       outline: none; /* Enlève le cadre bleu au clic */
       cursor: text; /* Change la souris pour montrer qu'on peut taper */
+      max-width:min(100%,640px);overflow-wrap:anywhere;
     }
     .arcane-line{
       color:var(--white);font-weight:900;text-transform:uppercase;font-style:italic;
@@ -245,6 +246,7 @@
     }
     .photo-frame:nth-child(1){transform:rotate(-3deg);}
     .photo-frame:nth-child(2){transform:rotate(2.5deg);}
+    .photo-frame:nth-child(3){transform:rotate(-1.5deg);}
     .photo-frame:hover{transform:rotate(0deg) scale(1.04);box-shadow:5px 5px 0 rgba(0,0,0,.6);}
     .photo-frame img{
       width:100%;height:100%;object-fit:cover;display:none;
@@ -361,6 +363,35 @@
       transform:skewX(-20deg);
     }
 
+
+
+    /* moves de playbook (même forme que les moves équipés) */
+    .pb-title{flex:1;min-width:0;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.2);color:var(--white);font-weight:900;font-size:13px;font-style:italic;font-family:inherit;outline:none;margin:0 8px 0 0;padding:2px 0;}
+    .pb-title:focus{border-bottom-color:var(--red);}
+    .pb-star{background:transparent;border:none;padding:0;margin-left:4px;cursor:pointer;color:rgba(255,255,255,.3);transition:all .2s;display:flex;align-items:center;justify-content:center;outline:none;}
+    .pb-star:hover{color:rgba(255,255,255,.7);transform:scale(1.1);}
+    .pb-star.active{color:var(--red);filter:drop-shadow(0 0 2px rgba(224,36,43,.8));transform:scale(1.1) rotate(5deg);}
+    .base-move[open] > summary .pb-star.active{color:var(--white);filter:drop-shadow(0 0 2px rgba(255,255,255,.8));}
+    .pb-move summary .del-btn{margin:0 8px 0 4px;display:flex;}
+    .pb-desc{width:100%;background:transparent;border:none;color:rgba(255,255,255,.7);padding:12px;outline:none;font-family:inherit;font-size:12px;resize:vertical;line-height:1.4;}
+    #playbookGroups .empty-msg{font-size:12px;margin:0;}
+
+    /* menu des sous-sections au survol des onglets */
+    #tabHoverMenu{
+      position:fixed;z-index:40;display:flex;flex-wrap:wrap;gap:6px;max-width:340px;padding:10px;
+      background:var(--black);border:2px solid rgba(255,255,255,.15);border-top:3px solid var(--red);
+      box-shadow:0 10px 30px rgba(0,0,0,.7);
+      opacity:0;visibility:hidden;transform:translateY(-6px);pointer-events:none;
+      transition:opacity .15s,transform .15s,visibility .15s;
+    }
+    #tabHoverMenu.open{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto;}
+    #tabHoverMenu button{
+      padding:5px 12px;background:var(--black);border:2px solid rgba(255,255,255,.3);color:var(--white);
+      font-family:inherit;font-weight:900;font-size:11px;text-transform:uppercase;font-style:italic;
+      letter-spacing:.4px;cursor:pointer;transform:skew(-8deg);transition:all .15s;
+    }
+    #tabHoverMenu button:hover,#tabHoverMenu button:focus-visible{background:var(--red);border-color:var(--red);outline:none;}
+
     /* ===== MAIN ===== */
     main{position:relative;z-index:1;padding:32px;max-width:960px;margin:0 auto;}
     section{display:none;}
@@ -377,9 +408,11 @@
       transform:skew(-8deg) rotate(-2deg);display:inline-block;
     }
 
-    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-    .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
-    @media(max-width:700px){.grid2,.grid3{grid-template-columns:1fr;}}
+    .grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;}
+    .grid3{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:16px;}
+    @media(max-width:700px){.grid2,.grid3{grid-template-columns:minmax(0,1fr);}}
+    .grid2 > *, .grid3 > *{min-width:0;}
+    .acc-text{overflow-wrap:anywhere;word-break:break-word;}
     .span2{grid-column:span 2;}
     @media(max-width:700px){.span2{grid-column:span 1;}}
 
@@ -394,8 +427,60 @@
     }
     .field input:focus, .field textarea:focus, textarea:focus, select:focus{border-color:var(--red);}
 
-    /* stats block */
+    /* panneau générique */
     .panel{background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.1);padding:16px;}
+
+    /* progression */
+    .realisation-row{display:flex;gap:8px;}
+    .real-cell{
+      flex:1;height:56px;border:2px solid rgba(255,255,255,.2);background:none;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;transform:skew(-6deg);transition:all .2s;
+    }
+    .real-cell:hover{border-color:rgba(255,255,255,.5);}
+    .real-cell.active{background:var(--red);border-color:var(--white);transform:skew(-6deg) scale(1.05);}
+
+    .counter-row{
+      display:flex;align-items:center;justify-content:space-between;border:2px solid rgba(255,255,255,.1);
+      padding:8px 16px;
+    }
+    .counter-label{font-weight:900;text-transform:uppercase;font-style:italic;font-size:13px;color:rgba(255,255,255,.8);}
+    .counter-controls{display:flex;align-items:center;gap:8px;}
+    .counter-controls button{
+      width:24px;height:24px;border:1px solid rgba(255,255,255,.3);background:none;color:var(--white);cursor:pointer;
+    }
+    .counter-controls button:hover{background:var(--red);border-color:var(--red);}
+    .counter-value{font-weight:900;font-style:italic;width:44px;text-align:center;color:var(--red);}
+
+    .toggle-btn{
+      display:flex;align-items:center;justify-content:space-between;padding:9px 16px;border:2px solid rgba(255,255,255,.2);
+      font-weight:900;text-transform:uppercase;font-style:italic;font-size:13px;cursor:pointer;background:none;color:rgba(255,255,255,.5);
+    }
+    .toggle-btn.active{background:var(--red);border-color:var(--white);color:var(--white);}
+
+    .mv-btn{
+      width:100%;padding:12px;font-weight:900;text-transform:uppercase;font-style:italic;letter-spacing:-.3px;
+      border:2px solid rgba(255,255,255,.2);background:var(--black);color:rgba(255,255,255,.4);cursor:pointer;
+      display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s;
+    }
+    .mv-btn.active{background:var(--red);border-color:var(--white);color:var(--white);}
+
+    /* moves */
+    .equip-card{border:2px solid rgba(255,255,255,.1);padding:10px;}
+    .equip-card.ultime{border-color:var(--red);}
+    .equip-card .tag{
+      font-size:10px;font-weight:900;text-transform:uppercase;font-style:italic;color:rgba(255,255,255,.5);
+      display:flex;align-items:center;gap:4px;
+    }
+    .equip-card input{
+      width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.2);
+      color:var(--white);font-weight:700;font-size:13px;padding:4px 0;margin-top:4px;outline:none;
+    }
+    .equip-card input:focus{border-color:var(--red);}
+
+
+    .tag-count{font-style:normal;font-size:10px;margin-left:6px;padding:1px 5px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.7);}
+
+    /* stats block */
     .stat-row{
       display:flex;align-items:center;justify-content:space-between;padding:10px 0;
       border-bottom:2px solid rgba(255,255,255,.1);
@@ -448,6 +533,58 @@
     .tier-full{color:#4ade80;}
     .tier-mixed{color:#FBC02D;}
     .tier-fail{color:var(--red);}
+    .roll-pop{position:fixed;z-index:9000;display:none;gap:4px;padding:4px;background:var(--black);border:1px solid rgba(255,255,255,.35);box-shadow:3px 3px 0 rgba(0,0,0,.6);}
+    .roll-pop.show{display:flex;animation:rollPopIn .12s ease-out;}
+    .roll-pop button{background:transparent;border:1px solid rgba(255,255,255,.25);color:var(--white);font-family:inherit;font-size:10px;font-weight:900;font-style:italic;text-transform:uppercase;padding:3px 8px;cursor:pointer;white-space:nowrap;}
+    .roll-pop button:hover{background:var(--white);color:var(--black);}
+    .roll-pop button.adv:hover{background:#4ade80;border-color:#4ade80;color:#000;}
+    .roll-pop button.dis:hover{background:var(--red);border-color:var(--red);color:#fff;}
+    @keyframes rollPopIn{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+    .roll-die.dropped{opacity:.3;text-decoration:line-through;border-style:dashed;transform:scale(.88);}
+    .roll-mode{font-size:10px;padding:1px 6px;margin-left:6px;border:1px solid currentColor;}
+    .roll-mode-adv{color:#4ade80;} .roll-mode-dis{color:var(--red);}
+
+    /* champs texte : plus de poignée de redimensionnement, ils s'agrandissent tout seuls */
+    textarea{resize:none !important;overflow:hidden;}
+    .acc-text{border:none !important;background:transparent !important;padding:12px !important;font-size:12px !important;line-height:1.4;color:rgba(255,255,255,.8);min-height:70px;}
+    details.acc-field > summary{background:rgba(255,255,255,.05);}
+    select.stat-select{text-transform:uppercase;}
+    details.acc-field > summary{gap:12px;}
+    .acc-prev{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;font-weight:600;font-style:normal;text-transform:none;font-size:12px;color:rgba(255,255,255,.5);}
+    details.acc-field > summary > span:first-child{flex:none;}
+    details.acc-field > summary{justify-content:flex-start;}
+    details.acc-field > summary::after{margin-left:auto;flex:none;}
+    details.acc-field[open] > summary .acc-prev{opacity:0;}
+    .acc-text[data-single]{min-height:44px;}
+    select.stat-select option{text-transform:uppercase;}
+    .roll-total.tier-mixed{text-shadow:0 0 14px rgba(251,192,45,.45);animation:mixSway .7s cubic-bezier(.34,1.56,.64,1) both, mixPulse 1.6s .7s ease-in-out 1;}
+    .roll-tier.tier-mixed{animation:rollSlide .5s .25s cubic-bezier(.22,1,.36,1) both;}
+    #rollModal.fx-mixed .panel{animation:panelAmber 1.1s ease-out 1;}
+    @keyframes mixSway{0%{transform:scale(.6) rotate(-8deg);opacity:0}45%{transform:scale(1.12) rotate(5deg);opacity:1}70%{transform:scale(.97) rotate(-2deg)}100%{transform:none}}
+    @keyframes mixPulse{0%,100%{text-shadow:0 0 8px rgba(251,192,45,.3)}50%{text-shadow:0 0 22px rgba(251,192,45,.8)}}
+    @keyframes panelAmber{0%{box-shadow:0 0 0 rgba(251,192,45,0)}30%{box-shadow:0 0 34px rgba(251,192,45,.45)}100%{box-shadow:0 0 40px rgba(0,0,0,1)}}
+
+    /* animations de résultat de jet */
+    .roll-total-wrap{position:relative;}
+    .roll-total.tier-full{text-shadow:0 0 16px rgba(74,222,128,.55);animation:rollPop .55s cubic-bezier(.34,1.56,.64,1) both, rollGlow 1.4s .55s ease-in-out 2;}
+    .roll-tier.tier-full{animation:rollSlide .5s .25s cubic-bezier(.22,1,.36,1) both;}
+    #rollModal.fx-full .panel{animation:panelGlow 1.4s ease-out 1;}
+    .roll-sparks{position:absolute;left:50%;top:50%;width:0;height:0;pointer-events:none;}
+    .roll-sparks i{position:absolute;left:-3px;top:-3px;width:6px;height:6px;background:#4ade80;transform:rotate(45deg);opacity:0;
+      animation:sparkOut .8s .15s ease-out forwards;}
+    .roll-total.tier-fail{animation:rollShake .5s both, rollGlitch .9s .1s steps(2,end) 1;opacity:.92;}
+    .roll-tier.tier-fail{animation:rollSlide .5s .2s cubic-bezier(.22,1,.36,1) both;}
+    #rollModal.fx-fail .panel{animation:panelShake .5s both, panelRed 1s ease-out 1;}
+    @keyframes rollPop{0%{transform:scale(.3);opacity:0}60%{transform:scale(1.22);opacity:1}100%{transform:scale(1)}}
+    @keyframes rollGlow{0%,100%{text-shadow:0 0 10px rgba(74,222,128,.35)}50%{text-shadow:0 0 26px rgba(74,222,128,.9)}}
+    @keyframes rollSlide{0%{transform:translateY(8px);opacity:0}100%{transform:none;opacity:1}}
+    @keyframes sparkOut{0%{opacity:1;transform:rotate(45deg) translate(0,0) scale(1)}100%{opacity:0;transform:rotate(var(--a)) translate(0,-58px) scale(.4)}}
+    @keyframes panelGlow{0%{box-shadow:0 0 0 rgba(74,222,128,0)}30%{box-shadow:0 0 40px rgba(74,222,128,.55)}100%{box-shadow:0 0 40px rgba(0,0,0,1)}}
+    @keyframes rollShake{0%{transform:translateX(0) scale(1.15)}20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(2px)}100%{transform:none}}
+    @keyframes rollGlitch{0%{text-shadow:3px 0 rgba(255,0,60,.8),-3px 0 rgba(0,220,255,.6)}50%{text-shadow:-2px 0 rgba(255,0,60,.8),2px 0 rgba(0,220,255,.6)}100%{text-shadow:none}}
+    @keyframes panelShake{0%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}100%{transform:none}}
+    @keyframes panelRed{0%{box-shadow:0 0 0 rgba(224,36,43,0)}25%{box-shadow:0 0 36px rgba(224,36,43,.7)}100%{box-shadow:0 0 40px rgba(0,0,0,1)}}
+    @media (prefers-reduced-motion: reduce){.roll-total,.roll-tier,#rollModal .panel,.roll-sparks i{animation:none !important}}
 
     /* etats mentaux */
     .etats-wrap{display:flex;flex-wrap:wrap;gap:8px;}
@@ -468,52 +605,22 @@
     }
     .etat-btn.active .etat-effet{color:rgba(255,255,255,.85);border-top-color:rgba(255,255,255,.35);}
 
-    /* progression */
-    .realisation-row{display:flex;gap:8px;}
-    .real-cell{
-      flex:1;height:56px;border:2px solid rgba(255,255,255,.2);background:none;cursor:pointer;
-      display:flex;align-items:center;justify-content:center;transform:skew(-6deg);transition:all .2s;
-    }
-    .real-cell:hover{border-color:rgba(255,255,255,.5);}
-    .real-cell.active{background:var(--red);border-color:var(--white);transform:skew(-6deg) scale(1.05);}
+    /* dés + stat sur les moves */
+    .die-btn{width:26px;height:26px;flex:none;margin:0 8px 0 0;padding:0;background:transparent;border:2px solid rgba(255,255,255,.35);color:var(--white);font-size:13px;line-height:1;cursor:pointer;border-radius:4px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+    .die-btn:hover{background:var(--red);border-color:var(--red);transform:rotate(-12deg) scale(1.08);}
+    .mv-title{flex:1;text-align:left;min-width:0;}
+    .mv-title select.stat-select{margin:0 0 0 8px;vertical-align:middle;width:84px;padding:2px 2px;}
+    select.stat-select{appearance:none;-webkit-appearance:none;border:none;outline:none;cursor:pointer;font-family:inherit;font-weight:900;text-align:center;margin:0 8px 0 0;flex:none;max-width:104px;}
+    select.stat-select option{background:#fff;color:#000;}
+    select.stat-select.need-stat{animation:needStat .4s;}
+    @keyframes needStat{0%,100%{transform:skew(-10deg) translateX(0);}25%{transform:skew(-10deg) translateX(-4px);}75%{transform:skew(-10deg) translateX(4px);}}
 
-    .counter-row{
-      display:flex;align-items:center;justify-content:space-between;border:2px solid rgba(255,255,255,.1);
-      padding:8px 16px;
-    }
-    .counter-label{font-weight:900;text-transform:uppercase;font-style:italic;font-size:13px;color:rgba(255,255,255,.8);}
-    .counter-controls{display:flex;align-items:center;gap:8px;}
-    .counter-controls button{
-      width:24px;height:24px;border:1px solid rgba(255,255,255,.3);background:none;color:var(--white);cursor:pointer;
-    }
-    .counter-controls button:hover{background:var(--red);border-color:var(--red);}
-    .counter-value{font-weight:900;font-style:italic;width:44px;text-align:center;color:var(--red);}
-
-    .toggle-btn{
-      display:flex;align-items:center;justify-content:space-between;padding:9px 16px;border:2px solid rgba(255,255,255,.2);
-      font-weight:900;text-transform:uppercase;font-style:italic;font-size:13px;cursor:pointer;background:none;color:rgba(255,255,255,.5);
-    }
-    .toggle-btn.active{background:var(--red);border-color:var(--white);color:var(--white);}
-
-    .mv-btn{
-      width:100%;padding:12px;font-weight:900;text-transform:uppercase;font-style:italic;letter-spacing:-.3px;
-      border:2px solid rgba(255,255,255,.2);background:var(--black);color:rgba(255,255,255,.4);cursor:pointer;
-      display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s;
-    }
-    .mv-btn.active{background:var(--red);border-color:var(--white);color:var(--white);}
-
-    /* moves */
-    .equip-card{border:2px solid rgba(255,255,255,.1);padding:10px;}
-    .equip-card.ultime{border-color:var(--red);}
-    .equip-card .tag{
-      font-size:10px;font-weight:900;text-transform:uppercase;font-style:italic;color:rgba(255,255,255,.5);
-      display:flex;align-items:center;gap:4px;
-    }
-    .equip-card input{
-      width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.2);
-      color:var(--white);font-weight:700;font-size:13px;padding:4px 0;margin-top:4px;outline:none;
-    }
-    .equip-card input:focus{border-color:var(--red);}
+    /* raccourcis Moves */
+    .moves-jump,.tab-jump{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;position:sticky;top:41px;z-index:5;padding:8px 0;background:linear-gradient(var(--black) 70%,transparent);}
+    .moves-jump button,.tab-jump button{padding:5px 12px;background:var(--black);border:2px solid rgba(255,255,255,.3);color:var(--white);font-family:inherit;font-weight:900;font-size:11px;text-transform:uppercase;font-style:italic;letter-spacing:.4px;cursor:pointer;transform:skew(-8deg);transition:all .15s;}
+    .moves-jump button:hover,.tab-jump button:hover{background:var(--red);border-color:var(--red);}
+    #movesBase,#movesPlaybook,#movesEquip,.jump-target,.confident-card,.note-card{scroll-margin-top:100px;}
+    .tab-jump:empty{display:none;}
 
     /* confidents */
     .add-row {
@@ -642,8 +749,8 @@
       font-size: 18px;
       font-weight: 900;
     }
-    .base-move[open] summary::after { content: '−'; color: var(--white); }
-    .base-move[open] summary { color: var(--red); border-bottom: 2px solid rgba(255,255,255,.1); }
+    .base-move[open] > summary::after { content: '−'; color: var(--white); }
+    .base-move[open] > summary { color: var(--red); border-bottom: 2px solid rgba(255,255,255,.1); }
 
     .stat-badge {
       background: var(--red);
@@ -654,7 +761,7 @@
       transform: skew(-10deg);
       margin-left: 8px;
     }
-    .base-move[open] .stat-badge { background: var(--white); color: var(--red); }
+    .base-move[open] > summary .stat-badge { background: var(--white); color: var(--red); }
 
     .base-move-content {
       padding: 12px;
@@ -753,7 +860,7 @@
       transform: scale(1.1) rotate(5deg);
     }
     /* Pour garder le style propre quand le menu est ouvert */
-    .base-move[open] .avantage-star.active {
+    .base-move[open] > summary .avantage-star.active {
       color: var(--white);
       filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.8));
     }
@@ -890,7 +997,7 @@
     }
     .juice-pop{ animation: juicePop .32s cubic-bezier(.34,1.56,.64,1); }
 
-    /* Rebond quand une valeur numérique change (points de coeur, stats...) */
+    /* Rebond quand une valeur numérique change (points de coeur...) */
     @keyframes valuePop{
       0%{transform:scale(1);}
       40%{transform:scale(1.35);color:var(--red);}
@@ -898,7 +1005,7 @@
     }
     .value-pop{ display:inline-block; animation: valuePop .35s cubic-bezier(.34,1.56,.64,1); }
 
-    /* Apparition en douceur des éléments qui se (re)génèrent (stat, état...) */
+    /* Apparition en douceur des éléments qui se (re)génèrent (tags...) */
     @keyframes softPopIn{
       0%{opacity:0;transform:scale(.8) translateY(4px);}
       100%{opacity:1;transform:scale(1) translateY(0);}
@@ -952,7 +1059,7 @@
       grid-template-rows:0fr;
       transition:grid-template-rows .38s cubic-bezier(.22,1,.36,1);
     }
-    .base-move[open] .base-move-content-wrap{
+    .base-move[open] > .base-move-content-wrap{
       grid-template-rows:1fr;
     }
     .base-move-content-wrap > .base-move-content{
@@ -963,7 +1070,7 @@
       transition: transform .3s cubic-bezier(.34,1.56,.64,1);
       display:inline-block;
     }
-    .base-move[open] summary::after{
+    .base-move[open] > summary::after{
       animation: markerPop .3s cubic-bezier(.34,1.56,.64,1);
     }
     @keyframes markerPop{
@@ -1300,14 +1407,14 @@
     
     <div class="sys-divider"></div>
 
-    <label class="theme-color-row" style="cursor:pointer; gap:8px; width:150px;" title="Active ou coupe le mini-jeu du casse">
+    <label class="theme-color-row" style="cursor:pointer; gap:8px; width:200px;" title="Active ou coupe le mini-jeu du casse">
       <input type="checkbox" class="heist-toggle" onchange="setHeistEnabled(this.checked)" style="accent-color:var(--red); width:14px; height:14px; cursor:pointer;">
       <span class="theme-color-label">Mini-jeu casse</span>
     </label>
 
     <div class="sys-divider"></div>
 
-    <div style="display:flex; flex-direction:column; gap:6px; width:150px;">
+    <div style="display:flex; flex-direction:column; gap:6px; width:200px;">
       <span style="font-size:9px; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,.5);">Personnage</span>
       <select id="charSlotSelect" autocomplete="off" onchange="switchCharSlot(this.value)" style="width:100%; background:var(--black); color:var(--white); border:1px solid rgba(255,255,255,.3); border-radius:4px; padding:4px; font-family:inherit; font-size:11px;"></select>
       <div style="display:flex; gap:4px;">
@@ -1319,11 +1426,11 @@
 
     <div class="sys-divider"></div>
     
-    <div class="theme-color-row" style="width:150px;">
+    <div class="theme-color-row" style="width:200px;">
       <button class="sys-btn" title="Sauvegarder (Export JSON)" onclick="exportJSON()">💾</button>
       <span class="theme-color-label">Sauvegarder données</span>
     </div>
-    <div class="theme-color-row" style="width:150px;">
+    <div class="theme-color-row" style="width:200px;">
       <button class="sys-btn" title="Charger (Import JSON)" onclick="triggerImport()">📂</button>
       <span class="theme-color-label">Importer données</span>
     </div>
@@ -1357,14 +1464,24 @@
         <p class="eyebrow">Voleurs Fantomes // Dossier confidentiel</p>
         <h1 class="name" id="displayName" contenteditable="true" spellcheck="false">Sans Nom</h1>
         <div class="photo-frames">
-          <div class="photo-frame" id="frame-perso" onclick="openPhotoMenu()" title="Gérer la photo du personnage">
+          <div class="photo-frame" id="frame-perso" onclick="triggerPhotoUpload('perso')" title="Cliquer pour ajouter la photo du personnage">
             <div class="photo-frame-corner">★</div>
             <img id="img-perso" alt="Photo du personnage">
             <div class="photo-frame-empty">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="1"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-4 4-3-3-5 5"/></svg>
-              <span>Perso</span>
+              <span>IRL</span>
             </div>
-            <div class="photo-frame-tag">Perso</div>
+            <div class="photo-frame-tag">IRL</div>
+            <button type="button" class="photo-frame-remove" onclick="removePhoto(event,'perso')" title="Retirer la photo">✕</button>
+          </div>
+          <div class="photo-frame" id="frame-meta" onclick="openPhotoMenu()" title="Photo Metavers (animation All-Out Attack)">
+            <div class="photo-frame-corner">★</div>
+            <img id="img-meta" alt="Photo Metavers">
+            <div class="photo-frame-empty">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="1"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-4 4-3-3-5 5"/></svg>
+              <span>Metavers</span>
+            </div>
+            <div class="photo-frame-tag">Metavers</div>
           </div>
           <div class="photo-frame" id="frame-persona" onclick="triggerPhotoUpload('persona')" title="Cliquer pour ajouter la photo du Persona">
             <div class="photo-frame-corner">★</div>
@@ -1376,6 +1493,7 @@
             <div class="photo-frame-tag">Persona</div>
             <button type="button" class="photo-frame-remove" onclick="removePhoto(event,'persona')" title="Retirer la photo">✕</button>
           </div>
+          <input type="file" id="photoInput-meta" accept="image/*" style="display:none" onchange="handlePhotoUpload(event,'meta')">
           <input type="file" id="photoInput-perso" accept="image/*" style="display:none" onchange="handlePhotoUpload(event,'perso')">
           <input type="file" id="photoInput-persona" accept="image/*" style="display:none" onchange="handlePhotoUpload(event,'persona')">
         </div>
@@ -1438,6 +1556,8 @@
     <button class="tab-btn" data-tab="notes" onclick="switchTab('notes')">Notes</button>
   </nav>
 
+  <div id="tabHoverMenu" role="menu" aria-label="Sous-sections"></div>
+
   <main>
 
     <!-- ===== IDENTITE ===== -->
@@ -1445,57 +1565,103 @@
       <div class="stack">
         
         <!-- Bloc Identité Civile -->
-        <div>
+        <div id="idCivile" class="jump-target">
           <div class="shard"><span class="bg"></span><h2>Identité Civile</h2></div>
           <div class="grid2">
             <div class="field">
-              <label>Nom / Nom de Code</label>
-              <input id="charName" oninput="syncHeader()" placeholder="Ex: Joker / Ren...">
+              <details class="base-move acc-field">
+                <summary><span>Nom / Nom de Code</span><span class="acc-prev"></span></summary>
+                <div class="base-move-content" style="padding:0;">
+                  <textarea class="acc-text" id="charName" rows="2" placeholder="Ex: Joker / Ren..." data-single="1" oninput="syncHeader()"></textarea>
+                </div>
+              </details>
             </div>
             <div class="field">
-              <label>Arcane (Livret)</label>
-              <input id="arcane" placeholder="Le Fou, Le Magicien...">
+              <details class="base-move acc-field">
+                <summary><span>Arcane (Livret)</span><span class="acc-prev"></span></summary>
+                <div class="base-move-content" style="padding:0;">
+                  <textarea class="acc-text" id="arcane" rows="2" placeholder="Le Fou, Le Magicien..." data-single="1"></textarea>
+                </div>
+              </details>
             </div>
             <div class="field span2">
-              <label>Passé / Background</label>
-              <textarea data-sid="sid_001" rows="2" placeholder="D'où viens-tu ? Quel est ton passé ?"></textarea>
+              <details class="base-move acc-field">
+                <summary><span>Passé / Background</span><span class="acc-prev"></span></summary>
+                <div class="base-move-content" style="padding:0;">
+                  <textarea class="acc-text" data-sid="sid_001" rows="3" placeholder="D'où viens-tu ? Quel est ton passé ?"></textarea>
+                </div>
+              </details>
             </div>
             <div class="field">
-              <label>Rêves / Aspirations</label>
-              <textarea data-sid="sid_002" rows="2" placeholder="Que souhaites-tu accomplir ?"></textarea>
+              <details class="base-move acc-field">
+                <summary><span>Rêves / Aspirations</span><span class="acc-prev"></span></summary>
+                <div class="base-move-content" style="padding:0;">
+                  <textarea class="acc-text" data-sid="sid_002" rows="3" placeholder="Que souhaites-tu accomplir ?"></textarea>
+                </div>
+              </details>
             </div>
             <div class="field">
-              <label>Peurs / Doutes</label>
-              <textarea data-sid="sid_003" rows="2" placeholder="Qu'est-ce qui te terrifie ou te fait douter ?"></textarea>
+              <details class="base-move acc-field">
+                <summary><span>Peurs / Doutes</span><span class="acc-prev"></span></summary>
+                <div class="base-move-content" style="padding:0;">
+                  <textarea class="acc-text" data-sid="sid_003" rows="3" placeholder="Qu'est-ce qui te terrifie ou te fait douter ?"></textarea>
+                </div>
+              </details>
             </div>
           </div>
         </div>
 
         <!-- Bloc Persona -->
-        <div>
+        <div id="idPersona" class="jump-target">
           <div class="shard"><span class="bg"></span><h2>Persona</h2></div>
           <div class="grid2">
             <div class="field">
-              <label>Nom du Persona</label>
-              <input id="personaName" placeholder="Arsène...">
+              <details class="base-move acc-field">
+                <summary><span>Nom du Persona</span><span class="acc-prev"></span></summary>
+                <div class="base-move-content" style="padding:0;">
+                  <textarea class="acc-text" id="personaName" rows="2" placeholder="Arsène..." data-single="1"></textarea>
+                </div>
+              </details>
             </div>
             <div class="field">
-              <label>Élément de prédilection</label>
-              <input data-sid="sid_004" placeholder="Feu, Glace, Malédiction...">
+              <details class="base-move acc-field">
+                <summary><span>Élément de prédilection</span><span class="acc-prev"></span></summary>
+                <div class="base-move-content" style="padding:0;">
+                  <textarea class="acc-text" data-sid="sid_004" rows="2" placeholder="Feu, Glace, Malédiction..." data-single="1"></textarea>
+                </div>
+              </details>
             </div>
             <div class="field span2">
-              <label>Description / Apparence</label>
-              <textarea data-sid="sid_005" rows="2" placeholder="À quoi ressemble ton Persona ?"></textarea>
+              <details class="base-move acc-field">
+                <summary><span>Description / Apparence</span><span class="acc-prev"></span></summary>
+                <div class="base-move-content" style="padding:0;">
+                  <textarea class="acc-text" data-sid="sid_005" rows="3" placeholder="À quoi ressemble ton Persona ?"></textarea>
+                </div>
+              </details>
             </div>
           </div>
         </div>
 
         <!-- Bloc Profil Élémentaire -->
-        <div>
+        <div id="idElem" class="jump-target">
           <div class="shard"><span class="bg"></span><h2>Profil Élémentaire</h2></div>
           <div class="grid2">
-            <div class="field"><label>Résistances</label><input data-sid="sid_006" placeholder="Ce qui te fait peu de dégâts..."></div>
-            <div class="field"><label>Faiblesses</label><input data-sid="sid_007" placeholder="Ce qui te met à terre..."></div>
+            <div class="field">
+              <details class="base-move acc-field">
+                <summary><span>Résistances</span><span class="acc-prev"></span></summary>
+                <div class="base-move-content" style="padding:0;">
+                  <textarea class="acc-text" data-sid="sid_006" rows="2" placeholder="Ce qui te fait peu de dégâts..."></textarea>
+                </div>
+              </details>
+            </div>
+            <div class="field">
+              <details class="base-move acc-field">
+                <summary><span>Faiblesses</span><span class="acc-prev"></span></summary>
+                <div class="base-move-content" style="padding:0;">
+                  <textarea class="acc-text" data-sid="sid_007" rows="2" placeholder="Ce qui te met à terre..."></textarea>
+                </div>
+              </details>
+            </div>
           </div>
         </div>
 
@@ -1519,19 +1685,17 @@
     <!-- ===== PROGRESSION ===== -->
     <section id="tab-progression">
       <div class="stack">
-        <div>
+        <div id="rlJauge" class="jump-target">
           <div class="shard"><span class="bg"></span><h2>Jauge de Réalisation</h2></div>
-          <p style="color:rgba(255,255,255,.4);font-size:12px;font-weight:700;text-transform:uppercase;margin:6px 0 4px;">Condition de réalisation</p>
-          <textarea data-sid="sid_008" rows="2" placeholder="Quelle est la condition de réalisation ?"></textarea>
-          <div class="realisation-row" id="realisationRow" style="margin-top:10px;"></div>
+          <div class="realisation-row" id="realisationRow" style="margin-top:12px;"></div>
         </div>
 
-        <div>
+        <div id="rlHisto" class="jump-target">
           <div class="shard"><span class="bg"></span><h2>Historique des Réalisations</h2></div>
           <div class="grid2" id="historiquePanel"></div>
         </div>
 
-        <div>
+        <div id="rlUltime" class="jump-target">
             <div class="shard"><span class="bg"></span><h2>Ultime Réalisation</h2></div>
             
             <!-- Champ caché qui remplace le select pour que ta sauvegarde automatique continue de fonctionner sans bug -->
@@ -1560,10 +1724,6 @@
               </button>
             </div>
           </div>
-          <div>
-            <div class="shard"><span class="bg"></span><h2>Moment de Vérité</h2></div>
-            <button class="mv-btn active" id="mvBtn" onclick="toggleMomentVerite()">Disponible</button>
-          </div>
         </div>
       </div>
     </section>
@@ -1574,13 +1734,13 @@
       <div class="moves-layout">
         
         <!-- COLONNE GAUCHE : Actions de base en accordéon -->
-        <div class="base-moves-sidebar">
+        <div class="base-moves-sidebar" id="movesBase">
           <div class="shard"><span class="bg"></span><h2>Actions de Base</h2></div>
           
           <div style="margin-top: 16px;">
             <!-- Move 1 -->
             <details class="base-move">
-              <summary>Foncer dans le tas <span class="stat-badge">+Courage</span></summary>
+              <summary><button type="button" class="die-btn" title="Lancer 2d6 +Courage" onclick="event.preventDefault(); event.stopPropagation(); rollStat('courage')">🎲</button><span class="mv-title">Foncer dans le tas <span class="stat-badge">+Courage</span></span></summary>
               <div class="base-move-content">
                 <p>Quand vous vous <strong>jetez tête baissée dans l'action — pour ouvrir un combat par surprise</strong>, forcer un passage, ou entrer dans une conversation.</p>
                 <ul>
@@ -1607,7 +1767,7 @@
 
             <!-- Move 2 -->
             <details class="base-move">
-              <summary>Lire la situation <span class="stat-badge">+Connaissance</span></summary>
+              <summary><button type="button" class="die-btn" title="Lancer 2d6 +Connaissance" onclick="event.preventDefault(); event.stopPropagation(); rollStat('connaissance')">🎲</button><span class="mv-title">Lire la situation <span class="stat-badge">+Connaissance</span></span></summary>
               <div class="base-move-content">
                 <p>Quand vous <strong>prenez un moment pour observer, analyser une situation ou étudier un adversaire.</strong></p>
                 <ul>
@@ -1631,7 +1791,7 @@
 
             <!-- Move 3 -->
             <details class="base-move">
-              <summary>Convaincre / Charmer <span class="stat-badge">+Charme</span></summary>
+              <summary><button type="button" class="die-btn" title="Lancer 2d6 +Charme" onclick="event.preventDefault(); event.stopPropagation(); rollStat('charme')">🎲</button><span class="mv-title">Convaincre / Charmer <span class="stat-badge">+Charme</span></span></summary>
               <div class="base-move-content">
                 <p>Quand vous <strong>tentez d'influencer, de séduire ou de manipuler quelqu'un.</strong></p>
                 <ul>
@@ -1658,9 +1818,9 @@
 
             <!-- Move 4 -->
             <details class="base-move">
-              <summary>Encaisser le choc <span class="stat-badge">+Courage</span></summary>
+              <summary><button type="button" class="die-btn" title="Lancer 2d6 +Courage" onclick="event.preventDefault(); event.stopPropagation(); rollStat('courage')">🎲</button><span class="mv-title">Encaisser le choc <span class="stat-badge">+Courage</span></span></summary>
               <div class="base-move-content">
-                <p>Quand tu <strong>encaisses un coup puissant</strong>, jette +le nombre d'états émotionnels dont tu souffres.</p>
+                <p>Quand tu <strong>encaisses un coup puissant</strong>, jette les dés.</p>
                 <p><span class="red-txt">Sur un 10+,</span> Vous ne cochez aucune case, et vous choisissez comment vous encaissez (décrivez la scène).</p>
                 <p><span class="red-txt">Sur un 7-9,</span> Vous cochez la case annoncée par le MJ mais vous ne subissez pas de complication.</p>
                 <p><span class="red-txt">Sur un -6,</span> Vous cochez la case annoncée par le MJ, qui précise une complication (déséquilibre, statut léger, position compromise).</p>
@@ -1669,7 +1829,7 @@
 
             <!-- Move 5 -->
             <details class="base-move">
-              <summary>Invoquer Persona <span class="stat-badge">+Stat</span></summary>
+              <summary><button type="button" class="die-btn" title="Lancer 2d6 + la stat choisie" onclick="event.preventDefault(); event.stopPropagation(); rollFromSelect(document.getElementById('persona-stat'))">🎲</button><span class="mv-title">Invoquer Persona <select id="persona-stat" class="stat-badge stat-select" title="Stat utilisée" onclick="event.stopPropagation();" onchange="saveLocal()"><option value="">+Stat</option><option value="connaissance">+Connaissance</option><option value="courage">+Courage</option><option value="habilete">+Habileté</option><option value="charme">+Charme</option><option value="gentillesse">+Gentillesse</option></select></span></summary>
               <div class="base-move-content">
                 <p>Déclaration de guerre dans le metavers, le Persona est utilisable tant qu'il vous reste au moins une case de charge complète.</p>
                 <ul>
@@ -1682,7 +1842,7 @@
 
             <!-- Move 6 -->
             <details class="base-move">
-              <summary>S'infiltrer <span class="stat-badge">+Habileté</span></summary>
+              <summary><button type="button" class="die-btn" title="Lancer 2d6 +Habileté" onclick="event.preventDefault(); event.stopPropagation(); rollStat('habilete')">🎲</button><span class="mv-title">S'infiltrer <span class="stat-badge">+Habileté</span></span></summary>
               <div class="base-move-content">
                 <p>Quand vous <strong>tentez d'agir sans vous faire repérer</strong>, jetez +Habileté.</p>
                 <ul>
@@ -1695,7 +1855,7 @@
 
             <!-- Move 7 -->
             <details class="base-move">
-              <summary>Soutenir un allié <span class="stat-badge">+Gentillesse</span></summary>
+              <summary><button type="button" class="die-btn" title="Lancer 2d6 +Gentillesse" onclick="event.preventDefault(); event.stopPropagation(); rollStat('gentillesse')">🎲</button><span class="mv-title">Soutenir un allié <span class="stat-badge">+Gentillesse</span></span></summary>
               <div class="base-move-content">
                 <p>Quand vous <strong>aidez ou réconfortez un allié</strong>, jetez +Gentillesse.</p>
                 <ul>
@@ -1705,7 +1865,7 @@
                 <p><strong>Effets :</strong></p>
                 <ul>
                   <li>Votre allié gagne +2 à son prochain jet (s'il est un PJ). </li>
-                  <li>Vous dissipez un État Mental qui pèse sur lui (peur, colère, désespoir...). </li>
+                  <li>Vous dissipez un État Mental qui pèse sur lui (peur, colère, confusion...). </li>
                   <li>Vous lui transférez 1 Point de Cœur (PC) de votre propre réserve pour qu'il puisse l'utiliser.</li>
                   <li>Vous dissipez une blessure d’un allié.</li>
                 </ul>
@@ -1717,14 +1877,32 @@
 
         <!-- COLONNE DROITE : Playbook et Emplacements (ancien contenu) -->
         <div class="stack">
-          <div>
+          <div id="movesPlaybook">
             <div class="shard"><span class="bg"></span><h2>Moves de Playbook</h2></div>
-            <p style="color:rgba(255,255,255,.4);font-size:12px;font-weight:700;text-transform:uppercase;margin:6px 0 4px;">Moves IRL</p>
-            <textarea data-sid="sid_009" rows="4" placeholder="Liste tes moves de playbook IRL ici..."></textarea>
-            <p style="color:rgba(255,255,255,.4);font-size:12px;font-weight:700;text-transform:uppercase;margin:12px 0 4px;">Moves Metavers</p>
-            <textarea data-sid="sid_010" rows="4" placeholder="Liste tes moves de playbook Metavers ici..."></textarea>
+            <div class="stack" id="playbookGroups" style="gap:8px;margin-top:12px;">
+              <details class="base-move" id="pbGroup_irl">
+                <summary><span>Moves IRL<i class="tag-count" id="pbCount_irl">0</i></span></summary>
+                <div class="base-move-content" style="padding:12px;">
+                  <div class="add-row" style="margin-bottom:12px;">
+                    <input id="newPb_irl" placeholder="Titre du nouveau move IRL..." onkeydown="if(event.key==='Enter')addPlaybookMove('irl')">
+                    <button class="add-btn" onclick="addPlaybookMove('irl')">+</button>
+                  </div>
+                  <div class="stack" id="pbList_irl" style="gap:8px;"></div>
+                </div>
+              </details>
+              <details class="base-move" id="pbGroup_meta">
+                <summary><span>Moves Metavers<i class="tag-count" id="pbCount_meta">0</i></span></summary>
+                <div class="base-move-content" style="padding:12px;">
+                  <div class="add-row" style="margin-bottom:12px;">
+                    <input id="newPb_meta" placeholder="Titre du nouveau move Metavers..." onkeydown="if(event.key==='Enter')addPlaybookMove('meta')">
+                    <button class="add-btn" onclick="addPlaybookMove('meta')">+</button>
+                  </div>
+                  <div class="stack" id="pbList_meta" style="gap:8px;"></div>
+                </div>
+              </details>
+            </div>
           </div>
-          <div>
+          <div id="movesEquip">
             <div class="shard"><span class="bg"></span><h2>Emplacements Équipés</h2></div>
             <p style="color:rgba(255,255,255,.4);font-size:12px;font-weight:700;text-transform:uppercase;margin:6px 0 12px;">Moves du quotidien empruntés aux Confidents</p>
             <div class="stack" style="gap: 8px;">
@@ -1732,8 +1910,9 @@
               <details class="base-move">
                 <summary>
                   <span style="font-size:10px; color:rgba(255,255,255,.5); font-weight:900; text-transform:uppercase;">Std I</span>
+                  <button type="button" class="die-btn" title="Lancer 2d6 + la stat choisie" style="margin:0 6px 0 8px;" onclick="event.preventDefault(); event.stopPropagation(); rollFromSelect(this.nextElementSibling)">🎲</button>
+                  <select data-sid="sid_012" class="stat-badge stat-select" title="Stat utilisée" onclick="event.stopPropagation();" onchange="saveLocal()"><option value="">+Stat</option><option value="connaissance">+Connaissance</option><option value="courage">+Courage</option><option value="habilete">+Habileté</option><option value="charme">+Charme</option><option value="gentillesse">+Gentillesse</option></select>
                   <input data-sid="sid_011" placeholder="Nom du move..." onclick="event.stopPropagation();" style="flex:1; background:transparent; border:none; border-bottom:1px solid rgba(255,255,255,.2); color:var(--white); font-weight:900; font-size:13px; font-style:italic; font-family:inherit; outline:none; margin: 0 8px;">
-                  <input data-sid="sid_012" placeholder="+Stat" class="stat-badge" onclick="event.stopPropagation();" style="width:55px; border:none; outline:none; text-align:center; font-weight:900; font-family:inherit;">
                   
                   <!-- Le bouton Étoile -->
                   <button class="avantage-star" title="Avantage" onclick="event.stopPropagation(); this.classList.toggle('active');">
@@ -1751,8 +1930,9 @@
               <details class="base-move">
                 <summary>
                   <span style="font-size:10px; color:rgba(255,255,255,.5); font-weight:900; text-transform:uppercase;">Std II</span>
+                  <button type="button" class="die-btn" title="Lancer 2d6 + la stat choisie" style="margin:0 6px 0 8px;" onclick="event.preventDefault(); event.stopPropagation(); rollFromSelect(this.nextElementSibling)">🎲</button>
+                  <select data-sid="sid_015" class="stat-badge stat-select" title="Stat utilisée" onclick="event.stopPropagation();" onchange="saveLocal()"><option value="">+Stat</option><option value="connaissance">+Connaissance</option><option value="courage">+Courage</option><option value="habilete">+Habileté</option><option value="charme">+Charme</option><option value="gentillesse">+Gentillesse</option></select>
                   <input data-sid="sid_014" placeholder="Nom du move..." onclick="event.stopPropagation();" style="flex:1; background:transparent; border:none; border-bottom:1px solid rgba(255,255,255,.2); color:var(--white); font-weight:900; font-size:13px; font-style:italic; font-family:inherit; outline:none; margin: 0 8px;">
-                  <input data-sid="sid_015" placeholder="+Stat" class="stat-badge" onclick="event.stopPropagation();" style="width:55px; border:none; outline:none; text-align:center; font-weight:900; font-family:inherit;">
                   
                   <!-- Le bouton Étoile -->
                   <button class="avantage-star" title="Avantage" onclick="event.stopPropagation(); this.classList.toggle('active');">
@@ -1769,6 +1949,12 @@
           </div>
         </div>
 
+      </div>
+
+      <!-- Moment de Vérité : tout en bas du panneau Moves -->
+      <div id="movesMomentV" class="jump-target" style="margin-top:32px;">
+        <div class="shard"><span class="bg"></span><h2>Moment de Vérité</h2></div>
+        <button class="mv-btn active" id="mvBtn" style="margin-top:12px;" onclick="toggleMomentVerite()">Disponible</button>
       </div>
     </section>
 
@@ -1794,7 +1980,6 @@
     <div class="footer-flex">
       
       <div class="team-block" style="position: relative;">
-        <div id="allOutAlert" class="all-out-alert">★ ALL-OUT ATTACK DISPONIBLE ★</div>
         <span class="team-label">Team</span>
         <div class="team-crans" id="teamCrans"></div>
       </div>
@@ -1829,9 +2014,9 @@
 
   <!-- === MODAL : MENU PHOTO === -->
   <div id="photoMenuModal" class="modal-overlay" style="flex-direction: column; gap: 16px;">
-    <div class="shard"><span class="bg"></span><h2 style="font-size: 24px;">Dossier Photographique</h2></div>
+    <div class="shard"><span class="bg"></span><h2 style="font-size: 24px;">Photo Metavers</h2></div>
     <div class="panel" style="display:flex; flex-direction:column; gap:10px; width: 320px; box-shadow: 0 0 40px rgba(0,0,0,1);">
-        <button class="mv-btn" onclick="triggerPhotoUpload('perso')">Ajouter / Changer l'image</button>
+        <button class="mv-btn" onclick="triggerPhotoUpload('meta')">Ajouter / Changer l'image</button>
         <button class="mv-btn" onclick="openCropper()">Recadrer (All-Out Attack)</button>
         <button class="mv-btn" style="color:var(--red); border-color:var(--red);" onclick="removePhotoFromMenu()">Supprimer la photo</button>
         <div class="sys-divider" style="margin: 6px 0;"></div>
@@ -1866,6 +2051,13 @@
             <button class="mv-btn active" onclick="closeCropper(true)">Valider</button>
         </div>
     </div>
+  </div>
+
+  <!-- Mini-menu de type de jet (apparaît au survol d'un dé) -->
+  <div id="rollPop" class="roll-pop">
+    <button type="button" onclick="pickRollMode('standard')">Std</button>
+    <button type="button" class="adv" onclick="pickRollMode('adv')">Avantage</button>
+    <button type="button" class="dis" onclick="pickRollMode('dis')">Désavantage</button>
   </div>
 
   <!-- === MODAL : RÉSULTAT DE JET === -->
@@ -1924,27 +2116,28 @@
     {key:'epuise', label:'Épuisé', statKey:'habilete', svg:'<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="none" stroke="currentColor" stroke-width="2"/>'},
     {key:'effraye', label:'Effrayé', statKey:'courage', svg:'<path d="M12 2a7 7 0 0 0-7 7v9l2-2 2 2 2-2 2 2 2-2 2 2V9a7 7 0 0 0-7-7z"/><circle cx="9" cy="9" r="1" fill="black"/><circle cx="15" cy="9" r="1" fill="black"/>'},
     {key:'enrage', label:'Enragé', statKey:'gentillesse', svg:'<path d="M12 2c1 3-2 4-2 7 0 2 1 3 2 3s2-1 2-3c0-1-.5-2-.5-2 2 1 3 3 3 5a4.5 4.5 0 0 1-9 0c0-5 3-7 4.5-10z"/>'},
-    {key:'desespere', label:'Désespéré', statKey:'habilete', svg:'<circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.3" fill="black"/><circle cx="15" cy="10" r="1.3" fill="black"/><path d="M8 16h8" stroke="black" stroke-width="1.3" fill="none"/>'},
-    {key:'incertain', label:'Incertain', statKey:'connaissance', svg:'<path d="M9.1 9a3 3 0 1 1 4.9 2.3c-.9.7-1.5 1.2-1.5 2.4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="17.5" r="1" />'},
+    {key:'incertain', label:'Confus', statKey:'connaissance', svg:'<path d="M9.1 9a3 3 0 1 1 4.9 2.3c-.9.7-1.5 1.2-1.5 2.4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="17.5" r="1" />'},
     {key:'coupable', label:'Coupable', statKey:'charme', svg:'<circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.3" fill="black"/><circle cx="15" cy="10" r="1.3" fill="black"/><path d="M8 16c1.5-1.5 6.5-1.5 8 0" stroke="black" stroke-width="1.3" fill="none"/>'},
   ];
-  const etatValues = {epuise:false, effraye:false, enrage:false, desespere:false, incertain:false, coupable:false};
+  const etatValues = {epuise:false, effraye:false, enrage:false, incertain:false, coupable:false};
   let charge = {current:3, max:3}; // <-- JAUGE DE CHARGE
+
+
   function statLabel(key){
     const s = STATS.find(s => s.key === key);
     return s ? s.label : key;
   }
+
   function etatPenaltyFor(statKey){
     const e = ETATS.find(e => e.statKey === statKey);
     return (e && etatValues[e.key]) ? -2 : 0;
   }
 
-
   const blessureValues = {egratigne:false, blesse:false, gravement:false, mortellement:false};
   let pc = {current:4, max:4};
 
   let realisationCases = [false,false,false,false,false];
-  const historique = {movesPlaybook:0, moveAutre:0, statBonus:0, pcMaxBonus:0, momentVeriteDebloque:false};
+  const historique = {movesIRL:0, movesMeta:0, elementSupp:0, statBonus:0, pcMaxBonus:0, momentVeriteDebloque:false};
   let momentVerite = 'disponible';
 
   const CONFIDANT_BONUS = {
@@ -1955,6 +2148,7 @@
     5:"Un move non basique que vous possédez en lien avec ce personnage obtient un avantage jusqu’à la fin de la partie.",
   };
   let confidents = [];
+  let playbookMoves = []; // {id, zone:'irl'|'meta', title, desc, adv}
 
   let team = 0;
 
@@ -1972,14 +2166,14 @@
     document.getElementById('photoMenuModal').classList.remove('active');
   }
   function removePhotoFromMenu() {
-    document.getElementById('img-perso').src = '';
-    document.getElementById('frame-perso').classList.remove('has-img');
+    document.getElementById('img-meta').src = '';
+    document.getElementById('frame-meta').classList.remove('has-img');
     closePhotoMenu();
     saveLocal();
   }
 
   function openCropper() {
-    const imgSrc = document.getElementById('img-perso').src;
+    const imgSrc = document.getElementById('img-meta').src;
     if (!imgSrc || imgSrc.endsWith('.html')) {
         alert("Il faut d'abord ajouter une photo !");
         return;
@@ -2059,6 +2253,7 @@
 
   function renderNotes(){
     const list = document.getElementById('notesList');
+    renderItemJump('notesJump', notes, n => n.title);
 
     // Rétrocompatibilité : donne un id stable aux notes venant d'une vieille sauvegarde sans id
     notes.forEach(note => {
@@ -2119,12 +2314,74 @@
     maybeOpenHeistOnTab();
   }
 
+  /* ================= MENU DES SOUS-SECTIONS AU SURVOL DES ONGLETS ================= */
+  const TAB_SECTIONS = {
+    identite:    [['Identité Civile','idCivile'], ['Persona','idPersona'], ['Profil Élémentaire','idElem']],
+    progression: [['Jauge de Réalisation  ','rlJauge'], ['Historique des Réalisations','rlHisto'], ['Ultime Réalisation ','rlUltime']],
+    moves:       [['Actions de Base','movesBase'], ['Moves de Playbook','movesPlaybook'], ['Moves Équipés','movesEquip'], ['Moment de vérité','movesMomentV']]
+  };
+  function tabSubItems(tab){
+    if(TAB_SECTIONS[tab]) return TAB_SECTIONS[tab].map(([label, target]) => ({label, target}));
+    if(tab === 'social') return confidents.map(c => ({label: c.name, card: c.id}));
+    if(tab === 'notes')  return notes.map(n => ({label: n.title, card: n.id}));
+    return [];
+  }
+  function goToSub(tab, item){
+    const go = () => item.card ? jumpToCard(item.card) : jumpTo(item.target);
+    const section = document.getElementById('tab-' + tab);
+    if(section.classList.contains('active')) go();
+    else { switchTab(tab); setTimeout(go, 80); }
+  }
+  (function initTabHoverMenu(){
+    const menu = document.getElementById('tabHoverMenu');
+    let openTimer = null, closeTimer = null, currentBtn = null;
+    const canHover = () => window.matchMedia('(hover:hover)').matches;
+    function close(){ clearTimeout(openTimer); menu.classList.remove('open'); currentBtn = null; }
+    function open(btn){
+      const tab = btn.dataset.tab;
+      const items = tabSubItems(tab);
+      if(items.length === 0){ close(); return; }
+      currentBtn = btn;
+      menu.innerHTML = '';
+      items.forEach(it => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.setAttribute('role','menuitem');
+        b.textContent = it.label || '—';
+        b.onclick = () => { close(); goToSub(tab, it); };
+        menu.appendChild(b);
+      });
+      const r = btn.getBoundingClientRect();
+      menu.style.top = (r.bottom - 1) + 'px';
+      const w = Math.min(340, window.innerWidth - 16);
+      menu.style.left = Math.max(8, Math.min(r.left, window.innerWidth - w - 8)) + 'px';
+      menu.classList.add('open');
+    }
+    const scheduleClose = () => { clearTimeout(openTimer); clearTimeout(closeTimer); closeTimer = setTimeout(close, 200); };
+    const cancelClose = () => clearTimeout(closeTimer);
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('mouseenter', () => {
+        if(!canHover()) return;
+        cancelClose(); clearTimeout(openTimer);
+        openTimer = setTimeout(() => open(btn), currentBtn ? 0 : 120);
+      });
+      btn.addEventListener('mouseleave', scheduleClose);
+      btn.addEventListener('focus', () => { if(canHover()) open(btn); });
+    });
+    menu.addEventListener('mouseenter', cancelClose);
+    menu.addEventListener('mouseleave', scheduleClose);
+    document.addEventListener('keydown', e => { if(e.key === 'Escape') close(); });
+    window.addEventListener('resize', close);
+    // Un clic sur l'onglet lui-même ferme le menu (la navigation se fait quand même)
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', close));
+  })();
+
   /* ================= HEADER ================= */
   function syncHeader(){
     // Récupère ce qui est tapé dans la case "Nom"
     const charNameVal = document.getElementById('charName').value;
     // L'injecte dans le grand titre H1
-    document.getElementById('displayName').textContent = charNameVal || 'Sans Nom';
+    document.getElementById('displayName').textContent = (charNameVal || '').replace(/\s+/g,' ').trim() || 'Sans Nom';
+    updateAccPreviews();
   }
 
   // MAGIE UX : Si tu cliques directement sur le grand titre pour le modifier, 
@@ -2133,6 +2390,7 @@
     const charNameInput = document.getElementById('charName');
     if(charNameInput) {
       charNameInput.value = this.textContent;
+      updateAccPreviews();
     }
   });
 
@@ -2229,9 +2487,62 @@
   }
 
   /* ================= LANCERS DE DÉS AUTOMATIQUES ================= */
+  /* Survol d'un dé : mini-choix Standard / Avantage / Désavantage */
+  let rollPopBtn = null, rollPopTimer = null, nextRollMode = null, lastDieBtn = null;
+  const TOUCH_ONLY = window.matchMedia && window.matchMedia('(hover: none)').matches;
   function rollStat(key){
-    const d1 = 1 + Math.floor(Math.random() * 6);
-    const d2 = 1 + Math.floor(Math.random() * 6);
+    let mode = nextRollMode; nextRollMode = null;
+    if(!mode){
+      // écran tactile : pas de survol, le 1er appui affiche les choix
+      if(TOUCH_ONLY && lastDieBtn){ showRollPop(lastDieBtn); return; }
+      mode = 'standard';
+    }
+    hideRollPop();
+    rollStatMode(key, mode);
+  }
+  function showRollPop(btn){
+    clearTimeout(rollPopTimer);
+    const pop = document.getElementById('rollPop');
+    rollPopBtn = btn;
+    const r = btn.getBoundingClientRect();
+    pop.classList.add('show');
+    const w = pop.offsetWidth;
+    pop.style.left = Math.max(6, Math.min(window.innerWidth - w - 6, r.left)) + 'px';
+    pop.style.top = (r.bottom + 2) + 'px';
+  }
+  function hideRollPop(){ clearTimeout(rollPopTimer); document.getElementById('rollPop').classList.remove('show'); }
+  function scheduleHideRollPop(){ clearTimeout(rollPopTimer); rollPopTimer = setTimeout(hideRollPop, 180); }
+  function pickRollMode(mode){
+    const btn = rollPopBtn;
+    hideRollPop();
+    if(!btn) return;
+    nextRollMode = mode;
+    btn.click(); // repasse par le même chemin que le clic (stat du move, sélecteur, etc.)
+    nextRollMode = null;
+  }
+  document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('.die-btn, .roll-btn'); if(b) lastDieBtn = b; }, true);
+  if(!TOUCH_ONLY){
+    document.addEventListener('mouseover', e => {
+      const b = e.target.closest && e.target.closest('.die-btn, .roll-btn');
+      if(b) showRollPop(b);
+      else if(e.target.closest && e.target.closest('#rollPop')) clearTimeout(rollPopTimer);
+    });
+    document.addEventListener('mouseout', e => {
+      const from = e.target.closest && e.target.closest('.die-btn, .roll-btn, #rollPop');
+      if(from) scheduleHideRollPop();
+    });
+  }
+  document.addEventListener('scroll', hideRollPop, true);
+
+  function rollStatMode(key, mode){
+    const rolls = Array.from({length: mode === 'standard' ? 2 : 3}, () => 1 + Math.floor(Math.random() * 6));
+    // avantage : on garde les 2 meilleurs dés ; désavantage : les 2 pires
+    const order = rolls.map((v,i)=>i).sort((a,b)=> mode === 'dis' ? rolls[a]-rolls[b] : rolls[b]-rolls[a]);
+    const keptIdx = new Set(order.slice(0,2));
+    const kept = rolls.filter((v,i)=>keptIdx.has(i));
+    const d1 = kept[0], d2 = kept[1];
+    const modeLabel = mode === 'adv' ? 'avantage' : mode === 'dis' ? 'désavantage' : '';
+    const diceHTML = rolls.map((v,i)=>`<span class="roll-die${keptIdx.has(i) ? '' : ' dropped'}">${v}</span>`).join('');
     const mod = statValues[key];
     const penalty = etatPenaltyFor(key); // -2 si l'état mental lié à cette stat est actif, sinon 0
     const total = d1 + d2 + mod + penalty;
@@ -2244,20 +2555,22 @@
     else if (total >= 7) { tierText = 'Réussite partielle (7-9)'; tierClass = 'tier-mixed'; }
     else { tierText = 'Échec (6-)'; tierClass = 'tier-fail'; }
 
+    const sparks = '<div class="roll-sparks">' + Array.from({length:10},(_,i)=>`<i style="--a:${i*36+45}deg;transform-origin:center"></i>`).join('') + '</div>';
     const modText = `${mod >= 0 ? '+' : ''}${mod} en ${label}`;
     const penaltyText = activeEtat ? ` <span class="roll-penalty">− 2 (${activeEtat.label})</span>` : '';
 
     document.getElementById('rollResultContent').innerHTML = `
-      <p class="roll-stat-name">Jet de ${label}</p>
-      <div class="roll-dice">
-        <span class="roll-die">${d1}</span>
-        <span class="roll-die">${d2}</span>
-      </div>
-      <div class="roll-breakdown">2d6 (${d1} + ${d2}) ${modText}${penaltyText}</div>
-      <div class="roll-total ${tierClass}">${total}</div>
+      <p class="roll-stat-name">Jet de ${label}${modeLabel ? ` <span class="roll-mode roll-mode-${mode}">${modeLabel}</span>` : ''}</p>
+      <div class="roll-dice">${diceHTML}</div>
+      <div class="roll-breakdown">${mode === 'standard' ? '2d6' : '3d6, on garde les ' + (mode === 'adv' ? '2 meilleurs' : '2 pires')} (${d1} + ${d2}) ${modText}${penaltyText}</div>
+      <div class="roll-total-wrap"><div class="roll-total ${tierClass}">${total}</div>${total >= 10 ? sparks : ''}</div>
       <div class="roll-tier ${tierClass}">${tierText}</div>
     `;
-    document.getElementById('rollModal').classList.add('active');
+    const rm = document.getElementById('rollModal');
+    rm.classList.remove('fx-full','fx-mixed','fx-fail');
+    void rm.offsetWidth; // relance l'animation à chaque jet
+    if (total >= 10) rm.classList.add('fx-full'); else if (total >= 7) rm.classList.add('fx-mixed'); else rm.classList.add('fx-fail');
+    rm.classList.add('active');
   }
   function closeRollModal(){
     document.getElementById('rollModal').classList.remove('active');
@@ -2334,9 +2647,9 @@
   function renderHistorique(){
     const panel = document.getElementById('historiquePanel');
     panel.innerHTML = `
-      ${counterRowHTML('Moves playbook IRL', 'movesPlaybook', 3)}
-      ${counterRowHTML('Moves playbook Metavers', 'movesPlaybook', 3)}
-      ${counterRowHTML('élément supplémentaire', 'moveAutre', 1)}
+      ${counterRowHTML('Moves playbook IRL', 'movesIRL', 3)}
+      ${counterRowHTML('Moves playbook Metavers', 'movesMeta', 3)}
+      ${counterRowHTML('Ajout élément supplémentaire', 'elementSupp', 1)}
       ${counterRowHTML('+1 Stat', 'statBonus', 2)}
       <button class="toggle-btn ${historique.momentVeriteDebloque ? 'active':''}" onclick="toggleMVDebloque()">
         Moment de vérité débloqué <span>${historique.momentVeriteDebloque ? '✓' : '—'}</span>
@@ -2370,6 +2683,122 @@
     btn.innerHTML = '' + (momentVerite === 'disponible' ? 'Disponible' : 'Consommé');
   }
 
+  function escapeTagName(str){
+    return String(str).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  }
+  function escapeTagName(str){
+    return String(str).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  }
+  // Pastilles de navigation dynamiques (une par confident / dossier), visibles à partir de 2 éléments
+  function renderItemJump(containerId, items, labelOf){
+    const box = document.getElementById(containerId);
+    if(!box) return;
+    items.forEach(it => { if(!it.id) it.id = 'it_' + Date.now() + '_' + Math.random().toString(36).slice(2,7); });
+    box.innerHTML = items.length < 2 ? '' : items.map(it =>
+      `<button type="button" onclick="jumpToCard('${it.id}')">${escapeTagName(labelOf(it) || '—')}</button>`).join('');
+  }
+  function jumpToCard(id){
+    const card = document.querySelector(`details[data-id="${id}"]`);
+    if(!card) return;
+    card.scrollIntoView({behavior:'smooth', block:'start'});
+    if(!card.open) card.querySelector('summary').click(); // passe par l'animation d'ouverture fluide
+  }
+  function jumpTo(id){
+    const el = document.getElementById(id);
+    if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  /* ================= DÉS SUR LES MOVES ================= */
+  function statOptionsHTML(selected){
+    return '<option value="">+Stat</option>' + STATS.map(st =>
+      `<option value="${st.key}" ${selected === st.key ? 'selected' : ''}>+${st.label}</option>`).join('');
+  }
+  // Anciennes sauvegardes : le champ « +Stat » était un texte libre (« +Courage », « courage »...)
+  function statKeyFromText(txt){
+    const t = String(txt || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z]/g, '');
+    const st = STATS.find(st => st.key === t);
+    return st ? st.key : '';
+  }
+  function rollFromSelect(sel){
+    if(!sel) return;
+    if(!sel.value){
+      sel.classList.remove('need-stat'); void sel.offsetWidth; sel.classList.add('need-stat');
+      sel.focus();
+      return;
+    }
+    rollStat(sel.value);
+  }
+  function rollPlaybookMove(id, sel){
+    const m = playbookMoves.find(m => m.id === id);
+    if(!m || !m.stat){ rollFromSelect(sel); return; }
+    rollStat(m.stat);
+  }
+
+  /* ================= MOVES DE PLAYBOOK ================= */
+  function addPlaybookMove(zone){
+    const input = document.getElementById('newPb_' + zone);
+    const title = input.value.trim();
+    if(!title) return;
+    playbookMoves.push({id:'pb_' + Date.now() + '_' + Math.random().toString(36).slice(2,7), zone, title, desc:'', adv:false, stat:''});
+    input.value = '';
+    renderPlaybook(); // le nouveau move s'affiche replié ; on l'ouvre pour écrire la description
+    const card = document.querySelector(`#pbList_${zone} details.pb-move:last-child`);
+    if(card) card.open = true;
+    input.focus();
+    saveLocal();
+  }
+  function removePlaybookMove(id){
+    playbookMoves = playbookMoves.filter(m => m.id !== id);
+    renderPlaybook();
+    saveLocal();
+  }
+  function updatePlaybookMove(id, field, value){
+    const m = playbookMoves.find(m => m.id === id);
+    if(m) m[field] = value; // pas de re-rendu : on ne perd pas le curseur en tapant
+  }
+  function togglePlaybookAdv(id, btn){
+    const m = playbookMoves.find(m => m.id === id);
+    if(!m) return;
+    m.adv = !m.adv;
+    btn.classList.toggle('active', m.adv);
+    saveLocal();
+  }
+  function renderPlaybook(){
+    if(!Array.isArray(playbookMoves)) playbookMoves = [];
+    ['irl','meta'].forEach(zone => {
+      const list = document.getElementById('pbList_' + zone);
+      if(!list) return;
+      const items = playbookMoves.filter(m => m.zone === zone);
+      const count = document.getElementById('pbCount_' + zone);
+      if(count) count.textContent = items.length;
+      const openIds = new Set(Array.from(list.querySelectorAll('details.pb-move')).filter(d => d.open).map(d => d.dataset.id));
+      if(items.length === 0){
+        list.innerHTML = '<p class="empty-msg">Aucun move pour le moment.</p>';
+        return;
+      }
+      list.innerHTML = items.map(m => `
+        <details class="base-move pb-move" data-id="${m.id}">
+          <summary>
+            <button type="button" class="die-btn" title="Lancer 2d6 + la stat choisie" onclick="event.preventDefault(); event.stopPropagation(); rollPlaybookMove('${m.id}', this.nextElementSibling)">🎲</button>
+            <select class="stat-badge stat-select" title="Stat utilisée" onclick="event.stopPropagation();" onchange="updatePlaybookMove('${m.id}','stat',this.value); saveLocal();">${statOptionsHTML(m.stat)}</select>
+            <input class="pb-title" value="${escapeTagName(m.title)}" placeholder="Nom du move..." onclick="event.stopPropagation();" onkeydown="event.stopPropagation();" oninput="updatePlaybookMove('${m.id}','title',this.value)">
+            <button type="button" class="pb-star ${m.adv ? 'active' : ''}" title="Avantage" onclick="event.preventDefault(); event.stopPropagation(); togglePlaybookAdv('${m.id}', this)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            </button>
+            <button type="button" class="del-btn" title="Supprimer le move" onclick="event.preventDefault(); event.stopPropagation(); removePlaybookMove('${m.id}')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m-9 0v14a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V6"/></svg>
+            </button>
+          </summary>
+          <div class="base-move-content" style="padding:0; border-top:1px solid rgba(255,255,255,.1);">
+            <textarea class="pb-desc" rows="4" placeholder="Décris l'effet du move ici..." oninput="updatePlaybookMove('${m.id}','desc',this.value)">${escapeTagName(m.desc || '')}</textarea>
+          </div>
+        </details>
+      `).join('');
+      list.querySelectorAll('details.pb-move').forEach(d => { if(openIds.has(d.dataset.id)) d.open = true; });
+      initSmoothAccordions();
+    });
+  }
+
   /* ================= CONFIDENTS ================= */
   function addConfident(){
     const input = document.getElementById('newConfidantName');
@@ -2396,6 +2825,7 @@
   }
   function renderConfidents(){
     const list = document.getElementById('confidentsList');
+    renderItemJump('confidentsJump', confidents, c => c.name);
 
     // Rétrocompatibilité : complète les confidents venant d'une vieille sauvegarde
     confidents.forEach(cf => {
@@ -2972,12 +3402,6 @@
     const p = heistState.player;
     const dist = Math.max(Math.abs(p.x-g.x), Math.abs(p.y-g.y));
 
-    // alarme : les gardes verrouillent la sortie
-    if(heistState.alarm && !g.target && Math.random() < 0.55){
-      g.target = { ...heistState.start };
-      g.suspicious = true;
-    }
-
     /* ===== MÉCANIQUE 3 : il renifle tes empreintes fraîches ===== */
     if(!g.target){
       const near = heistState.footprints.filter(f =>
@@ -3200,7 +3624,7 @@
     heistState.suspicion = Math.min(heistState.suspicion + 20, 95);
     clearInterval(heistState.guardIntervalId);
     heistState.guardIntervalId = setInterval(moveGuards, 330);
-    heistState.guards.forEach(g => { g.target = { ...heistState.start }; g.suspicious = true; });
+    heistState.guards.forEach(g => { g.suspicious = true; });
     setHeistMessage('💎 BIJOU VOLÉ — ALARME ! Lasers actifs, 35s pour sortir !', 'warn');
   }
 
@@ -3437,8 +3861,9 @@
     const overlay = document.getElementById('cutin-overlay');
     const cutinImg = document.getElementById('cutin-img');
     
-    // On récupère la photo de ton perso (celle en haut à gauche)
-    const charImgSrc = document.getElementById('img-perso').src;
+    // On récupère la photo Metavers (en haut à gauche)
+    let charImgSrc = document.getElementById('img-meta').src;
+    if(!charImgSrc || charImgSrc.endsWith('.html')) charImgSrc = document.getElementById('img-perso').src; // repli sur la photo Perso
     
     // Si tu as bien uploadé une photo, on l'utilise
     if(charImgSrc && !charImgSrc.endsWith('.html')) {
@@ -3466,6 +3891,7 @@
   renderRealisation();
   renderHistorique();
   renderConfidents();
+  renderPlaybook();
   renderTeam();
   initSmoothAccordions();
   initSmoothAccordions();
@@ -3475,6 +3901,26 @@
   setTheme(getComputedStyle(document.documentElement).getPropertyValue('--red').trim() || '#e0242b');
 
   /* Enveloppe chaque contenu de move dans un conteneur grid pour une ouverture/fermeture fluide */
+  /* ===== Champs texte auto-extensibles (sans poignée de redimensionnement) ===== */
+  function autoGrow(el){
+    if(!el || el.tagName !== 'TEXTAREA' || !el.offsetParent) return;
+    el.style.height = 'auto';
+    el.style.height = el.scrollHeight + 'px';
+  }
+  function updateAccPreviews(){
+    document.querySelectorAll('details.acc-field').forEach(d => {
+      const t = d.querySelector('textarea'), p = d.querySelector('.acc-prev');
+      if(t && p) p.textContent = (t.value || '').replace(/\s+/g,' ').trim();
+    });
+  }
+  function growAllTextareas(){ document.querySelectorAll('textarea').forEach(autoGrow); updateAccPreviews(); }
+  document.addEventListener('input', e => { if(e.target.closest && e.target.closest('details.acc-field')) updateAccPreviews(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Enter' && e.target.tagName === 'TEXTAREA' && e.target.hasAttribute('data-single')) e.preventDefault(); });
+  document.addEventListener('input', e => { if(e.target.tagName === 'TEXTAREA') autoGrow(e.target); });
+  document.addEventListener('toggle', e => { if(e.target.tagName === 'DETAILS') e.target.querySelectorAll('textarea').forEach(autoGrow); }, true);
+  window.addEventListener('load', () => setTimeout(growAllTextareas, 50));
+  window.addEventListener('resize', growAllTextareas);
+
   function initSmoothAccordions(){
     document.querySelectorAll('.base-move').forEach(details => {
       const content = details.querySelector('.base-move-content');
@@ -3511,8 +3957,8 @@
       document.getElementById('img-' + key).src = e.target.result;
       document.getElementById('frame-' + key).classList.add('has-img');
       
-      // Si c'est le personnage principal, on remet le recadrage à 0
-      if(key === 'perso') {
+      // Si c'est la photo Metavers, on remet le recadrage à 0
+      if(key === 'meta') {
         photoCrop = { z: 1, x: 50, y: 0 };
         applyCropVars();
         closePhotoMenu();
@@ -3553,7 +3999,7 @@
     // On récupère TOUS les champs, SAUF ceux générés dans les Notes et les Confidents
     // (ceux-là sont sauvegardés séparément via leur propre id, dans jsState.notes / jsState.confidents)
     const staticFields = Array.from(document.querySelectorAll('input:not([type="file"]), textarea, select'))
-      .filter(el => !el.closest('#notesList') && !el.closest('#confidentsList'));
+      .filter(el => !el.closest('#notesList') && !el.closest('#confidentsList') && !el.closest('#playbookGroups') && el.id !== 'charSlotSelect');
 
     // Sauvegarde par IDENTIFIANT précis (id natif ou data-sid gravé dans le HTML),
     // jamais par position/ordre : impossible que ça décale, même si des champs sont
@@ -3566,7 +4012,7 @@
 
     return {
       themeColor: document.documentElement.style.getPropertyValue('--red') || '#e0242b',
-      jsState: { pc, charge, blessureValues, statValues, statFrozen, etatValues, realisationCases, historique, momentVerite, confidents, team, notes, photoCrop },
+      jsState: { pc, charge, blessureValues, statValues, statFrozen, etatValues, realisationCases, historique, momentVerite, confidents, playbookMoves, team, notes, photoCrop },
       
       domValues,
       
@@ -3574,7 +4020,8 @@
       h1Name: document.getElementById('displayName').textContent,
       photos: {
         perso: document.getElementById('img-perso').getAttribute('src') || '',
-        persona: document.getElementById('img-persona').getAttribute('src') || ''
+        persona: document.getElementById('img-persona').getAttribute('src') || '',
+        meta: document.getElementById('img-meta').getAttribute('src') || ''
       }
     };
   }
@@ -3588,13 +4035,19 @@
       Object.assign(pc, state.jsState.pc);
       if(state.jsState.charge) Object.assign(charge, state.jsState.charge);
       Object.assign(blessureValues, state.jsState.blessureValues);
-      Object.assign(statValues, state.jsState.statValues);
-      Object.assign(statFrozen, state.jsState.statFrozen);
-      Object.assign(etatValues, state.jsState.etatValues);
+      if (state.jsState.statValues) Object.assign(statValues, state.jsState.statValues);
+      if (state.jsState.statFrozen) Object.assign(statFrozen, state.jsState.statFrozen);
+      if (state.jsState.etatValues) Object.assign(etatValues, state.jsState.etatValues); delete etatValues.desespere;
       if (state.jsState.realisationCases) realisationCases = state.jsState.realisationCases;
       Object.assign(historique, state.jsState.historique);
+      // anciennes sauvegardes : un seul compteur partagé -> on le recopie sur les deux
+      if (state.jsState.historique && state.jsState.historique.movesPlaybook !== undefined && state.jsState.historique.movesIRL === undefined) {
+        historique.movesIRL = historique.movesMeta = state.jsState.historique.movesPlaybook;
+      }
+      delete historique.movesPlaybook;
       if (state.jsState.momentVerite) momentVerite = state.jsState.momentVerite;
       if (state.jsState.confidents) confidents = state.jsState.confidents;
+      playbookMoves = Array.isArray(state.jsState.playbookMoves) ? state.jsState.playbookMoves : [];
       if (state.jsState.team !== undefined) team = state.jsState.team;
       if (state.jsState.notes) notes = state.jsState.notes;
       if (state.jsState.photoCrop) {
@@ -3603,11 +4056,30 @@
       }
     }
 
+    // Migration : les anciennes sauvegardes avaient deux grandes zones de texte (sid_009 = IRL, sid_010 = Metavers).
+    // Leur contenu est conservé dans un move par catégorie, à trier à la main.
+    if (!(state.jsState && Array.isArray(state.jsState.playbookMoves))) {
+      playbookMoves = [];
+      const dv = (state.domValues && !Array.isArray(state.domValues)) ? state.domValues : {};
+      [['sid_009','irl','Moves IRL (ancien texte)'], ['sid_010','meta','Moves Metavers (ancien texte)']].forEach(([sid, zone, title]) => {
+        if (typeof dv[sid] === 'string' && dv[sid].trim()) {
+          playbookMoves.push({id:'pb_' + Date.now() + '_' + zone, zone, title, desc: dv[sid], adv:false});
+        }
+      });
+    }
+
+    // Anciennes sauvegardes : « +Stat » des moves équipés était un texte libre
+    if (state.domValues && !Array.isArray(state.domValues)) {
+      ['sid_012','sid_015'].forEach(sid => {
+        if (typeof state.domValues[sid] === 'string') state.domValues[sid] = statKeyFromText(state.domValues[sid]);
+      });
+    }
+
     // Restauration par IDENTIFIANT précis : chaque champ reprend sa propre valeur,
     // quel que soit l'ordre dans lequel il apparaît dans le DOM. Plus aucun décalage possible.
     if (state.domValues) {
       const staticFields = Array.from(document.querySelectorAll('input:not([type="file"]), textarea, select'))
-        .filter(el => !el.closest('#notesList') && !el.closest('#confidentsList'));
+        .filter(el => !el.closest('#notesList') && !el.closest('#confidentsList') && !el.closest('#playbookGroups') && el.id !== 'charSlotSelect');
 
       if (Array.isArray(state.domValues)) {
         // Compatibilité avec une ancienne sauvegarde (tableau ordonné, sujette au décalage) :
@@ -3638,7 +4110,7 @@
     }
 
     if (state.photos) {
-      ['perso', 'persona'].forEach(key => {
+      ['perso', 'persona', 'meta'].forEach(key => {
         const src = state.photos[key];
         const img = document.getElementById('img-' + key);
         const frame = document.getElementById('frame-' + key);
@@ -3654,6 +4126,7 @@
 
     renderPc();
     renderCharge();
+    updateAccPreviews();
     Object.keys(blessureValues).forEach(k => {
       const btn = document.querySelector(`.blessure-btn[data-key="${k}"]`);
       if (btn) btn.classList.toggle('active', blessureValues[k]);
@@ -3662,6 +4135,7 @@
     renderStats();
     renderEtats();
     renderRealisation();
+    renderPlaybook();
     renderHistorique();
     const mvBtn = document.getElementById('mvBtn');
     if (mvBtn) {
@@ -3717,6 +4191,8 @@
 
   let slotsStore = initSlotsStore();
 
+  window.addEventListener('pageshow', e => { if (e.persisted) location.reload(); });
+
   function renderSlotSelect(){
     const sel = document.getElementById('charSlotSelect');
     if (!sel) return;
@@ -3734,6 +4210,7 @@
     if (!slotsStore.slots[id] || id === slotsStore.activeId) return;
     // On sauvegarde le personnage courant avant de changer, pour ne rien perdre
     slotsStore.slots[slotsStore.activeId].state = getGameState();
+    slotChanging = true;
     slotsStore.activeId = id;
     saveSlotsStore();
     location.reload();
@@ -3746,6 +4223,7 @@
 
     const id = 'char_' + Date.now();
     slotsStore.slots[id] = { name: name.trim(), state: null };
+    slotChanging = true;
     slotsStore.activeId = id;
     saveSlotsStore();
     location.reload(); // Repart d'une fiche vierge, garantie identique à une fiche neuve
@@ -3770,13 +4248,16 @@
     if (!confirm(`Supprimer définitivement "${slot.name}" ? Cette action est irréversible.`)) return;
 
     delete slotsStore.slots[slotsStore.activeId];
+    slotChanging = true;
     slotsStore.activeId = Object.keys(slotsStore.slots)[0];
     saveSlotsStore();
     location.reload();
   }
 
   /* --- AUTO-SAVE (MÉMOIRE DU NAVIGATEUR) --- */
+  let slotChanging = false; // verrou : empêche l'autosave d'écraser le nouveau personnage pendant le rechargement
   function saveLocal() {
+    if (slotChanging) return;
     if (!slotsStore.slots[slotsStore.activeId]) return;
     slotsStore.slots[slotsStore.activeId].state = getGameState();
     saveSlotsStore();
