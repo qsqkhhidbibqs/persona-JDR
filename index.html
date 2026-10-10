@@ -1678,6 +1678,7 @@
         <div>
           <div class="shard"><span class="bg"></span><h2>États Mentaux</h2></div>
           <div class="etats-wrap" id="etatsPanel"></div>
+          <div id="etatsCauses" style="display:flex;flex-direction:column;gap:10px;margin-top:12px;"></div>
         </div>
       </div>
     </section>
@@ -1868,6 +1869,8 @@
                   <li>Vous dissipez un État Mental qui pèse sur lui (peur, colère, confusion...). </li>
                   <li>Vous lui transférez 1 Point de Cœur (PC) de votre propre réserve pour qu'il puisse l'utiliser.</li>
                   <li>Vous dissipez une blessure d’un allié.</li>
+                  <li><em>(NAVI) :</em> votre allié pioche 1 carte dans le Métavers.</li>
+                  <li><em>(NAVI) :</em> vous lui transférez 1 de vos cartes dans le Métavers.</li>
                 </ul>
                 <p><span class="red-txt">6- :</span> <strong>Échec.</strong> Le MJ en profite sur vous ou sur l'allié.</p>
               </div>
@@ -2120,6 +2123,7 @@
     {key:'coupable', label:'Coupable', statKey:'charme', svg:'<circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.3" fill="black"/><circle cx="15" cy="10" r="1.3" fill="black"/><path d="M8 16c1.5-1.5 6.5-1.5 8 0" stroke="black" stroke-width="1.3" fill="none"/>'},
   ];
   const etatValues = {epuise:false, effraye:false, enrage:false, incertain:false, coupable:false};
+  const etatCauses = {epuise:'', effraye:'', enrage:'', incertain:'', coupable:''};
   let charge = {current:3, max:3}; // <-- JAUGE DE CHARGE
 
 
@@ -2577,7 +2581,22 @@
   }
 
   /* ================= ETATS MENTAUX ================= */
+  function escapeCause(str){
+    return String(str).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  }
+  function renderEtatCauses(){
+    const box = document.getElementById('etatsCauses');
+    if(!box) return;
+    box.innerHTML = ETATS.filter(e => etatValues[e.key]).map(e => `
+      <div class="field">
+        <label>Cause : ${e.label}</label>
+        <textarea class="note-textarea" rows="2" style="min-height:0;" placeholder="Pourquoi ce personnage est ${e.label.toLowerCase()}..." oninput="etatCauses['${e.key}']=this.value">${escapeCause(etatCauses[e.key] || '')}</textarea>
+      </div>
+    `).join('');
+    box.querySelectorAll('textarea').forEach(autoGrow);
+  }
   function renderEtats(){
+    renderEtatCauses();
     const panel = document.getElementById('etatsPanel');
     panel.innerHTML = '';
     ETATS.forEach(e=>{
@@ -4012,7 +4031,7 @@
 
     return {
       themeColor: document.documentElement.style.getPropertyValue('--red') || '#e0242b',
-      jsState: { pc, charge, blessureValues, statValues, statFrozen, etatValues, realisationCases, historique, momentVerite, confidents, playbookMoves, team, notes, photoCrop },
+      jsState: { pc, charge, blessureValues, statValues, statFrozen, etatValues, etatCauses, realisationCases, historique, momentVerite, confidents, playbookMoves, team, notes, photoCrop },
       
       domValues,
       
@@ -4037,7 +4056,7 @@
       Object.assign(blessureValues, state.jsState.blessureValues);
       if (state.jsState.statValues) Object.assign(statValues, state.jsState.statValues);
       if (state.jsState.statFrozen) Object.assign(statFrozen, state.jsState.statFrozen);
-      if (state.jsState.etatValues) Object.assign(etatValues, state.jsState.etatValues); delete etatValues.desespere;
+      if (state.jsState.etatValues) Object.assign(etatValues, state.jsState.etatValues); if (state.jsState.etatCauses) Object.assign(etatCauses, state.jsState.etatCauses); delete etatValues.desespere;
       if (state.jsState.realisationCases) realisationCases = state.jsState.realisationCases;
       Object.assign(historique, state.jsState.historique);
       // anciennes sauvegardes : un seul compteur partagé -> on le recopie sur les deux
